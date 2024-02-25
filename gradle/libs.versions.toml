@@ -8,7 +8,9 @@ composeBom = "2024.02.01"
 coreKtx = "1.12.0"
 detekt = "1.23.3"
 detektRulesCompose = "1.3.0"
+hilt = "2.50"
 kotlin = "1.9.22"
+ksp = "1.9.22-1.0.17"
 
 [libraries]
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -22,20 +24,26 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 detekt-rules-compose = { group = "ru.kode", name = "detekt-rules-compose", version.ref = "detektRulesCompose" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 # Required by build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Created in build-logic
 scandroid-application = { id = "com.ikurek.scandroid.application", version = "unspecified" }
 scandroid-application-compose = { id = "com.ikurek.scandroid.application.compose", version = "unspecified" }
 scandroid-detekt = { id = "com.ikurek.scandroid.detekt", version = "unspecified" }
+scandroid-hilt = { id = "com.ikurek.scandroid.hilt", version = "unspecified" }
 scandroid-library = { id = "com.ikurek.scandroid.library", version = "unspecified" }
 scandroid-library-compose = { id = "com.ikurek.scandroid.library.compose", version = "unspecified" }
 
