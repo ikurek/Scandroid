@@ -21,6 +21,7 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
+    implementation(libs.detekt.gradlePlugin)
 }
 
 tasks {
@@ -39,6 +40,10 @@ gradlePlugin {
         register("applicationCompose") {
             id = "com.ikurek.scandroid.application.compose"
             implementationClass = "ApplicationComposePlugin"
+        }
+        register("detekt") {
+            id = "com.ikurek.scandroid.detekt"
+            implementationClass = "DetektPlugin"
         }
     }
 }
