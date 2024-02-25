@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Scandroid</string>
+    <string name="saved_scans_empty_placeholder_label">Nothing saved yet! Use the button in bottom-right corner to scan a new document.</string>
 </resources>

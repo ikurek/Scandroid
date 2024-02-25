@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="saved_scans_empty_placeholder_content_descriptions">No scans saved image</string>
+</resources>
