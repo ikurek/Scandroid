@@ -22,3 +22,4 @@ rootProject.name = "Scandroid"
 include(":app")
 include(":core:design")
 include(":core:translations")
+include(":features:home")

@@ -28,4 +28,5 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(projects.core.design)
     implementation(projects.core.translations)
+    implementation(projects.features.home)
 }
