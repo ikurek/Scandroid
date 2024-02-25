@@ -21,3 +21,4 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Scandroid"
 include(":app")
 include(":core:design")
+include(":core:translations")
