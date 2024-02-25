@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 @Composable
 fun ScandroidTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = ScandroidColorScheme(),
+        colorScheme = scandroidColorScheme(),
         typography = Typography(),
         content = content
     )
@@ -22,7 +22,7 @@ fun ScandroidTheme(content: @Composable () -> Unit) {
 
 @Composable
 @ReadOnlyComposable
-private fun ScandroidColorScheme(): ColorScheme {
+private fun scandroidColorScheme(): ColorScheme {
     val context = LocalContext.current
     val isSystemInDarkTheme = isSystemInDarkTheme()
     return when {

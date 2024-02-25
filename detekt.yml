@@ -22,7 +22,7 @@ output-reports:
 # Compose hacks
 naming:
   FunctionNaming:
-    ignoreAnnotated: ['Composable']
+    ignoreAnnotated: ['Composable', 'Preview', 'PreviewLightDark']
   TopLevelPropertyNaming:
     constantPattern: '[A-Z][A-Za-z0-9]*'
 
@@ -36,7 +36,9 @@ style:
     ignorePropertyDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
   UnusedPrivateMember:
-    ignoreAnnotated: ['Preview']
+    ignoreAnnotated: ['Preview', 'PreviewLightDark']
+  ForbiddenComment:
+    active: false
 
 # Custom compose ruleset
 # https://github.com/appKODE/detekt-rules-compose
@@ -48,11 +50,11 @@ compose:
   ComposableEventParameterNaming:
     active: true
   ComposableParametersOrdering:
-    active: false
+    active: true
   ModifierHeightWithText:
     active: true
   ModifierParameterPosition:
-    active: false
+    active: true
   ModifierDefaultValue:
     active: true
   MissingModifierDefaultValue:
@@ -62,7 +64,7 @@ compose:
   TopLevelComposableFunctions:
     active: true
   ComposableFunctionName:
-    active: false
+    active: true
   ConditionCouldBeLifted:
     active: true
     ignoreCallsWithArgumentNames: [ 'modifier', 'contentAlignment' ]
