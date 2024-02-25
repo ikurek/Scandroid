@@ -17,6 +17,8 @@ fun HomeScreen() {
         startDestination = SavedScansRoute,
         modifier = Modifier.fillMaxSize()
     ) {
-        savedScansScreen()
+        savedScansScreen(onCreateScanClick = {
+            // TODO: Implement
+        })
     }
 }

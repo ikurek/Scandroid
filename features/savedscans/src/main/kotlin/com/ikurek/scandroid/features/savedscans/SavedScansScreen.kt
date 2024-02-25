@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DocumentScanner
+import androidx.compose.material.icons.filled.Scanner
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -28,9 +30,13 @@ import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
-fun SavedScansScreen(scans: List<String>) {
+fun SavedScansScreen(
+    scans: List<String>,
+    onCreateScanClick: () -> Unit,
+) {
     Scaffold(
-        topBar = { TopAppBar() }
+        topBar = { TopAppBar() },
+        floatingActionButton = { CreateScanFloatingActionButton(onClick = onCreateScanClick) }
     ) { contentPadding ->
         AnimatedContent(
             modifier = Modifier
@@ -57,6 +63,18 @@ private fun TopAppBar() {
 }
 
 @Composable
+private fun CreateScanFloatingActionButton(onClick: () -> Unit) {
+    FloatingActionButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Default.DocumentScanner,
+            contentDescription = stringResource(
+                id = TranslationsR.string.saved_scans_create_scan_fab_content_descriptions
+            ),
+        )
+    }
+}
+
+@Composable
 private fun EmptyScreenPlaceholder() {
     Column(
         modifier = Modifier
@@ -66,7 +84,7 @@ private fun EmptyScreenPlaceholder() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            imageVector = Icons.Default.DocumentScanner,
+            imageVector = Icons.Default.Scanner,
             contentDescription = stringResource(
                 id = TranslationsR.string.saved_scans_empty_placeholder_content_descriptions
             ),
@@ -94,6 +112,9 @@ private fun ScanList(scans: List<String>) {
 @Composable
 private fun PreviewEmpty() {
     ScandroidTheme {
-        SavedScansScreen(scans = emptyList())
+        SavedScansScreen(
+            scans = emptyList(),
+            onCreateScanClick = {}
+        )
     }
 }

@@ -8,11 +8,14 @@ import androidx.navigation.compose.composable
 
 const val SavedScansRoute = "saved-scans"
 
-fun NavGraphBuilder.savedScansScreen() {
+fun NavGraphBuilder.savedScansScreen(onCreateScanClick: () -> Unit) {
     composable(route = SavedScansRoute) {
         val viewModel: SavedScansViewModel = hiltViewModel()
         val scans: List<String> by viewModel.scans.collectAsState()
 
-        SavedScansScreen(scans)
+        SavedScansScreen(
+            scans = scans,
+            onCreateScanClick = onCreateScanClick
+        )
     }
 }
