@@ -9,6 +9,7 @@ android {
 
 dependencies {
     api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.material.extendedIcons)
     api(libs.androidx.compose.material3)
     api(libs.androidx.compose.ui.tooling.preview)
     debugApi(libs.androidx.compose.ui.tooling)
