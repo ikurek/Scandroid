@@ -1,19 +1,21 @@
 [versions]
 activityCompose = "1.8.2"
 androidDesugarJdkLibs = "2.0.4"
-androidTools = "31.2.2"
+androidTools = "31.3.0"
 androidxComposeCompiler = "1.5.10"
 androidxHilt = "1.2.0"
-androidxLifecycle = "2.6.1"
+androidxLifecycle = "2.7.0"
 androidxNavigation = "2.7.7"
 agp = "8.2.2"
 composeBom = "2024.02.01"
 coreKtx = "1.12.0"
-detekt = "1.23.3"
+coroutines = "1.8.0"
+detekt = "1.23.5"
 detektRulesCompose = "1.3.0"
 hilt = "2.50"
 kotlin = "1.9.22"
 ksp = "1.9.22-1.0.17"
+mlkitDocumentScanner = "16.0.0-beta1"
 
 [libraries]
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -33,6 +35,9 @@ detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gr
 detekt-rules-compose = { group = "ru.kode", name = "detekt-rules-compose", version.ref = "detektRulesCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-playServices = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "coroutines" }
+gms-playServices-mlkit-documentScanner = { group = "com.google.android.gms", name = "play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
 # Required by build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
