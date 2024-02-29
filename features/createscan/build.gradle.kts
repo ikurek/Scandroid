@@ -1,0 +1,13 @@
+plugins {
+    alias(libs.plugins.scandroid.feature)
+}
+
+android {
+    namespace = "com.ikurek.scandroid.features.createscan"
+}
+
+dependencies {
+    api(projects.features.createscan.data.model)
+    implementation(libs.gms.playServices.mlkit.documentScanner)
+    implementation(libs.kotlinx.coroutines.playServices)
+}

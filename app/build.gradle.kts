@@ -29,4 +29,5 @@ dependencies {
     implementation(projects.core.design)
     implementation(projects.core.translations)
     implementation(projects.features.home)
+    implementation(projects.features.createscan)
 }

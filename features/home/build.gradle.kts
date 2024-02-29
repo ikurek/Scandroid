@@ -7,5 +7,6 @@ android {
 }
 
 dependencies {
+    implementation(projects.features.createscan)
     implementation(projects.features.savedscans)
 }

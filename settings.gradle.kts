@@ -22,5 +22,7 @@ rootProject.name = "Scandroid"
 include(":app")
 include(":core:design")
 include(":core:translations")
+include(":features:createscan")
+include(":features:createscan:data:model")
 include(":features:home")
 include(":features:savedscans")
