@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    api(projects.features.createscan.data.model)
+    api(projects.features.createscan.usecase)
     implementation(libs.gms.playServices.mlkit.documentScanner)
     implementation(libs.kotlinx.coroutines.playServices)
 }
