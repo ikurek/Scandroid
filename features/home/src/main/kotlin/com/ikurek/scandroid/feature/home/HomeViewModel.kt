@@ -25,8 +25,8 @@ internal class HomeViewModel @Inject constructor(
     private val storeLatestUnsavedScan: StoreLatestUnsavedScan
 ) : ViewModel() {
 
-    private val _infoDialog: MutableStateFlow<HomeInfoDialog?> = MutableStateFlow(null)
-    val infoDialog: StateFlow<HomeInfoDialog?> = _infoDialog
+    private val _dialog: MutableStateFlow<HomeDialog?> = MutableStateFlow(null)
+    val dialog: StateFlow<HomeDialog?> = _dialog
 
     private val _sideEffects: Channel<HomeSideEffect> = Channel()
     val sideEffects: Flow<HomeSideEffect> = _sideEffects.receiveAsFlow()
@@ -49,19 +49,21 @@ internal class HomeViewModel @Inject constructor(
 
     private fun onScannerResultReadFailed(error: Throwable) = when (error) {
         is ScanningCancelled -> Unit
-        is UnexpectedScanningError -> _infoDialog.value = HomeInfoDialog.ScannerResultReadFailed
+        is UnexpectedScanningError ->
+            _dialog.value = HomeDialog.Error.ScannerResultReadFailed(error)
+
         else -> error(error)
     }
 
     fun onScannerInitializationFailed(error: Throwable) {
-        _infoDialog.value = when (error) {
-            is SdkInitializationException -> HomeInfoDialog.SdkInitializationFailed
-            is ScannerInitializationException -> HomeInfoDialog.ScannerInitializationFailed
+        _dialog.value = when (error) {
+            is SdkInitializationException -> HomeDialog.Error.SdkInitializationFailedDialog(error)
+            is ScannerInitializationException -> HomeDialog.Error.ScannerInitializationFailed(error)
             else -> error(error)
         }
     }
 
-    fun onInfoDialogDismissed() {
-        _infoDialog.value = null
+    fun onDialogDismissed() {
+        _dialog.value = null
     }
 }

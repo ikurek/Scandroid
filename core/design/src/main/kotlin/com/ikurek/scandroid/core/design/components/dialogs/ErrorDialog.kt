@@ -11,7 +11,8 @@ import com.ikurek.scandroid.core.design.ScandroidTheme
 fun ErrorDialog(
     onDismissRequest: () -> Unit,
     title: String? = null,
-    content: String? = null
+    content: String? = null,
+    exception: Throwable? = null
 ) {
     BasicDialog(
         title = title,
@@ -23,6 +24,7 @@ fun ErrorDialog(
                 contentDescription = null
             )
         },
+        expandableText = exception?.message
     )
 }
 
@@ -30,6 +32,11 @@ fun ErrorDialog(
 @Composable
 private fun Preview() {
     ScandroidTheme {
-        ErrorDialog(title = "Title", content = "Content", onDismissRequest = {})
+        ErrorDialog(
+            title = "Title",
+            content = "Content",
+            onDismissRequest = {},
+            exception = IllegalStateException("Test message")
+        )
     }
 }

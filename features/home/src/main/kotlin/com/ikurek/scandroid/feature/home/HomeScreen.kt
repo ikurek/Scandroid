@@ -19,7 +19,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.ikurek.scandroid.core.design.components.dialogs.ErrorDialog
-import com.ikurek.scandroid.core.design.components.dialogs.InfoDialog
 import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.model.ScannerSettings
 import com.ikurek.scandroid.features.createscan.navigateToNewScanScreen
@@ -38,7 +37,7 @@ fun HomeScreen(
     val scannerLauncher = rememberLauncherForActivityResult(StartIntentSenderForResult()) {
         homeViewModel.onScannerFinished(parseScanResult(it))
     }
-    val infoDialog: HomeInfoDialog? by homeViewModel.infoDialog.collectAsState()
+    val dialog: HomeDialog? by homeViewModel.dialog.collectAsState()
 
     // It's hacky but I had to navigate from both scanner callback and viewmodel and it was
     // the fastest solution that could get me both
@@ -60,10 +59,10 @@ fun HomeScreen(
         }
     }
 
-    if (infoDialog != null) {
+    dialog?.let {
         HomeScreenDialog(
-            homeInfoDialog = infoDialog!!,
-            onDismissRequest = homeViewModel::onInfoDialogDismissed,
+            homeDialog = it,
+            onDismissRequest = homeViewModel::onDialogDismissed,
         )
     }
 
@@ -79,19 +78,14 @@ fun HomeScreen(
 
 @Composable
 private fun HomeScreenDialog(
-    homeInfoDialog: HomeInfoDialog,
+    homeDialog: HomeDialog,
     onDismissRequest: () -> Unit,
 ) {
-    if (homeInfoDialog.isError) {
-        ErrorDialog(
-            title = stringResource(id = homeInfoDialog.titleRes),
-            content = stringResource(id = homeInfoDialog.contentRes),
-            onDismissRequest = onDismissRequest
-        )
-    } else {
-        InfoDialog(
-            title = stringResource(id = homeInfoDialog.titleRes),
-            content = stringResource(id = homeInfoDialog.contentRes),
+    when (homeDialog) {
+        is HomeDialog.Error -> ErrorDialog(
+            title = stringResource(id = homeDialog.titleRes),
+            content = stringResource(id = homeDialog.contentRes),
+            exception = homeDialog.exception,
             onDismissRequest = onDismissRequest
         )
     }
