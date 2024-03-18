@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class SavedScansViewModel @Inject constructor() : ViewModel() {
+internal class SavedScansViewModel @Inject constructor() : ViewModel() {
 
     // TODO: Implement
     val scans: StateFlow<List<String>> = MutableStateFlow(emptyList())

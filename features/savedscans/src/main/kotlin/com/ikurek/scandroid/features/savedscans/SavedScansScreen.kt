@@ -30,7 +30,7 @@ import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
-fun SavedScansScreen(
+internal fun SavedScansScreen(
     scans: List<String>,
     onCreateScanClick: () -> Unit,
 ) {
