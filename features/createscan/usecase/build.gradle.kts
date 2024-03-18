@@ -1,5 +1,6 @@
 plugins {
     id("com.ikurek.scandroid.library")
+    id("com.ikurek.scandroid.detekt")
     id("com.ikurek.scandroid.hilt")
 }
 

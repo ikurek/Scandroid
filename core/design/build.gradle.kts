@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.scandroid.library)
     alias(libs.plugins.scandroid.library.compose)
+    alias(libs.plugins.scandroid.detekt)
 }
 
 android {
