@@ -7,4 +7,6 @@ data class ScannedDocuments(
     val imageUris: List<Uri>
 ) {
     val hasMultipleDocumentFormats: Boolean = pdfUri != null && imageUris.isNotEmpty()
+
+    val isEmpty: Boolean = pdfUri == null && imageUris.isEmpty()
 }

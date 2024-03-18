@@ -72,7 +72,9 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         savedScansScreen(onCreateScanClick = homeViewModel::onCreateScanClick)
-        newScanScreen()
+        newScanScreen(onScanCreated = {
+            // TODO: Handle navigation
+        })
     }
 }
 

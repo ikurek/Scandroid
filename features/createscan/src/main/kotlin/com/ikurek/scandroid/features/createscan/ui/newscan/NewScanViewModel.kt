@@ -10,10 +10,13 @@ import com.ikurek.scandroid.features.createscan.usecase.CreateScanNameFromCurren
 import com.ikurek.scandroid.features.createscan.usecase.GetLatestUnsavedScan
 import com.ikurek.scandroid.features.createscan.usecase.SaveScannedDocuments
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +27,12 @@ internal class NewScanViewModel @Inject internal constructor(
     createScanNameFromCurrentDate: CreateScanNameFromCurrentDate,
     private val saveScannedDocuments: SaveScannedDocuments
 ) : ViewModel() {
+
+    private val _dialog: MutableStateFlow<NewScanDialog?> = MutableStateFlow(null)
+    val dialog: StateFlow<NewScanDialog?> = _dialog
+
+    private val _sideEffects: Channel<NewScanSideEffect> = Channel()
+    val sideEffects: Flow<NewScanSideEffect> = _sideEffects.receiveAsFlow()
 
     private val _scannedDocuments: MutableStateFlow<ScannedDocuments> = MutableStateFlow(
         getLatestUnsavedScan() ?: error("No unsaved scans found")
@@ -98,8 +107,16 @@ internal class NewScanViewModel @Inject internal constructor(
             description = description.value,
             scannedDocuments = scannedDocuments,
             selectedFileFormats = selectedFileFormats
-        )
+        ).onSuccess { scanId ->
+            _sideEffects.send(NewScanSideEffect.ScanCreated(scanId))
+        }.onFailure { exception ->
+            _dialog.value = NewScanDialog.Error.ScanSaveFailed(exception)
+        }
         _isSaving.value = false
+    }
+
+    fun onDialogDismissed() {
+        _dialog.value = null
     }
 
     private fun Map<ScannerFileFormat, Boolean>.toSetOfSelected(): Set<ScannerFileFormat> =

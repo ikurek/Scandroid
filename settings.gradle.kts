@@ -21,6 +21,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Scandroid"
 include(":app")
 include(":core:design")
+include(":core:filestore")
 include(":core:translations")
 include(":features:createscan")
 include(":features:createscan:data:model")
