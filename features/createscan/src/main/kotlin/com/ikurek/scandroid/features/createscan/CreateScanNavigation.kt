@@ -79,6 +79,6 @@ private fun NewScanScreenDialog(
     }
 }
 
-fun NavController.navigateToNewScanScreen() {
+fun NavController.navigateToNewScan() {
     navigate(NewScanRoute)
 }

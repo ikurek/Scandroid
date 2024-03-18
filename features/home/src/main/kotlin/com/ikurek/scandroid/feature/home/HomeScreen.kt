@@ -21,10 +21,12 @@ import androidx.navigation.compose.rememberNavController
 import com.ikurek.scandroid.core.design.components.dialogs.ErrorDialog
 import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.model.ScannerSettings
-import com.ikurek.scandroid.features.createscan.navigateToNewScanScreen
+import com.ikurek.scandroid.features.createscan.navigateToNewScan
 import com.ikurek.scandroid.features.createscan.newScanScreen
 import com.ikurek.scandroid.features.savedscans.SavedScansRoute
 import com.ikurek.scandroid.features.savedscans.savedScansScreen
+import com.ikurek.scandroid.features.scandetails.navigateToScanDetails
+import com.ikurek.scandroid.features.scandetails.scanDetailsScreen
 
 @Composable
 fun HomeScreen(
@@ -53,7 +55,7 @@ fun HomeScreen(
                         }
                     }
 
-                    is HomeSideEffect.OpenNewScanScreen -> homeNavController.navigateToNewScanScreen()
+                    is HomeSideEffect.OpenNewScanScreen -> homeNavController.navigateToNewScan()
                 }
             }
         }
@@ -72,9 +74,14 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         savedScansScreen(onCreateScanClick = homeViewModel::onCreateScanClick)
-        newScanScreen(onScanCreated = {
-            // TODO: Handle navigation
-        })
+        newScanScreen(
+            onScanCreated = { scanId ->
+                homeNavController.navigateToScanDetails(scanId) {
+                    popUpTo(SavedScansRoute)
+                }
+            }
+        )
+        scanDetailsScreen()
     }
 }
 
