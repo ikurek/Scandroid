@@ -6,4 +6,14 @@
     <string name="dialog_error_sdk_initialization_failed_content">MLKit Document Scanner SDK could not be initialized. This may be caused by a number of reasons, so please make sure that Your device:\n* has Google Play Services enabled and up-to-date\n* is running at least Android 5 (API 21)\n* has at least 2Gb of RAM</string>
     <string name="dialog_error_scanner_initialization_failed_title">Unable to initialize scanner</string>
     <string name="dialog_error_scanner_initialization_failed_content">MLKit SDK was initialized correctly, but the scanner process failed to start</string>
+    <string name="new_scan_title">Save scan</string>
+    <string name="new_scan_document_info_section">Info</string>
+    <string name="new_scan_document_name_label">Document name</string>
+    <string name="new_scan_document_name_empty_error">Document name can\'t be empty</string>
+    <string name="new_scan_document_description_label">Document description</string>
+    <string name="new_scan_document_formats_section">Formats</string>
+    <string name="new_scan_document_tags_section">Tags</string>
+    <string name="new_scan_save_button">Save</string>
+    <string name="common_file_format_jpeg" translatable="false">JPEG</string>
+    <string name="common_file_format_pdf" translatable="false">PDF</string>
 </resources>

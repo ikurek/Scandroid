@@ -2,13 +2,13 @@ package com.ikurek.scandroid.features.createscan.model
 
 data class ScannerSettings(
     val scannerMode: ScannerMode,
-    val supportedFormats: List<ScannerFormat>
+    val supportedFormats: List<ScannerFileFormat>
 ) {
 
     companion object {
         val Default = ScannerSettings(
             scannerMode = ScannerMode.Full,
-            supportedFormats = ScannerFormat.entries
+            supportedFormats = ScannerFileFormat.entries
         )
     }
 }

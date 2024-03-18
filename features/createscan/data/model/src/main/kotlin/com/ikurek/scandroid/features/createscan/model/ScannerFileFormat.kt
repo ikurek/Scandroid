@@ -1,5 +1,5 @@
 package com.ikurek.scandroid.features.createscan.model
 
-enum class ScannerFormat {
+enum class ScannerFileFormat {
     JPEG, PDF
 }

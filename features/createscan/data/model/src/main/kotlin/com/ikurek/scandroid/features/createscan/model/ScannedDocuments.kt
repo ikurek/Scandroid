@@ -3,6 +3,8 @@ package com.ikurek.scandroid.features.createscan.model
 import android.net.Uri
 
 data class ScannedDocuments(
-    private val pdfUri: Uri?,
-    private val imageUris: List<Uri>
-)
+    val pdfUri: Uri?,
+    val imageUris: List<Uri>
+) {
+    val hasMultipleDocumentFormats: Boolean = pdfUri != null && imageUris.isNotEmpty()
+}

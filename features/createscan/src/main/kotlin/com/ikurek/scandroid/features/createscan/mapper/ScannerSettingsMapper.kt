@@ -1,7 +1,7 @@
 package com.ikurek.scandroid.features.createscan.mapper
 
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
-import com.ikurek.scandroid.features.createscan.model.ScannerFormat
+import com.ikurek.scandroid.features.createscan.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.model.ScannerMode
 import com.ikurek.scandroid.features.createscan.model.ScannerSettings
 
@@ -25,19 +25,19 @@ private fun GmsDocumentScannerOptions.Builder.withScannerMode(
 }
 
 private fun GmsDocumentScannerOptions.Builder.withFormats(
-    formats: List<ScannerFormat>
+    formats: List<ScannerFileFormat>
 ): GmsDocumentScannerOptions.Builder {
     when {
-        formats.contains(ScannerFormat.JPEG) && formats.contains(ScannerFormat.PDF) ->
+        formats.contains(ScannerFileFormat.JPEG) && formats.contains(ScannerFileFormat.PDF) ->
             setResultFormats(
                 GmsDocumentScannerOptions.RESULT_FORMAT_JPEG,
                 GmsDocumentScannerOptions.RESULT_FORMAT_PDF
             )
 
-        formats.contains(ScannerFormat.PDF) ->
+        formats.contains(ScannerFileFormat.PDF) ->
             setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_PDF)
 
-        formats.contains(ScannerFormat.JPEG) ->
+        formats.contains(ScannerFileFormat.JPEG) ->
             setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
     }
 

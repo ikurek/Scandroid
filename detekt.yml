@@ -22,7 +22,7 @@ output-reports:
 # Compose hacks
 naming:
   FunctionNaming:
-    ignoreAnnotated: ['Composable', 'Preview', 'PreviewLightDark']
+    ignoreAnnotated: [ 'Composable', 'Preview', 'PreviewLightDark' ]
   TopLevelPropertyNaming:
     constantPattern: '[A-Z][A-Za-z0-9]*'
 
@@ -30,13 +30,14 @@ complexity:
   LongParameterList:
     functionThreshold: 12
     ignoreDefaultParameters: true
+    ignoreAnnotated: [ 'Composable' ]
 
 style:
   MagicNumber:
     ignorePropertyDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
   UnusedPrivateMember:
-    ignoreAnnotated: ['Preview', 'PreviewLightDark']
+    ignoreAnnotated: [ 'Preview', 'PreviewLightDark' ]
   ForbiddenComment:
     active: false
 
