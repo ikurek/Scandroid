@@ -18,10 +18,11 @@ import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanSideEffect
 import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanViewModel
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
+import java.util.UUID
 
 const val NewScanRoute = "new-scan"
 
-fun NavGraphBuilder.newScanScreen(onScanCreated: (scanId: String) -> Unit) {
+fun NavGraphBuilder.newScanScreen(onScanCreated: (scanId: UUID) -> Unit) {
     composable(route = NewScanRoute) {
         val viewModel: NewScanViewModel = hiltViewModel()
         val dialog: NewScanDialog? by viewModel.dialog.collectAsState()

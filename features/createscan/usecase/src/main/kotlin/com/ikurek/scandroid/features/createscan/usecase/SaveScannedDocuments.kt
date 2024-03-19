@@ -18,8 +18,8 @@ class SaveScannedDocuments @Inject internal constructor(
         description: String,
         scannedDocuments: ScannedDocuments,
         selectedFileFormats: Set<ScannerFileFormat>
-    ): Result<String> {
-        val scanId: String = UUID.randomUUID().toString()
+    ): Result<UUID> {
+        val scanId: UUID = UUID.randomUUID()
 
         return runCatching {
             assert(scannedDocuments.isEmpty.not()) { "Either PDF or JPEG file URIs are required" }

@@ -10,6 +10,7 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsScreen
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsViewModel
+import java.util.UUID
 
 private const val ScanId = "scanId"
 internal const val ScanDetailsRoute = "scan-details/{$ScanId}"
@@ -29,6 +30,6 @@ fun NavGraphBuilder.scanDetailsScreen() {
     }
 }
 
-fun NavController.navigateToScanDetails(scanId: String, builder: NavOptionsBuilder.() -> Unit) {
-    navigate(ScanDetailsRoute.replace("{$ScanId}", scanId), builder)
+fun NavController.navigateToScanDetails(scanId: UUID, builder: NavOptionsBuilder.() -> Unit) {
+    navigate(ScanDetailsRoute.replace("{$ScanId}", scanId.toString()), builder)
 }

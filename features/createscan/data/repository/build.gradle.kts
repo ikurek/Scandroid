@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.coroutines)
     implementation(projects.core.filestore)
     implementation(projects.features.createscan.data.model)
 }

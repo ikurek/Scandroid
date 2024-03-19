@@ -1,31 +1,45 @@
 package com.ikurek.scandroid.features.createscan.repository
 
 import android.util.Log
+import com.ikurek.scandroid.common.coroutines.IoDispatcher
 import com.ikurek.scandroid.core.filestore.FileFormat
 import com.ikurek.scandroid.core.filestore.FilenameProvider
 import com.ikurek.scandroid.core.filestore.directoryprovider.DirectoryProvider
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class NewScanRepository @Inject internal constructor(
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val directoryProvider: DirectoryProvider,
     private val filenameProvider: FilenameProvider
 ) {
 
-    fun saveScanPdfFileToStorage(scanId: String, inputFile: File): File {
-        val scanDirectory = directoryProvider.getScanDirectory(scanId)
+    suspend fun saveScanPdfFileToStorage(
+        scanId: UUID,
+        inputFile: File
+    ): File = withContext(ioDispatcher) {
+        val scanDirectory = directoryProvider.getScanDirectory(scanId.toString())
         val outputFileName = filenameProvider.createIndexedFilename(FileFormat.PDF)
         val outputFilePath = scanDirectory.path + "/" + outputFileName
         val outputFile = File(outputFilePath)
-        Log.d(this::class.simpleName, "Copying PDF file ${inputFile.path} to ${outputFile.path}")
-        return inputFile.copyTo(outputFile)
+        Log.d(
+            this::class.simpleName,
+            "Copying PDF file ${inputFile.path} to ${outputFile.path}"
+        )
+        return@withContext inputFile.copyTo(outputFile)
     }
 
-    fun saveScanJpegFilesToStorage(scanId: String, inputFiles: List<File>): List<File> {
-        val scanDirectory = directoryProvider.getScanDirectory(scanId)
-        return inputFiles.mapIndexed { index, inputFile ->
+    suspend fun saveScanJpegFilesToStorage(
+        scanId: UUID,
+        inputFiles: List<File>
+    ): List<File> = withContext(ioDispatcher) {
+        val scanDirectory = directoryProvider.getScanDirectory(scanId.toString())
+        return@withContext inputFiles.mapIndexed { index, inputFile ->
             val outputFileName =
                 filenameProvider.createIndexedFilename(FileFormat.JPEG, index)
             val outputFilePath = scanDirectory.path + "/" + outputFileName
@@ -38,7 +52,7 @@ class NewScanRepository @Inject internal constructor(
         }
     }
 
-    fun deleteScanFiles(scanId: String) {
-        directoryProvider.getScanDirectory(scanId).deleteRecursively()
+    suspend fun deleteScanFiles(scanId: UUID) = withContext(ioDispatcher) {
+        directoryProvider.getScanDirectory(scanId.toString()).deleteRecursively()
     }
 }
