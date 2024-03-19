@@ -1,6 +1,6 @@
-package com.ikurek.scandroid.features.createscan.repository
+package com.ikurek.scandroid.features.createscan.data.repository
 
-import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import javax.inject.Inject
 import javax.inject.Singleton
 

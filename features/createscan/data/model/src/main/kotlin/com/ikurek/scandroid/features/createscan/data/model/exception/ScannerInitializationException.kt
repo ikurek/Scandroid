@@ -1,4 +1,4 @@
-package com.ikurek.scandroid.features.createscan.model.exception
+package com.ikurek.scandroid.features.createscan.data.model.exception
 
 data class ScannerInitializationException(
     override val message: String?,

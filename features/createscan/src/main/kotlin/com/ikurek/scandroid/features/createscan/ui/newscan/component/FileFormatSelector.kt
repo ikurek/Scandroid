@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.ikurek.scandroid.core.design.ScandroidTheme
-import com.ikurek.scandroid.features.createscan.model.ScannerFileFormat
+import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable

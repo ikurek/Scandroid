@@ -1,9 +1,9 @@
 package com.ikurek.scandroid.features.createscan.mapper
 
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
-import com.ikurek.scandroid.features.createscan.model.ScannerFileFormat
-import com.ikurek.scandroid.features.createscan.model.ScannerMode
-import com.ikurek.scandroid.features.createscan.model.ScannerSettings
+import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
+import com.ikurek.scandroid.features.createscan.data.model.ScannerMode
+import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
 
 internal fun ScannerSettings.toGmsDocumentScannerOptions() = GmsDocumentScannerOptions.Builder()
     .withScannerMode(scannerMode)

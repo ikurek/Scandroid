@@ -2,12 +2,12 @@ package com.ikurek.scandroid.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.model.ScannerSettings
-import com.ikurek.scandroid.features.createscan.model.exception.ScannerInitializationException
-import com.ikurek.scandroid.features.createscan.model.exception.ScanningCancelled
-import com.ikurek.scandroid.features.createscan.model.exception.SdkInitializationException
-import com.ikurek.scandroid.features.createscan.model.exception.UnexpectedScanningError
+import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
+import com.ikurek.scandroid.features.createscan.data.model.exception.ScannerInitializationException
+import com.ikurek.scandroid.features.createscan.data.model.exception.ScanningCancelled
+import com.ikurek.scandroid.features.createscan.data.model.exception.SdkInitializationException
+import com.ikurek.scandroid.features.createscan.data.model.exception.UnexpectedScanningError
 import com.ikurek.scandroid.features.createscan.usecase.DeleteLatestUnsavedScan
 import com.ikurek.scandroid.features.createscan.usecase.StoreLatestUnsavedScan
 import dagger.hilt.android.lifecycle.HiltViewModel

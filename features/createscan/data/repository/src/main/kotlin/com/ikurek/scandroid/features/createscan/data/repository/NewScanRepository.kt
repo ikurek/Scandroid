@@ -1,4 +1,4 @@
-package com.ikurek.scandroid.features.createscan.repository
+package com.ikurek.scandroid.features.createscan.data.repository
 
 import android.util.Log
 import com.ikurek.scandroid.common.coroutines.IoDispatcher

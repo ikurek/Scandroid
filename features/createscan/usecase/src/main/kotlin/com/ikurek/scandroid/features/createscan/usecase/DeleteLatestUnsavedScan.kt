@@ -1,6 +1,6 @@
 package com.ikurek.scandroid.features.createscan.usecase
 
-import com.ikurek.scandroid.features.createscan.repository.LatestScanRepository
+import com.ikurek.scandroid.features.createscan.data.repository.LatestScanRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

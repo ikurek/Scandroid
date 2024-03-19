@@ -1,4 +1,4 @@
-package com.ikurek.scandroid.features.createscan.model
+package com.ikurek.scandroid.features.createscan.data.model
 
 data class ScannerSettings(
     val scannerMode: ScannerMode,

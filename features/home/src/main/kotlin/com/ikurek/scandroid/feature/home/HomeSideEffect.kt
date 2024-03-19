@@ -1,6 +1,6 @@
 package com.ikurek.scandroid.feature.home
 
-import com.ikurek.scandroid.features.createscan.model.ScannerSettings
+import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
 
 internal sealed interface HomeSideEffect {
 

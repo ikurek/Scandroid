@@ -2,8 +2,8 @@ package com.ikurek.scandroid.features.createscan.ui.newscan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.model.ScannerFileFormat
+import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.usecase.CreateScanNameFromCurrentDate

@@ -2,9 +2,9 @@ package com.ikurek.scandroid.features.createscan.usecase
 
 import android.util.Log
 import androidx.core.net.toFile
-import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.model.ScannerFileFormat
-import com.ikurek.scandroid.features.createscan.repository.NewScanRepository
+import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
+import com.ikurek.scandroid.features.createscan.data.repository.NewScanRepository
 import java.util.UUID
 import javax.inject.Inject
 

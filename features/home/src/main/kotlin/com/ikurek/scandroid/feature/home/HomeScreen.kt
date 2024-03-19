@@ -19,8 +19,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.ikurek.scandroid.core.design.components.dialogs.ErrorDialog
-import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.model.ScannerSettings
+import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
 import com.ikurek.scandroid.features.createscan.navigateToNewScan
 import com.ikurek.scandroid.features.createscan.newScanScreen
 import com.ikurek.scandroid.features.savedscans.SavedScansRoute

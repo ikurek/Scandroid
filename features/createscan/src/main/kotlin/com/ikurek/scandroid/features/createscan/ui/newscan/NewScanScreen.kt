@@ -20,8 +20,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.buttons.PrimaryButton
-import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.model.ScannerFileFormat
+import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.FileFormatSelector

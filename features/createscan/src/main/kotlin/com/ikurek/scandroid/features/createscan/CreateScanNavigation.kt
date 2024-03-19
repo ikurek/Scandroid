@@ -10,8 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ikurek.scandroid.core.design.components.dialogs.ErrorDialog
-import com.ikurek.scandroid.features.createscan.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.model.ScannerFileFormat
+import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanDialog
 import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanScreen
 import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanSideEffect
