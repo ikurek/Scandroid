@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.scandroid.library)
-    alias(libs.plugins.scandroid.detekt)
     alias(libs.plugins.scandroid.hilt)
 }
 

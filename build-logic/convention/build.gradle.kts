@@ -41,10 +41,6 @@ gradlePlugin {
             id = "com.ikurek.scandroid.application.compose"
             implementationClass = "ApplicationComposePlugin"
         }
-        register("detekt") {
-            id = "com.ikurek.scandroid.detekt"
-            implementationClass = "DetektPlugin"
-        }
         register("feature") {
             id = "com.ikurek.scandroid.feature"
             implementationClass = "FeaturePlugin"

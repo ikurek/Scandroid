@@ -1,6 +1,5 @@
 plugins {
     id("com.ikurek.scandroid.library")
-    id("com.ikurek.scandroid.detekt")
 }
 
 android {

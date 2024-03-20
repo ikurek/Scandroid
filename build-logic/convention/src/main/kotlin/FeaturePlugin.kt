@@ -13,7 +13,6 @@ class FeaturePlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
-                apply("com.ikurek.scandroid.detekt")
                 apply("com.ikurek.scandroid.hilt")
             }
 
