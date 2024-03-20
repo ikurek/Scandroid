@@ -19,8 +19,8 @@ class FeaturePlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlin(this)
                 configureCompose(this)
-                defaultConfig.minSdk = 26
-                defaultConfig.targetSdk = 34
+                defaultConfig.minSdk = SdkVersions.MIN
+                defaultConfig.targetSdk = SdkVersions.TARGET
             }
 
             dependencies {

@@ -13,5 +13,4 @@ class ApplicationComposePlugin : Plugin<Project> {
             configureCompose(extension)
         }
     }
-
 }

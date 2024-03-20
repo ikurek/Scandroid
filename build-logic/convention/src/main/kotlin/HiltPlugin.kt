@@ -17,5 +17,4 @@ class HiltPlugin : Plugin<Project> {
             }
         }
     }
-
 }

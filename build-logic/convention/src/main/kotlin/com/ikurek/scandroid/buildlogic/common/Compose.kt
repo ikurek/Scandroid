@@ -23,7 +23,6 @@ internal fun Project.configureCompose(
             add("implementation", libs.findLibrary("androidx.compose.ui").get())
             add("implementation", libs.findLibrary("androidx.compose.ui.tooling.preview").get())
             add("debugImplementation", libs.findLibrary("androidx.compose.ui.tooling").get())
-
         }
     }
 }

@@ -16,8 +16,8 @@ class LibraryPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlin(this)
-                defaultConfig.minSdk = 26
-                defaultConfig.targetSdk = 34
+                defaultConfig.minSdk = SdkVersions.MIN
+                defaultConfig.targetSdk = SdkVersions.TARGET
             }
 
             dependencies {

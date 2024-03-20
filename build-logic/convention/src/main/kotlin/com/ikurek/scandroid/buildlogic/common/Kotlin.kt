@@ -1,5 +1,6 @@
 package com.ikurek.scandroid.buildlogic.common
 
+import SdkVersions
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -7,15 +8,14 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-
 internal fun Project.configureKotlin(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = 34
+        compileSdk = SdkVersions.TARGET
 
         defaultConfig {
-            minSdk = 21
+            minSdk = SdkVersions.MIN
         }
 
         compileOptions {
