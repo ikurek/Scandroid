@@ -29,6 +29,7 @@ import com.ikurek.scandroid.features.createscan.ui.newscan.component.SectionDivi
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.Section
+import java.time.ZonedDateTime
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
@@ -160,6 +161,7 @@ private fun Preview() {
     ScandroidTheme {
         NewScanScreen(
             scannedDocuments = ScannedDocuments(
+                createdAt = ZonedDateTime.now(),
                 pdfUri = Uri.EMPTY,
                 imageUris = listOf(Uri.EMPTY, Uri.EMPTY)
             ),
@@ -184,6 +186,7 @@ private fun PreviewEmptyDocumentName() {
     ScandroidTheme {
         NewScanScreen(
             scannedDocuments = ScannedDocuments(
+                createdAt = ZonedDateTime.now(),
                 pdfUri = Uri.EMPTY,
                 imageUris = listOf(Uri.EMPTY, Uri.EMPTY)
             ),

@@ -1,20 +1,16 @@
 package com.ikurek.scandroid.features.createscan.usecase
 
-import java.time.Clock
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
-class CreateScanNameFromCurrentDate @Inject internal constructor(
-    private val clock: Clock
-) {
+class CreateScanNameFromCurrentDate @Inject internal constructor() {
 
-    operator fun invoke(): String {
-        val now = LocalDateTime.now(clock)
-        val date = now.toLocalDate()
+    operator fun invoke(createdAt: ZonedDateTime): String {
+        val date = createdAt.toLocalDate()
             .format(DateTimeFormatter.ISO_LOCAL_DATE)
-        val time = now.toLocalTime().truncatedTo(ChronoUnit.SECONDS)
+        val time = createdAt.toLocalTime().truncatedTo(ChronoUnit.SECONDS)
             .format(DateTimeFormatter.ISO_LOCAL_TIME)
         return "$date $time"
     }

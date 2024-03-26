@@ -40,7 +40,7 @@ internal class NewScanViewModel @Inject internal constructor(
     val scannedDocuments: StateFlow<ScannedDocuments> = _scannedDocuments
 
     private val _documentName: MutableStateFlow<DocumentNameInput> = MutableStateFlow(
-        DocumentNameInput.Filled(createScanNameFromCurrentDate())
+        DocumentNameInput.Filled(createScanNameFromCurrentDate(_scannedDocuments.value.createdAt))
     )
     val documentName: StateFlow<DocumentNameInput> = _documentName
 

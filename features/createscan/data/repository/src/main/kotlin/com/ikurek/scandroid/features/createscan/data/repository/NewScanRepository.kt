@@ -2,9 +2,12 @@ package com.ikurek.scandroid.features.createscan.data.repository
 
 import android.util.Log
 import com.ikurek.scandroid.common.coroutines.IoDispatcher
+import com.ikurek.scandroid.core.database.ScansDatabase
 import com.ikurek.scandroid.core.filestore.FileFormat
 import com.ikurek.scandroid.core.filestore.FilenameProvider
 import com.ikurek.scandroid.core.filestore.directoryprovider.DirectoryProvider
+import com.ikurek.scandroid.features.createscan.data.model.NewScan
+import com.ikurek.scandroid.features.createscan.data.repository.mapper.toEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -16,7 +19,8 @@ import javax.inject.Singleton
 class NewScanRepository @Inject internal constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val directoryProvider: DirectoryProvider,
-    private val filenameProvider: FilenameProvider
+    private val filenameProvider: FilenameProvider,
+    private val scansDatabase: ScansDatabase
 ) {
 
     suspend fun saveScanPdfFileToStorage(
@@ -50,6 +54,10 @@ class NewScanRepository @Inject internal constructor(
             )
             inputFile.copyTo(outputFile)
         }
+    }
+
+    suspend fun saveNewScan(scan: NewScan) = withContext(ioDispatcher) {
+        scansDatabase.save(scan.toEntity())
     }
 
     suspend fun deleteScanFiles(scanId: UUID) = withContext(ioDispatcher) {

@@ -2,6 +2,7 @@ package com.ikurek.scandroid.features.createscan.usecase
 
 import android.util.Log
 import androidx.core.net.toFile
+import com.ikurek.scandroid.features.createscan.data.model.NewScan
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.data.repository.NewScanRepository
@@ -38,6 +39,15 @@ class SaveScannedDocuments @Inject internal constructor(
                     inputFiles = scannedDocuments.imageUris.map { it.toFile() }
                 )
             }
+
+            newScanRepository.saveNewScan(
+                NewScan(
+                    id = scanId,
+                    createdAt = scannedDocuments.createdAt,
+                    name = name,
+                    description = description
+                )
+            )
 
             return Result.success(scanId)
         }.onFailure {

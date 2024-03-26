@@ -18,6 +18,8 @@ import com.ikurek.scandroid.features.createscan.mapper.toGmsDocumentScannerOptio
 import com.ikurek.scandroid.features.createscan.mapper.toScannedDocuments
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.tasks.await
+import java.time.Clock
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 /*
@@ -43,7 +45,8 @@ import javax.inject.Inject
 
 @ActivityScoped
 class DocumentScannerInteractor @Inject internal constructor(
-    private val activity: Activity
+    private val activity: Activity,
+    private val clock: Clock
 ) {
 
     suspend fun createRequest(
@@ -80,9 +83,10 @@ class DocumentScannerInteractor @Inject internal constructor(
     }
 
     private fun handleResultOk(intent: Intent?): Result<ScannedDocuments> = runCatching {
+        val now = ZonedDateTime.now(clock)
         val result = GmsDocumentScanningResult.fromActivityResultIntent(intent)
         requireNotNull(result) { "Result from scanner should not be null" }
-        val scannedDocuments = result.toScannedDocuments()
+        val scannedDocuments = result.toScannedDocuments(now)
         return Result.success(scannedDocuments)
     }
 }
