@@ -1,6 +1,9 @@
 package com.ikurek.scandroid.features.savedscans
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.component.SavedScanList
+import com.ikurek.scandroid.features.savedscans.component.UnsavedScansCard
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
+import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
 import java.io.File
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -36,7 +42,10 @@ import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
 internal fun SavedScansScreen(
+    unsavedScanState: UnsavedScanState,
     scansState: SavedScansState,
+    onRestoreUnsavedScanClick: () -> Unit,
+    onDeleteUnsavedScanClick: () -> Unit,
     onScanClick: (UUID) -> Unit,
     onCreateScanClick: () -> Unit,
 ) {
@@ -57,13 +66,25 @@ internal fun SavedScansScreen(
                         modifier = Modifier.align(Alignment.Center)
                     )
 
-                    is SavedScansState.Empty -> EmptyScreenPlaceholder(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    is SavedScansState.Empty -> {
+                        UnsavedScansPopup(
+                            modifier = Modifier.align(Alignment.Center),
+                            unsavedScanState = unsavedScanState,
+                            onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
+                            onDeleteUnsavedScanClick = onDeleteUnsavedScanClick
+                        )
+
+                        EmptyScreenPlaceholder(
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
 
                     is SavedScansState.Loaded -> SavedScansContent(
                         modifier = Modifier.fillMaxSize(),
+                        unsavedScanState = unsavedScanState,
                         scans = state.scans,
+                        onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
+                        onDeleteUnsavedScanClick = onDeleteUnsavedScanClick,
                         onScanClick = onScanClick
                     )
 
@@ -97,13 +118,41 @@ private fun CreateScanFloatingActionButton(onClick: () -> Unit) {
 }
 
 @Composable
+private fun UnsavedScansPopup(
+    unsavedScanState: UnsavedScanState,
+    onRestoreUnsavedScanClick: () -> Unit,
+    onDeleteUnsavedScanClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AnimatedVisibility(
+        modifier = modifier.padding(horizontal = 16.dp),
+        visible = unsavedScanState is UnsavedScanState.Present,
+        label = "UnsavedScansPopup_AnimatedVisibility",
+        enter = expandVertically(),
+        exit = shrinkVertically()
+    ) {
+        UnsavedScansCard(
+            onClick = onRestoreUnsavedScanClick,
+            onDeleteClick = onDeleteUnsavedScanClick
+        )
+    }
+}
+
+@Composable
 private fun SavedScansContent(
+    unsavedScanState: UnsavedScanState,
     scans: List<SavedScan>,
+    onRestoreUnsavedScanClick: () -> Unit,
+    onDeleteUnsavedScanClick: () -> Unit,
     onScanClick: (UUID) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        // TODO: Implement popup for unsaved scans
+        UnsavedScansPopup(
+            unsavedScanState = unsavedScanState,
+            onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
+            onDeleteUnsavedScanClick = onDeleteUnsavedScanClick
+        )
         SavedScanList(
             modifier = Modifier.fillMaxSize(),
             scans = scans,
@@ -145,6 +194,7 @@ private fun ErrorScreenPlaceholder(modifier: Modifier = Modifier) {
 private fun PreviewLoaded() {
     ScandroidTheme {
         SavedScansScreen(
+            unsavedScanState = UnsavedScanState.Present,
             scansState = SavedScansState.Loaded(
                 listOf(
                     SavedScan(
@@ -173,6 +223,8 @@ private fun PreviewLoaded() {
                     )
                 )
             ),
+            onRestoreUnsavedScanClick = {},
+            onDeleteUnsavedScanClick = {},
             onScanClick = {},
             onCreateScanClick = {}
         )
@@ -181,34 +233,13 @@ private fun PreviewLoaded() {
 
 @PreviewLightDark
 @Composable
-private fun PreviewLoading() {
+private fun PreviewEmpty() {
     ScandroidTheme {
         SavedScansScreen(
-            scansState = SavedScansState.Loading,
-            onScanClick = {},
-            onCreateScanClick = {}
-        )
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun PreviewError() {
-    ScandroidTheme {
-        SavedScansScreen(
-            scansState = SavedScansState.Error,
-            onScanClick = {},
-            onCreateScanClick = {}
-        )
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun PreviewDatabaseError() {
-    ScandroidTheme {
-        SavedScansScreen(
+            unsavedScanState = UnsavedScanState.Present,
             scansState = SavedScansState.Empty,
+            onRestoreUnsavedScanClick = {},
+            onDeleteUnsavedScanClick = {},
             onScanClick = {},
             onCreateScanClick = {}
         )

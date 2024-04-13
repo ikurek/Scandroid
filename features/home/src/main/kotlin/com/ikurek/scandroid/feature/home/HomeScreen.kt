@@ -74,6 +74,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         savedScansScreen(
+            onRestoreUnsavedScanClick = { homeNavController.navigateToNewScan() },
             onScanClick = { scanId -> homeNavController.navigateToScanDetails(scanId) },
             onCreateScanClick = homeViewModel::onCreateScanClick
         )

@@ -2,7 +2,7 @@ package com.ikurek.scandroid.features.savedscans.model
 
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 
-sealed interface SavedScansState {
+internal sealed interface SavedScansState {
 
     data object Loading : SavedScansState
 

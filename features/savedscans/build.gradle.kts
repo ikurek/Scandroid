@@ -7,5 +7,6 @@ android {
 }
 
 dependencies {
+    implementation(projects.features.createscan.usecase)
     implementation(projects.features.savedscans.usecase)
 }

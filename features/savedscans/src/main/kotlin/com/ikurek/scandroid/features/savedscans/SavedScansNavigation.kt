@@ -7,22 +7,28 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
+import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
 import java.util.UUID
 
 const val SavedScansRoute = "saved-scans"
 
 fun NavGraphBuilder.savedScansScreen(
+    onRestoreUnsavedScanClick: () -> Unit,
     onScanClick: (scanId: UUID) -> Unit,
     onCreateScanClick: () -> Unit
 ) {
     composable(route = SavedScansRoute) {
         val viewModel: SavedScansViewModel = hiltViewModel()
+        val unsavedScanState: UnsavedScanState by viewModel.unsavedScanState.collectAsState()
         val scansState: SavedScansState by viewModel.scansState.collectAsState()
 
         LaunchedEffect(Unit) { viewModel.onScreenEnter() }
 
         SavedScansScreen(
+            unsavedScanState = unsavedScanState,
             scansState = scansState,
+            onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
+            onDeleteUnsavedScanClick = viewModel::deleteUnsavedScan,
             onScanClick = onScanClick,
             onCreateScanClick = onCreateScanClick
         )
