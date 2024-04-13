@@ -10,13 +10,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.ikurek.scandroid.core.design.ScandroidTheme
+import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
+import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
+import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
+import java.io.File
+import java.util.UUID
 
 @Composable
 internal fun ScanDetailsScreen(
-    scanId: String
+    scanState: SavedScanState
 ) {
     Scaffold(
-        topBar = { TopAppBar(scanId) }
+        topBar = { TopAppBar(scanState) }
     ) { contentPadding ->
         Content(
             modifier = Modifier.padding(contentPadding)
@@ -31,16 +36,40 @@ private fun Content(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(scanId: String) {
+private fun TopAppBar(scanState: SavedScanState) {
     CenterAlignedTopAppBar(
-        title = { Text(scanId) }
+        title = {
+            (scanState as? SavedScanState.Loaded)?.let { state ->
+                Text(text = state.scan.name)
+            }
+        }
     )
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
+private fun PreviewLoading() {
     ScandroidTheme {
-        ScanDetailsScreen(scanId = "ScanId")
+        ScanDetailsScreen(scanState = SavedScanState.Loading)
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewLoaded() {
+    ScandroidTheme {
+        ScanDetailsScreen(
+            scanState = SavedScanState.Loaded(
+                scan = SavedScan(
+                    id = UUID.randomUUID(),
+                    name = "Name",
+                    description = "Scan description",
+                    files = SavedScanFiles.PdfAndImages(
+                        pdfFile = File("path"),
+                        imageFiles = listOf(File("path"))
+                    )
+                )
+            )
+        )
     }
 }

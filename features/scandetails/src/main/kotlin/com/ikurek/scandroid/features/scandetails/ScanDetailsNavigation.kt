@@ -1,5 +1,6 @@
 package com.ikurek.scandroid.features.scandetails
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -10,23 +11,27 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsScreen
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsViewModel
+import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
 import java.util.UUID
 
 private const val ScanId = "scanId"
 internal const val ScanDetailsRoute = "scan-details/{$ScanId}"
 
-internal data class ScanDetailsScreenArgs(val scanId: String) {
+internal data class ScanDetailsScreenArgs(val scanId: UUID) {
     constructor(savedStateHandle: SavedStateHandle) : this(
-        scanId = savedStateHandle[ScanId] ?: error("$ScanId argument not present")
+        scanId = savedStateHandle.get<String>(ScanId)?.let { UUID.fromString(it) }
+            ?: error("$ScanId argument not present")
     )
 }
 
 fun NavGraphBuilder.scanDetailsScreen() {
     composable(route = ScanDetailsRoute) {
         val viewModel: ScanDetailsViewModel = hiltViewModel()
-        val scanId: String by viewModel.scanId.collectAsState()
+        val scanState: SavedScanState by viewModel.scanState.collectAsState()
 
-        ScanDetailsScreen(scanId = scanId)
+        LaunchedEffect(Unit) { viewModel.onScreenEnter() }
+
+        ScanDetailsScreen(scanState = scanState)
     }
 }
 
