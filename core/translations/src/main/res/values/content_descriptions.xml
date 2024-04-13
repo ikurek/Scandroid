@@ -2,6 +2,7 @@
 <resources>
     <string name="saved_scans_empty_placeholder_content_descriptions">No scans saved image</string>
     <string name="saved_scans_create_scan_fab_content_descriptions">Create scan button icon</string>
+    <string name="saved_scans_general_error_placeholder_content_descriptions">General error image</string>
     <string name="new_scan_document_name_clear_button_content_descriptions">Clear document name input icon</string>
     <string name="new_scan_document_description_clear_button_content_descriptions">Clear document description input icon</string>
 </resources>

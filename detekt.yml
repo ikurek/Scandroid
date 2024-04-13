@@ -36,6 +36,7 @@ style:
   MagicNumber:
     ignorePropertyDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
+    ignoreAnnotated: [ 'Preview', 'PreviewLightDark' ]
   UnusedPrivateMember:
     ignoreAnnotated: [ 'Preview', 'PreviewLightDark' ]
   ForbiddenComment:

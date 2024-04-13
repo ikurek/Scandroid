@@ -1,37 +1,43 @@
 package com.ikurek.scandroid.features.savedscans
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Scanner
+import androidx.compose.material.icons.filled.SdCardAlert
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
+import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
+import com.ikurek.scandroid.core.translations.R
+import com.ikurek.scandroid.features.savedscans.component.SavedScanList
+import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
+import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
+import com.ikurek.scandroid.features.savedscans.model.SavedScansState
+import java.io.File
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
 internal fun SavedScansScreen(
-    scans: List<String>,
+    scansState: SavedScansState,
+    onScanClick: (UUID) -> Unit,
     onCreateScanClick: () -> Unit,
 ) {
     Scaffold(
@@ -42,13 +48,29 @@ internal fun SavedScansScreen(
             modifier = Modifier
                 .padding(contentPadding)
                 .fillMaxSize(),
-            targetState = scans.isEmpty(),
+            targetState = scansState,
             label = "SavedScansScreen_AnimatedContent"
-        ) { isEmpty ->
-            if (isEmpty) {
-                EmptyScreenPlaceholder()
-            } else {
-                ScanList(scans)
+        ) { state ->
+            Box(modifier = Modifier.fillMaxSize()) {
+                when (state) {
+                    is SavedScansState.Loading -> CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+
+                    is SavedScansState.Empty -> EmptyScreenPlaceholder(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+
+                    is SavedScansState.Loaded -> SavedScansContent(
+                        modifier = Modifier.fillMaxSize(),
+                        scans = state.scans,
+                        onScanClick = onScanClick
+                    )
+
+                    is SavedScansState.Error -> ErrorScreenPlaceholder(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }
@@ -75,45 +97,119 @@ private fun CreateScanFloatingActionButton(onClick: () -> Unit) {
 }
 
 @Composable
-private fun EmptyScreenPlaceholder() {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 48.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Icon(
-            imageVector = Icons.Default.Scanner,
-            contentDescription = stringResource(
-                id = TranslationsR.string.saved_scans_empty_placeholder_content_descriptions
-            ),
-            modifier = Modifier.size(128.dp),
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Text(
-            text = stringResource(id = TranslationsR.string.saved_scans_empty_placeholder_label),
-            style = MaterialTheme.typography.titleSmall,
-            textAlign = TextAlign.Center
+private fun SavedScansContent(
+    scans: List<SavedScan>,
+    onScanClick: (UUID) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        // TODO: Implement popup for unsaved scans
+        SavedScanList(
+            modifier = Modifier.fillMaxSize(),
+            scans = scans,
+            onScanClick = onScanClick
         )
     }
 }
 
-@Suppress("UnusedParameter")
 @Composable
-private fun ScanList(scans: List<String>) {
-    // TODO: Implement
-    Box(modifier = Modifier.fillMaxSize())
+private fun EmptyScreenPlaceholder(modifier: Modifier = Modifier) {
+    ScreenPlaceholder(
+        modifier = modifier,
+        imageVector = Icons.Default.Scanner,
+        imageContentDescription = stringResource(
+            id = R.string.saved_scans_empty_placeholder_content_descriptions
+        ),
+        label = stringResource(
+            id = R.string.saved_scans_empty_placeholder_label
+        ),
+    )
+}
+
+@Composable
+private fun ErrorScreenPlaceholder(modifier: Modifier = Modifier) {
+    ScreenPlaceholder(
+        modifier = modifier,
+        imageVector = Icons.Default.SdCardAlert,
+        imageContentDescription = stringResource(
+            id = R.string.saved_scans_general_error_placeholder_content_descriptions
+        ),
+        label = stringResource(
+            id = R.string.saved_scans_general_error_placeholder_label
+        ),
+    )
 }
 
 @PreviewLightDark
 @Composable
-private fun PreviewEmpty() {
+private fun PreviewLoaded() {
     ScandroidTheme {
         SavedScansScreen(
-            scans = emptyList(),
+            scansState = SavedScansState.Loaded(
+                listOf(
+                    SavedScan(
+                        id = UUID.randomUUID(),
+                        name = "PDF Scan",
+                        description = "Scan description for PDF scan",
+                        createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        files = SavedScanFiles.PdfOnly(pdfFile = File("path"))
+                    ),
+                    SavedScan(
+                        id = UUID.randomUUID(),
+                        name = "Image Scan",
+                        description = "Scan description for image scan",
+                        createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        files = SavedScanFiles.ImagesOnly(imageFiles = listOf(File("path")))
+                    ),
+                    SavedScan(
+                        id = UUID.randomUUID(),
+                        name = "Image & PDF Scan",
+                        description = "Scan description for image & PDF scan",
+                        createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        files = SavedScanFiles.PdfAndImages(
+                            pdfFile = File("path"),
+                            imageFiles = listOf(File("path"), File("path"))
+                        )
+                    )
+                )
+            ),
+            onScanClick = {},
+            onCreateScanClick = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewLoading() {
+    ScandroidTheme {
+        SavedScansScreen(
+            scansState = SavedScansState.Loading,
+            onScanClick = {},
+            onCreateScanClick = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewError() {
+    ScandroidTheme {
+        SavedScansScreen(
+            scansState = SavedScansState.Error,
+            onScanClick = {},
+            onCreateScanClick = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewDatabaseError() {
+    ScandroidTheme {
+        SavedScansScreen(
+            scansState = SavedScansState.Empty,
+            onScanClick = {},
             onCreateScanClick = {}
         )
     }

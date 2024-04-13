@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Scandroid</string>
     <string name="saved_scans_empty_placeholder_label">Nothing saved yet! Use the button in bottom-right corner to scan a new document.</string>
+    <string name="saved_scans_general_error_placeholder_label">Unable to read scans from database! Database may have been damaged or an internal, unhandled problem has occurred.</string>
+    <string name="saved_scans_scan_files_only_pdf">PDF file</string>
     <string name="dialog_button_neutral">OK</string>
     <string name="dialog_button_show_details">Show details</string>
     <string name="dialog_error_sdk_initialization_failed_title">Unable to initialize MlKit SDK</string>

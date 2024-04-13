@@ -35,6 +35,6 @@ fun NavGraphBuilder.scanDetailsScreen() {
     }
 }
 
-fun NavController.navigateToScanDetails(scanId: UUID, builder: NavOptionsBuilder.() -> Unit) {
+fun NavController.navigateToScanDetails(scanId: UUID, builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(ScanDetailsRoute.replace("{$ScanId}", scanId.toString()), builder)
 }

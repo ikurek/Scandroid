@@ -73,7 +73,10 @@ fun HomeScreen(
         startDestination = SavedScansRoute,
         modifier = Modifier.fillMaxSize()
     ) {
-        savedScansScreen(onCreateScanClick = homeViewModel::onCreateScanClick)
+        savedScansScreen(
+            onScanClick = { scanId -> homeNavController.navigateToScanDetails(scanId) },
+            onCreateScanClick = homeViewModel::onCreateScanClick
+        )
         newScanScreen(
             onScanCreated = { scanId ->
                 homeNavController.navigateToScanDetails(scanId) {

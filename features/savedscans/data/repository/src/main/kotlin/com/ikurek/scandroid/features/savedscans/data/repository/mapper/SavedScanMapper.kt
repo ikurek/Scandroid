@@ -8,5 +8,6 @@ internal fun ScanEntity.toSavedScan(files: SavedScanFiles) = SavedScan(
     id = id,
     name = name,
     description = description,
+    createdAt = createdAt,
     files = files
 )

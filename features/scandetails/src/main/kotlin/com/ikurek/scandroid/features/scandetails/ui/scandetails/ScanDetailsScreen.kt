@@ -14,6 +14,8 @@ import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
 import java.io.File
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.UUID
 
 @Composable
@@ -64,6 +66,7 @@ private fun PreviewLoaded() {
                     id = UUID.randomUUID(),
                     name = "Name",
                     description = "Scan description",
+                    createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
                     files = SavedScanFiles.PdfAndImages(
                         pdfFile = File("path"),
                         imageFiles = listOf(File("path"))
