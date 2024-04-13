@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +18,7 @@ internal class InternalAppStorageDirectoryProvider @Inject constructor(
         return File(path).createIfNotExists()
     }
 
-    override fun getScanDirectory(id: String): File {
+    override fun getScanDirectory(id: UUID): File {
         val path = getScansDirectory().path + "/$id"
         return File(path).createIfNotExists()
     }

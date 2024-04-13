@@ -27,7 +27,7 @@ class NewScanRepository @Inject internal constructor(
         scanId: UUID,
         inputFile: File
     ): File = withContext(ioDispatcher) {
-        val scanDirectory = directoryProvider.getScanDirectory(scanId.toString())
+        val scanDirectory = directoryProvider.getScanDirectory(scanId)
         val outputFileName = filenameProvider.createIndexedFilename(FileFormat.PDF)
         val outputFilePath = scanDirectory.path + "/" + outputFileName
         val outputFile = File(outputFilePath)
@@ -42,7 +42,7 @@ class NewScanRepository @Inject internal constructor(
         scanId: UUID,
         inputFiles: List<File>
     ): List<File> = withContext(ioDispatcher) {
-        val scanDirectory = directoryProvider.getScanDirectory(scanId.toString())
+        val scanDirectory = directoryProvider.getScanDirectory(scanId)
         return@withContext inputFiles.mapIndexed { index, inputFile ->
             val outputFileName =
                 filenameProvider.createIndexedFilename(FileFormat.JPEG, index)
@@ -61,6 +61,6 @@ class NewScanRepository @Inject internal constructor(
     }
 
     suspend fun deleteScanFiles(scanId: UUID) = withContext(ioDispatcher) {
-        directoryProvider.getScanDirectory(scanId.toString()).deleteRecursively()
+        directoryProvider.getScanDirectory(scanId).deleteRecursively()
     }
 }
