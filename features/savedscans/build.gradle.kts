@@ -3,5 +3,9 @@ plugins {
 }
 
 android {
-    namespace = "com.ikurek.scandroid.features.scans"
+    namespace = "com.ikurek.scandroid.features.savedscans"
+}
+
+dependencies {
+    implementation(projects.features.savedscans.usecase)
 }

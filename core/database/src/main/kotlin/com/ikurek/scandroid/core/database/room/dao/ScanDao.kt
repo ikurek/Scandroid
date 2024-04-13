@@ -10,6 +10,9 @@ internal interface ScanDao {
     @Query("SELECT * FROM scans")
     suspend fun findAll(): List<ScanEntity>
 
+    @Query("SELECT * FROM scans WHERE id = :id")
+    suspend fun findById(id: String): ScanEntity?
+
     @Insert
     suspend fun save(scanEntity: ScanEntity)
 }
