@@ -1,7 +1,7 @@
 package com.ikurek.scandroid.features.savedscans
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Box
@@ -53,12 +53,12 @@ internal fun SavedScansScreen(
         topBar = { TopAppBar() },
         floatingActionButton = { CreateScanFloatingActionButton(onClick = onCreateScanClick) }
     ) { contentPadding ->
-        AnimatedContent(
+        Crossfade(
             modifier = Modifier
                 .padding(contentPadding)
                 .fillMaxSize(),
             targetState = scansState,
-            label = "SavedScansScreen_AnimatedContent"
+            label = "SavedScansScreen_Crossfade"
         ) { state ->
             Box(modifier = Modifier.fillMaxSize()) {
                 when (state) {

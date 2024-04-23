@@ -4,6 +4,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,7 +72,11 @@ fun HomeScreen(
     NavHost(
         navController = homeNavController,
         startDestination = SavedScansRoute,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        enterTransition = { slideIntoContainer(towards = SlideDirection.Start) },
+        exitTransition = { slideOutOfContainer(towards = SlideDirection.Start) },
+        popEnterTransition = { slideIntoContainer(towards = SlideDirection.End) },
+        popExitTransition = { slideOutOfContainer(towards = SlideDirection.End) }
     ) {
         savedScansScreen(
             onRestoreUnsavedScanClick = { homeNavController.navigateToNewScan() },
