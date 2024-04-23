@@ -68,7 +68,7 @@ internal fun SavedScansScreen(
 
                     is SavedScansState.Empty -> {
                         UnsavedScansPopup(
-                            modifier = Modifier.align(Alignment.Center),
+                            modifier = Modifier.align(Alignment.TopCenter),
                             unsavedScanState = unsavedScanState,
                             onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
                             onDeleteUnsavedScanClick = onDeleteUnsavedScanClick
