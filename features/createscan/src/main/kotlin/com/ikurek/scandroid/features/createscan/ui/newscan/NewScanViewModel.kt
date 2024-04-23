@@ -7,6 +7,7 @@ import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.usecase.CreateScanNameFromCurrentDate
+import com.ikurek.scandroid.features.createscan.usecase.DeleteLatestUnsavedScan
 import com.ikurek.scandroid.features.createscan.usecase.GetLatestUnsavedScan
 import com.ikurek.scandroid.features.createscan.usecase.SaveScannedDocuments
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,8 @@ import javax.inject.Inject
 internal class NewScanViewModel @Inject internal constructor(
     getLatestUnsavedScan: GetLatestUnsavedScan,
     createScanNameFromCurrentDate: CreateScanNameFromCurrentDate,
-    private val saveScannedDocuments: SaveScannedDocuments
+    private val saveScannedDocuments: SaveScannedDocuments,
+    private val deleteLastUnsavedScan: DeleteLatestUnsavedScan
 ) : ViewModel() {
 
     private val _dialog: MutableStateFlow<NewScanDialog?> = MutableStateFlow(null)
@@ -108,6 +110,7 @@ internal class NewScanViewModel @Inject internal constructor(
             scannedDocuments = scannedDocuments,
             selectedFileFormats = selectedFileFormats
         ).onSuccess { scanId ->
+            deleteLastUnsavedScan()
             _sideEffects.send(NewScanSideEffect.ScanCreated(scanId))
         }.onFailure { exception ->
             _dialog.value = NewScanDialog.Error.ScanSaveFailed(exception)
