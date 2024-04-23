@@ -31,7 +31,12 @@ fun NavGraphBuilder.scanDetailsScreen() {
 
         LaunchedEffect(Unit) { viewModel.onScreenEnter() }
 
-        ScanDetailsScreen(scanState = scanState)
+        ScanDetailsScreen(
+            scanState = scanState,
+            onImageClick = {
+                // TODO: Implement
+            }
+        )
     }
 }
 

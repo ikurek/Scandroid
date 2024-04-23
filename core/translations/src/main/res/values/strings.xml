@@ -21,6 +21,11 @@
     <string name="new_scan_document_formats_section">Formats</string>
     <string name="new_scan_document_tags_section">Tags</string>
     <string name="new_scan_save_button">Save</string>
+    <string name="scan_details_general_error_placeholder_label">Unable to read scan! Database may have been damaged or an internal, unhandled problem has occurred.</string>
+    <string name="scan_details_tab_images">Images</string>
+    <string name="scan_details_tab_document">Document</string>
+    <string name="scan_details_description_label">Description:</string>
+    <string name="scan_details_created_at_label">Created at:</string>
     <string name="common_file_format_jpeg" translatable="false">JPEG</string>
     <string name="common_file_format_pdf" translatable="false">PDF</string>
 </resources>

@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(projects.features.savedscans.usecase)
+    implementation(libs.coil.compose)
 }

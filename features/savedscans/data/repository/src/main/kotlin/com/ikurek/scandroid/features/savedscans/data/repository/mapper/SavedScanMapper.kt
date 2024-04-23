@@ -7,7 +7,7 @@ import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 internal fun ScanEntity.toSavedScan(files: SavedScanFiles) = SavedScan(
     id = id,
     name = name,
-    description = description,
+    description = if (description.isNullOrBlank()) null else description,
     createdAt = createdAt,
     files = files
 )
