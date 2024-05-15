@@ -27,7 +27,9 @@ import com.ikurek.scandroid.features.createscan.newScanScreen
 import com.ikurek.scandroid.features.savedscans.SavedScansRoute
 import com.ikurek.scandroid.features.savedscans.savedScansScreen
 import com.ikurek.scandroid.features.scandetails.navigateToScanDetails
+import com.ikurek.scandroid.features.scandetails.navigateToScanImageGallery
 import com.ikurek.scandroid.features.scandetails.scanDetailsScreen
+import com.ikurek.scandroid.features.scandetails.scanImageGalleryScreen
 
 @Composable
 fun HomeScreen(
@@ -90,7 +92,12 @@ fun HomeScreen(
                 }
             }
         )
-        scanDetailsScreen()
+        scanDetailsScreen(
+            onImageClick = { scanId, imageIndex ->
+                homeNavController.navigateToScanImageGallery(scanId, imageIndex)
+            }
+        )
+        scanImageGalleryScreen()
     }
 }
 

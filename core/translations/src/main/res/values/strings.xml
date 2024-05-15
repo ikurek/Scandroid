@@ -26,6 +26,7 @@
     <string name="scan_details_tab_document">Document</string>
     <string name="scan_details_description_label">Description:</string>
     <string name="scan_details_created_at_label">Created at:</string>
+    <string name="scan_image_gallery_title">Image %d of %d</string>
     <string name="common_file_format_jpeg" translatable="false">JPEG</string>
     <string name="common_file_format_pdf" translatable="false">PDF</string>
 </resources>

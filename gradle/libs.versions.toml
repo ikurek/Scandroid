@@ -7,6 +7,7 @@ androidxLifecycle = "2.8.0"
 androidxNavigation = "2.7.7"
 agp = "8.4.1"
 composeBom = "2024.05.00"
+composeZoomable = "1.6.1"
 coil = "2.6.0"
 coreKtx = "1.13.1"
 coroutines = "1.8.1"
@@ -37,6 +38,7 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 detekt-rules-compose = { group = "ru.kode", name = "detekt-rules-compose", version.ref = "detektRulesCompose" }
+compose-zoomable = { group = "net.engawapg.lib", name = "zoomable", version.ref = "composeZoomable" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

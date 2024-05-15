@@ -31,7 +31,7 @@ import java.util.UUID
 @Composable
 internal fun ScanDetailsScreen(
     scanState: SavedScanState,
-    onImageClick: (File) -> Unit
+    onImageClick: (scanId: UUID, imageIndex: Int) -> Unit
 ) {
     Scaffold(
         topBar = { TopAppBar(scanState) }
@@ -94,7 +94,7 @@ private fun PreviewLoading() {
     ScandroidTheme {
         ScanDetailsScreen(
             scanState = SavedScanState.Loading,
-            onImageClick = {}
+            onImageClick = { _, _ -> }
         )
     }
 }
@@ -116,7 +116,7 @@ private fun PreviewLoaded() {
                     )
                 )
             ),
-            onImageClick = {}
+            onImageClick = { _, _ -> }
         )
     }
 }

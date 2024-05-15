@@ -9,4 +9,5 @@ android {
 dependencies {
     implementation(projects.features.savedscans.usecase)
     implementation(libs.coil.compose)
+    implementation(libs.compose.zoomable)
 }

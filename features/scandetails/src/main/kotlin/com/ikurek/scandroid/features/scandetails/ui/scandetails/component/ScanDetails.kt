@@ -47,7 +47,7 @@ import com.ikurek.scandroid.core.translations.R as TranslationsR
 @Composable
 internal fun ScanDetails(
     scan: SavedScan,
-    onImageClick: (File) -> Unit,
+    onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -84,7 +84,7 @@ internal fun ScanDetails(
         when (scan.files) {
             is SavedScanFiles.ImagesOnly -> ImagesOnlyScanDetails(
                 images = scan.files.imageFiles!!,
-                onImageClick = onImageClick
+                onImageClick = { index -> onImageClick(scan.id, index) }
             )
 
             is SavedScanFiles.PdfOnly -> PdfOnlyScanDetails(
@@ -94,7 +94,7 @@ internal fun ScanDetails(
             is SavedScanFiles.PdfAndImages -> PdfAndImagesScanDetails(
                 images = scan.files.imageFiles!!,
                 document = scan.files.pdfFile!!,
-                onImageClick = onImageClick
+                onImageClick = { index -> onImageClick(scan.id, index) }
             )
         }
     }
@@ -103,7 +103,7 @@ internal fun ScanDetails(
 @Composable
 private fun ImagesOnlyScanDetails(
     images: List<File>,
-    onImageClick: (File) -> Unit
+    onImageClick: (index: Int) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -116,7 +116,7 @@ private fun ImagesOnlyScanDetails(
             items = images,
             key = { _, image -> image.name }
         ) { index, image ->
-            Card(onClick = { onImageClick(image) }) {
+            Card(onClick = { onImageClick(index) }) {
                 AsyncImage(
                     model = image,
                     contentDescription = stringResource(
@@ -146,7 +146,7 @@ private fun PdfOnlyScanDetails(
 private fun PdfAndImagesScanDetails(
     images: List<File>,
     document: File,
-    onImageClick: (File) -> Unit
+    onImageClick: (index: Int) -> Unit
 ) {
     val pagerState = rememberPagerState(
         initialPage = PdfAndImagesTabs.Images.ordinal,
@@ -204,7 +204,7 @@ private fun Preview() {
                     imageFiles = listOf(File("path"))
                 )
             ),
-            onImageClick = {}
+            onImageClick = { _, _ -> }
         )
     }
 }
