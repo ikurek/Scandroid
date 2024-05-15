@@ -9,11 +9,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -21,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
+import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.ScanImageGalleryState
@@ -32,13 +30,15 @@ import com.ikurek.scandroid.core.translations.R as TranslationsR
 internal fun ScanImageGalleryScreen(
     imageGalleryState: ScanImageGalleryState,
     currentImageIndex: Int,
-    onImageChange: (imageIndex: Int) -> Unit
+    onImageChange: (imageIndex: Int) -> Unit,
+    onNavigateUp: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            ImageCountTopAppBar(
                 imageGalleryState = imageGalleryState,
-                currentImageIndex = currentImageIndex
+                currentImageIndex = currentImageIndex,
+                onNavigateUp = onNavigateUp
             )
         }
     ) { contentPadding ->
@@ -69,25 +69,21 @@ internal fun ScanImageGalleryScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(
+private fun ImageCountTopAppBar(
     imageGalleryState: ScanImageGalleryState,
     currentImageIndex: Int,
+    onNavigateUp: () -> Unit
 ) {
-    CenterAlignedTopAppBar(
-        title = {
-            (imageGalleryState as? ScanImageGalleryState.Loaded)?.let { state ->
-                Text(
-                    text = stringResource(
-                        id = TranslationsR.string.scan_image_gallery_title,
-                        currentImageIndex + 1,
-                        state.images.size
-                    )
-                )
-            }
-        }
-    )
+    val title = (imageGalleryState as? ScanImageGalleryState.Loaded)?.let { state ->
+        stringResource(
+            id = TranslationsR.string.scan_image_gallery_title,
+            currentImageIndex + 1,
+            state.images.size
+        )
+    }
+
+    PrimaryTopAppBar(title = title, onNavigateUp = onNavigateUp)
 }
 
 @Composable

@@ -31,6 +31,7 @@ import com.ikurek.scandroid.features.scandetails.navigateToScanImageGallery
 import com.ikurek.scandroid.features.scandetails.scanDetailsScreen
 import com.ikurek.scandroid.features.scandetails.scanImageGalleryScreen
 
+@Suppress("LongMethod")
 @Composable
 fun HomeScreen(
     createScanRequest: suspend (ScannerSettings) -> Result<IntentSenderRequest>,
@@ -90,14 +91,18 @@ fun HomeScreen(
                 homeNavController.navigateToScanDetails(scanId) {
                     popUpTo(SavedScansRoute)
                 }
-            }
+            },
+            onNavigateUp = homeNavController::navigateUp
         )
         scanDetailsScreen(
             onImageClick = { scanId, imageIndex ->
                 homeNavController.navigateToScanImageGallery(scanId, imageIndex)
-            }
+            },
+            onNavigateUp = homeNavController::navigateUp
         )
-        scanImageGalleryScreen()
+        scanImageGalleryScreen(
+            onNavigateUp = homeNavController::navigateUp
+        )
     }
 }
 

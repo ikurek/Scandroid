@@ -12,13 +12,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Scanner
 import androidx.compose.material.icons.filled.SdCardAlert
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
+import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.component.SavedScanList
@@ -50,7 +48,7 @@ internal fun SavedScansScreen(
     onCreateScanClick: () -> Unit,
 ) {
     Scaffold(
-        topBar = { TopAppBar() },
+        topBar = { PrimaryTopAppBar(title = stringResource(TranslationsR.string.app_name)) },
         floatingActionButton = { CreateScanFloatingActionButton(onClick = onCreateScanClick) }
     ) { contentPadding ->
         Crossfade(
@@ -95,14 +93,6 @@ internal fun SavedScansScreen(
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBar() {
-    CenterAlignedTopAppBar(
-        title = { Text(stringResource(TranslationsR.string.app_name)) }
-    )
 }
 
 @Composable

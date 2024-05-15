@@ -22,7 +22,10 @@ import java.util.UUID
 
 const val NewScanRoute = "new-scan"
 
-fun NavGraphBuilder.newScanScreen(onScanCreated: (scanId: UUID) -> Unit) {
+fun NavGraphBuilder.newScanScreen(
+    onScanCreated: (scanId: UUID) -> Unit,
+    onNavigateUp: () -> Unit
+) {
     composable(route = NewScanRoute) {
         val viewModel: NewScanViewModel = hiltViewModel()
         val dialog: NewScanDialog? by viewModel.dialog.collectAsState()
@@ -60,7 +63,8 @@ fun NavGraphBuilder.newScanScreen(onScanCreated: (scanId: UUID) -> Unit) {
             onFileFormatSelectionChange = viewModel::onFileFormatSelectionChange,
             isSaving = isSaving,
             isSaveButtonEnabled = isSaveButtonEnabled,
-            onSaveButtonClick = viewModel::onSaveButtonClick
+            onSaveButtonClick = viewModel::onSaveButtonClick,
+            onNavigateUp = onNavigateUp
         )
     }
 }

@@ -9,16 +9,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
+import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.buttons.PrimaryButton
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
@@ -45,10 +43,16 @@ internal fun NewScanScreen(
     onFileFormatSelectionChange: (ScannerFileFormat, Boolean) -> Unit,
     isSaving: Boolean,
     isSaveButtonEnabled: Boolean,
-    onSaveButtonClick: () -> Unit
+    onSaveButtonClick: () -> Unit,
+    onNavigateUp: () -> Unit
 ) {
     Scaffold(
-        topBar = { TopAppBar() },
+        topBar = {
+            PrimaryTopAppBar(
+                title = stringResource(TranslationsR.string.new_scan_title),
+                onNavigateUp = onNavigateUp
+            )
+        },
         bottomBar = {
             BottomBar(
                 isSaving = isSaving,
@@ -126,14 +130,6 @@ private fun Content(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBar() {
-    CenterAlignedTopAppBar(
-        title = { Text(stringResource(TranslationsR.string.new_scan_title)) }
-    )
-}
-
 @Composable
 private fun BottomBar(
     isSaving: Boolean,
@@ -175,7 +171,8 @@ private fun Preview() {
             onFileFormatSelectionChange = { _, _ -> },
             isSaving = true,
             isSaveButtonEnabled = true,
-            onSaveButtonClick = {}
+            onSaveButtonClick = {},
+            onNavigateUp = {}
         )
     }
 }
@@ -200,7 +197,8 @@ private fun PreviewEmptyDocumentName() {
             onFileFormatSelectionChange = { _, _ -> },
             isSaving = false,
             isSaveButtonEnabled = false,
-            onSaveButtonClick = {}
+            onSaveButtonClick = {},
+            onNavigateUp = {}
         )
     }
 }

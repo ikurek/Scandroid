@@ -6,17 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.ikurek.scandroid.core.design.ScandroidTheme
+import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
@@ -31,10 +29,11 @@ import java.util.UUID
 @Composable
 internal fun ScanDetailsScreen(
     scanState: SavedScanState,
-    onImageClick: (scanId: UUID, imageIndex: Int) -> Unit
+    onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
+    onNavigateUp: () -> Unit
 ) {
     Scaffold(
-        topBar = { TopAppBar(scanState) }
+        topBar = { ScanNameTopAppBar(scanState = scanState, onNavigateUp = onNavigateUp) }
     ) { contentPadding ->
         Crossfade(
             targetState = scanState,
@@ -62,16 +61,10 @@ internal fun ScanDetailsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(scanState: SavedScanState) {
-    CenterAlignedTopAppBar(
-        title = {
-            (scanState as? SavedScanState.Loaded)?.let { state ->
-                Text(text = state.scan.name)
-            }
-        }
-    )
+private fun ScanNameTopAppBar(scanState: SavedScanState, onNavigateUp: () -> Unit) {
+    val title = (scanState as? SavedScanState.Loaded)?.scan?.name
+    PrimaryTopAppBar(title = title, onNavigateUp = onNavigateUp)
 }
 
 @Composable
@@ -94,7 +87,8 @@ private fun PreviewLoading() {
     ScandroidTheme {
         ScanDetailsScreen(
             scanState = SavedScanState.Loading,
-            onImageClick = { _, _ -> }
+            onImageClick = { _, _ -> },
+            onNavigateUp = { }
         )
     }
 }
@@ -116,7 +110,8 @@ private fun PreviewLoaded() {
                     )
                 )
             ),
-            onImageClick = { _, _ -> }
+            onImageClick = { _, _ -> },
+            onNavigateUp = { }
         )
     }
 }

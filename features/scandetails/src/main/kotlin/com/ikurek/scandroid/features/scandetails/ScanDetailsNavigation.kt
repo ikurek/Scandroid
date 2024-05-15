@@ -28,7 +28,10 @@ internal data class ScanDetailsScreenArgs(val scanId: UUID) {
     )
 }
 
-fun NavGraphBuilder.scanDetailsScreen(onImageClick: (scanId: UUID, imageIndex: Int) -> Unit) {
+fun NavGraphBuilder.scanDetailsScreen(
+    onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
+    onNavigateUp: () -> Unit
+) {
     composable(route = ScanDetailsRoute) {
         val viewModel: ScanDetailsViewModel = hiltViewModel()
         val scanState: SavedScanState by viewModel.scanState.collectAsState()
@@ -37,7 +40,8 @@ fun NavGraphBuilder.scanDetailsScreen(onImageClick: (scanId: UUID, imageIndex: I
 
         ScanDetailsScreen(
             scanState = scanState,
-            onImageClick = onImageClick
+            onImageClick = onImageClick,
+            onNavigateUp = onNavigateUp
         )
     }
 }
@@ -55,7 +59,9 @@ internal data class ScanImageGalleryScreenArgs(val scanId: UUID, val initialImag
     )
 }
 
-fun NavGraphBuilder.scanImageGalleryScreen() {
+fun NavGraphBuilder.scanImageGalleryScreen(
+    onNavigateUp: () -> Unit
+) {
     composable(route = ScanImageGalleryRoute) {
         val viewModel: ScanImageGalleryViewModel = hiltViewModel()
         val imageGalleryState by viewModel.imageGalleryState.collectAsState()
@@ -66,7 +72,8 @@ fun NavGraphBuilder.scanImageGalleryScreen() {
         ScanImageGalleryScreen(
             imageGalleryState = imageGalleryState,
             currentImageIndex = currentImageIndex,
-            onImageChange = viewModel::onImageChange
+            onImageChange = viewModel::onImageChange,
+            onNavigateUp = onNavigateUp
         )
     }
 }

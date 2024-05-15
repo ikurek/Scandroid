@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="common_back_button_icon">Back button icon</string>
     <string name="saved_scans_empty_placeholder_content_descriptions">No scans saved image</string>
     <string name="saved_scans_create_scan_fab_content_descriptions">Create scan button icon</string>
     <string name="saved_scans_general_error_placeholder_content_descriptions">General error image</string>
