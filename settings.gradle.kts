@@ -21,6 +21,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Scandroid"
 include(":app")
 include(":common:coroutines")
+include(":common:ui:pdfview")
 include(":core:database")
 include(":core:design")
 include(":core:filestore")

@@ -2,7 +2,6 @@ package com.ikurek.scandroid.features.scandetails.ui.scandetails.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.ikurek.scandroid.common.ui.pdfview.PdfView
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
@@ -133,12 +133,14 @@ private fun ImagesOnlyScanDetails(
     }
 }
 
-@Suppress("UnusedParameter")
 @Composable
 private fun PdfOnlyScanDetails(
     document: File
 ) {
-    Box(modifier = Modifier.fillMaxSize())
+    PdfView(
+        document,
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
