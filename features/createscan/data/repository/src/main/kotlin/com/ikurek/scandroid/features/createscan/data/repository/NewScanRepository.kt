@@ -15,6 +15,8 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val PdfScanFilename = "scan"
+
 @Singleton
 class NewScanRepository @Inject internal constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
@@ -28,7 +30,7 @@ class NewScanRepository @Inject internal constructor(
         inputFile: File
     ): File = withContext(ioDispatcher) {
         val scanDirectory = directoryProvider.getScanDirectory(scanId)
-        val outputFileName = filenameProvider.createIndexedFilename(FileFormat.PDF)
+        val outputFileName = filenameProvider.createFilename(FileFormat.PDF, PdfScanFilename)
         val outputFilePath = scanDirectory.path + "/" + outputFileName
         val outputFile = File(outputFilePath)
         Log.d(

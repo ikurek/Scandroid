@@ -10,4 +10,9 @@ class FilenameProvider @Inject internal constructor() {
         fileFormat: FileFormat,
         index: Int = 0
     ) = index.toString() + "." + fileFormat.extension
+
+    fun createFilename(
+        fileFormat: FileFormat,
+        fileName: String
+    ) = fileName + "." + fileFormat.extension
 }
