@@ -16,5 +16,9 @@ data class ScanEntity(
     @ColumnInfo(name = "description")
     val description: String?,
     @ColumnInfo(name = "created_at")
-    val createdAt: ZonedDateTime
+    val createdAt: ZonedDateTime,
+    @ColumnInfo(name = "updated_at")
+    val updatedAt: ZonedDateTime,
+    @ColumnInfo(name = "last_accessed_at")
+    val lastAccessedAt: ZonedDateTime
 )

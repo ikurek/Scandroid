@@ -9,6 +9,7 @@ import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.savedscans.data.repository.mapper.toSavedScan
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.time.ZonedDateTime
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -45,4 +46,7 @@ class SavedScansRepository @Inject internal constructor(
         val pdfFile = files.find { it.extension == FileFormat.PDF.extension }
         return SavedScanFiles(pdfFile, imageFiles)
     }
+
+    suspend fun updateSavedScanAccessDateTime(id: UUID, accessDateTime: ZonedDateTime) =
+        scansDatabase.updateLastAccessedAt(id, accessDateTime)
 }

@@ -7,5 +7,7 @@ internal fun NewScan.toEntity() = ScanEntity(
     id = id,
     name = name,
     description = description,
-    createdAt = createdAt
+    createdAt = createdAt,
+    updatedAt = createdAt,
+    lastAccessedAt = createdAt
 )

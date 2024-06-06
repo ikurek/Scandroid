@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.savedscans.usecase.GetSavedScan
+import com.ikurek.scandroid.features.savedscans.usecase.MarkScanAsViewed
 import com.ikurek.scandroid.features.scandetails.ScanDetailsScreenArgs
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.PdfAndImagesTabs
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
@@ -23,6 +24,7 @@ import javax.inject.Inject
 internal class ScanDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getSavedScan: GetSavedScan,
+    private val markScanAsViewed: MarkScanAsViewed,
     private val openPdfFile: OpenPdfFile,
     private val shareScanFiles: ShareScanFiles
 ) : ViewModel() {
@@ -43,6 +45,7 @@ internal class ScanDetailsViewModel @Inject constructor(
         getSavedScan(args.scanId).onSuccess {
             _scanState.value = SavedScanState.Loaded(it)
             _availableScanActions.value = scanState.value.availableScanActions
+            markScanAsViewed(it.id)
         }.onFailure {
             _scanState.value = SavedScanState.Error
         }

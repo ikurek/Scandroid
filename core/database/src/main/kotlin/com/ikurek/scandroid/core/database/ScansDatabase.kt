@@ -1,6 +1,7 @@
 package com.ikurek.scandroid.core.database
 
 import com.ikurek.scandroid.core.database.entity.ScanEntity
+import java.time.ZonedDateTime
 import java.util.UUID
 
 interface ScansDatabase {
@@ -10,4 +11,6 @@ interface ScansDatabase {
     suspend fun findById(id: UUID): ScanEntity?
 
     suspend fun save(scanEntity: ScanEntity)
+
+    suspend fun updateLastAccessedAt(id: UUID, lastAccessedAt: ZonedDateTime)
 }
