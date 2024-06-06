@@ -23,6 +23,7 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -48,6 +49,7 @@ import com.ikurek.scandroid.core.translations.R as TranslationsR
 internal fun ScanDetails(
     scan: SavedScan,
     onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
+    onFileTypePageChange: (currentTab: PdfAndImagesTabs) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -94,7 +96,8 @@ internal fun ScanDetails(
             is SavedScanFiles.PdfAndImages -> PdfAndImagesScanDetails(
                 images = scan.files.imageFiles!!,
                 document = scan.files.pdfFile!!,
-                onImageClick = { index -> onImageClick(scan.id, index) }
+                onImageClick = { index -> onImageClick(scan.id, index) },
+                onFileTypePageChange = onFileTypePageChange
             )
         }
     }
@@ -148,7 +151,8 @@ private fun PdfOnlyScanDetails(
 private fun PdfAndImagesScanDetails(
     images: List<File>,
     document: File,
-    onImageClick: (index: Int) -> Unit
+    onImageClick: (index: Int) -> Unit,
+    onFileTypePageChange: (currentTab: PdfAndImagesTabs) -> Unit
 ) {
     val pagerState = rememberPagerState(
         initialPage = PdfAndImagesTabs.Images.ordinal,
@@ -156,6 +160,10 @@ private fun PdfAndImagesScanDetails(
     )
 
     val tabRowCoroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(pagerState.currentPage) {
+        onFileTypePageChange(PdfAndImagesTabs.entries[pagerState.currentPage])
+    }
 
     PrimaryTabRow(selectedTabIndex = pagerState.currentPage) {
         PdfAndImagesTabs.entries.forEach { tab ->
@@ -206,7 +214,8 @@ private fun Preview() {
                     imageFiles = listOf(File("path"))
                 )
             ),
-            onImageClick = { _, _ -> }
+            onImageClick = { _, _ -> },
+            onFileTypePageChange = { }
         )
     }
 }

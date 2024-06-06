@@ -8,5 +8,7 @@
     <string name="new_scan_document_description_clear_button_content_descriptions">Clear document description input icon</string>
     <string name="scan_details_general_error_placeholder_content_descriptions">General error image</string>
     <string name="scan_details_scanned_image_content_descriptions">Scanned image %d</string>
+    <string name="scan_details_fab_open_outside_content_descriptions">Open document in external application</string>
+    <string name="scan_details_fab_share_content_descriptions">Share document outside of application</string>
     <string name="scan_image_gallery_image_content_descriptions">Zoomable preview of image %d</string>
 </resources>

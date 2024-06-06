@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsScreen
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsViewModel
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
+import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.ScanAction
 import com.ikurek.scandroid.features.scandetails.ui.scanimagegallery.ScanImageGalleryScreen
 import com.ikurek.scandroid.features.scandetails.ui.scanimagegallery.ScanImageGalleryViewModel
 import java.util.UUID
@@ -35,12 +36,17 @@ fun NavGraphBuilder.scanDetailsScreen(
     composable(route = ScanDetailsRoute) {
         val viewModel: ScanDetailsViewModel = hiltViewModel()
         val scanState: SavedScanState by viewModel.scanState.collectAsState()
+        val availableScanActions: List<ScanAction> by viewModel.availableScanActions.collectAsState()
 
         LaunchedEffect(Unit) { viewModel.onScreenEnter() }
 
         ScanDetailsScreen(
             scanState = scanState,
+            availableScanActions = availableScanActions,
+            onOpenPdfOutsideClick = viewModel::onOpenPdfOutsideClick,
+            onShareFilesClick = viewModel::onShareFilesClick,
             onImageClick = onImageClick,
+            onFileTypePageChange = viewModel::onFileTypePageChange,
             onNavigateUp = onNavigateUp
         )
     }
