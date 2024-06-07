@@ -125,7 +125,7 @@ private fun BoxScope.PdfPager(
 
     Card(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 24.dp, vertical = 16.dp)
             .wrapContentSize()
             .align(Alignment.BottomStart)
     ) {

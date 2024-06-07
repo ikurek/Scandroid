@@ -92,7 +92,7 @@ private fun Content(
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         SectionDivider(
             section = Section.Info,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 16.dp)
         )
         DocumentNameInput(
             documentName = documentName,
@@ -100,7 +100,7 @@ private fun Content(
             onClearDocumentNameClick = onClearDocumentNameClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 24.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         DescriptionInput(
@@ -109,7 +109,7 @@ private fun Content(
             onClearDescriptionClick = onClearDescriptionClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 24.dp)
         )
 
         // TODO: Implement tags support
@@ -120,11 +120,12 @@ private fun Content(
         if (scannedDocuments.hasMultipleDocumentFormats) {
             SectionDivider(
                 section = Section.Formats,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
             )
             FileFormatSelector(
                 fileFormats = fileFormats,
-                onFileFormatSelectionChange = onFileFormatSelectionChange
+                onFileFormatSelectionChange = onFileFormatSelectionChange,
+                modifier = Modifier.padding(start = 10.dp)
             )
         }
     }
@@ -139,7 +140,7 @@ private fun BottomBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 24.dp, top = 16.dp)
+            .padding(start = 24.dp, end = 24.dp, bottom = 16.dp, top = 16.dp)
     ) {
         PrimaryButton(
             value = stringResource(id = TranslationsR.string.new_scan_title),

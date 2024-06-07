@@ -55,13 +55,13 @@ internal fun ScanDetails(
     Column(modifier = modifier) {
         Text(
             text = stringResource(id = TranslationsR.string.scan_details_created_at_label),
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 24.dp),
             style = MaterialTheme.typography.labelMedium
         )
 
         Text(
             text = scan.createdAt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)),
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 24.dp),
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -70,13 +70,13 @@ internal fun ScanDetails(
 
             Text(
                 text = stringResource(id = TranslationsR.string.scan_details_description_label),
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 24.dp),
                 style = MaterialTheme.typography.labelMedium
             )
 
             Text(
                 text = description,
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 24.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -111,7 +111,7 @@ private fun ImagesOnlyScanDetails(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {

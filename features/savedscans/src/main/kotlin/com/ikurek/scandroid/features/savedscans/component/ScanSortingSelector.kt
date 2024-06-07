@@ -29,13 +29,13 @@ internal fun ScanSortingSelector(
     Column(modifier = modifier) {
         Text(
             text = stringResource(TranslationsR.string.saved_scans_sorting_mode_sort_by_label),
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 24.dp),
             style = MaterialTheme.typography.labelLarge
         )
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
+            contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             itemsIndexed(
                 items = SortingMode.entries.sortedByDescending { it == selectedSortingMode },
