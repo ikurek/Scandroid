@@ -20,15 +20,18 @@ fun NavGraphBuilder.savedScansScreen(
     composable(route = SavedScansRoute) {
         val viewModel: SavedScansViewModel = hiltViewModel()
         val unsavedScanState: UnsavedScanState by viewModel.unsavedScanState.collectAsState()
+        val selectedSortingMode by viewModel.selectedSortingMode.collectAsState()
         val scansState: SavedScansState by viewModel.scansState.collectAsState()
 
         LaunchedEffect(Unit) { viewModel.onScreenEnter() }
 
         SavedScansScreen(
             unsavedScanState = unsavedScanState,
+            selectedSortingMode = selectedSortingMode,
             scansState = scansState,
             onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
             onDeleteUnsavedScanClick = viewModel::deleteUnsavedScan,
+            onSortingModeClick = viewModel::onSortingModeClick,
             onScanClick = onScanClick,
             onCreateScanClick = onCreateScanClick
         )

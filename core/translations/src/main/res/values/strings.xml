@@ -5,6 +5,11 @@
     <string name="saved_scans_scan_files_only_pdf">PDF file</string>
     <string name="saved_scans_unsaved_scans_found_title">Unsaved scan found</string>
     <string name="saved_scans_unsaved_scans_found_content">Last scan was not saved to database. Click here to restore scanned documents.</string>
+    <string name="saved_scans_sorting_mode_sort_by_label">Sort by</string>
+    <string name="saved_scans_sorting_mode_alphabetical">Alphabetical</string>
+    <string name="saved_scans_sorting_mode_newest">Newest</string>
+    <string name="saved_scans_sorting_mode_oldest">Oldest</string>
+    <string name="saved_scans_sorting_mode_recently_viewed">Recently viewed</string>
     <string name="dialog_button_neutral">OK</string>
     <string name="dialog_button_show_details">Show details</string>
     <string name="dialog_error_sdk_initialization_failed_title">Unable to initialize MlKit SDK</string>

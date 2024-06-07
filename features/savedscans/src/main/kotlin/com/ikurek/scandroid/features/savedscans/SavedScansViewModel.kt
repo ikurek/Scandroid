@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.ikurek.scandroid.features.createscan.usecase.DeleteLatestUnsavedScan
 import com.ikurek.scandroid.features.createscan.usecase.GetLatestUnsavedScan
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
+import com.ikurek.scandroid.features.savedscans.model.SortingMode
 import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
 import com.ikurek.scandroid.features.savedscans.usecase.GetAllValidSavedScans
+import com.ikurek.scandroid.features.savedscans.util.sort
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +22,10 @@ internal class SavedScansViewModel @Inject constructor(
     private val getAllValidSavedScans: GetAllValidSavedScans,
     private val deleteLatestUnsavedScan: DeleteLatestUnsavedScan
 ) : ViewModel() {
+
+    private val _selectedSortingMode: MutableStateFlow<SortingMode> =
+        MutableStateFlow(SortingMode.Newest)
+    val selectedSortingMode: StateFlow<SortingMode> = _selectedSortingMode
 
     private val _unsavedScanState: MutableStateFlow<UnsavedScanState> =
         MutableStateFlow(UnsavedScanState.Empty)
@@ -46,7 +53,7 @@ internal class SavedScansViewModel @Inject constructor(
             if (scans.isEmpty()) {
                 _scansState.value = SavedScansState.Empty
             } else {
-                _scansState.value = SavedScansState.Loaded(scans)
+                _scansState.value = SavedScansState.Loaded(scans.sort(_selectedSortingMode.value))
             }
         }.onFailure {
             _scansState.value = SavedScansState.Error
@@ -56,5 +63,15 @@ internal class SavedScansViewModel @Inject constructor(
     fun deleteUnsavedScan() {
         deleteLatestUnsavedScan()
         _unsavedScanState.value = UnsavedScanState.Empty
+    }
+
+    fun onSortingModeClick(sortingMode: SortingMode) = viewModelScope.launch {
+        _selectedSortingMode.value = sortingMode
+        _scansState.update { current ->
+            when (current) {
+                is SavedScansState.Loaded -> current.copy(scans = current.scans.sort(sortingMode))
+                else -> current
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DocumentScanner
@@ -27,10 +28,12 @@ import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.component.SavedScanList
+import com.ikurek.scandroid.features.savedscans.component.ScanSortingSelector
 import com.ikurek.scandroid.features.savedscans.component.UnsavedScansCard
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
+import com.ikurek.scandroid.features.savedscans.model.SortingMode
 import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
 import java.io.File
 import java.time.ZoneId
@@ -38,12 +41,15 @@ import java.time.ZonedDateTime
 import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
+// FIXME: Recomposes every time?
 @Composable
 internal fun SavedScansScreen(
     unsavedScanState: UnsavedScanState,
+    selectedSortingMode: SortingMode,
     scansState: SavedScansState,
     onRestoreUnsavedScanClick: () -> Unit,
     onDeleteUnsavedScanClick: () -> Unit,
+    onSortingModeClick: (sortingMode: SortingMode) -> Unit,
     onScanClick: (UUID) -> Unit,
     onCreateScanClick: () -> Unit,
 ) {
@@ -78,12 +84,14 @@ internal fun SavedScansScreen(
                     }
 
                     is SavedScansState.Loaded -> SavedScansContent(
-                        modifier = Modifier.fillMaxSize(),
                         unsavedScanState = unsavedScanState,
+                        selectedSortingMode = selectedSortingMode,
                         scans = state.scans,
                         onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
                         onDeleteUnsavedScanClick = onDeleteUnsavedScanClick,
-                        onScanClick = onScanClick
+                        onSortingModeClick = onSortingModeClick,
+                        onScanClick = onScanClick,
+                        modifier = Modifier.fillMaxSize()
                     )
 
                     is SavedScansState.Error -> ErrorScreenPlaceholder(
@@ -115,7 +123,7 @@ private fun UnsavedScansPopup(
     modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
-        modifier = modifier.padding(horizontal = 16.dp),
+        modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
         visible = unsavedScanState is UnsavedScanState.Present,
         label = "UnsavedScansPopup_AnimatedVisibility",
         enter = expandVertically(),
@@ -131,9 +139,11 @@ private fun UnsavedScansPopup(
 @Composable
 private fun SavedScansContent(
     unsavedScanState: UnsavedScanState,
+    selectedSortingMode: SortingMode,
     scans: List<SavedScan>,
     onRestoreUnsavedScanClick: () -> Unit,
     onDeleteUnsavedScanClick: () -> Unit,
+    onSortingModeClick: (sortingMode: SortingMode) -> Unit,
     onScanClick: (UUID) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -143,10 +153,17 @@ private fun SavedScansContent(
             onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
             onDeleteUnsavedScanClick = onDeleteUnsavedScanClick
         )
+
+        ScanSortingSelector(
+            selectedSortingMode = selectedSortingMode,
+            onSortingModeClick = onSortingModeClick,
+            modifier = Modifier.fillMaxWidth()
+        )
+
         SavedScanList(
-            modifier = Modifier.fillMaxSize(),
             scans = scans,
-            onScanClick = onScanClick
+            onScanClick = onScanClick,
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
@@ -185,6 +202,7 @@ private fun PreviewLoaded() {
     ScandroidTheme {
         SavedScansScreen(
             unsavedScanState = UnsavedScanState.Present,
+            selectedSortingMode = SortingMode.RecentlyViewed,
             scansState = SavedScansState.Loaded(
                 listOf(
                     SavedScan(
@@ -192,6 +210,17 @@ private fun PreviewLoaded() {
                         name = "PDF Scan",
                         description = "Scan description for PDF scan",
                         createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        lastAccessedAt = ZonedDateTime.of(
+                            2024,
+                            10,
+                            13,
+                            11,
+                            23,
+                            45,
+                            0,
+                            ZoneId.of("UTC")
+                        ),
                         files = SavedScanFiles.PdfOnly(pdfFile = File("path"))
                     ),
                     SavedScan(
@@ -199,6 +228,17 @@ private fun PreviewLoaded() {
                         name = "Image Scan",
                         description = "Scan description for image scan",
                         createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        lastAccessedAt = ZonedDateTime.of(
+                            2024,
+                            10,
+                            13,
+                            11,
+                            23,
+                            45,
+                            0,
+                            ZoneId.of("UTC")
+                        ),
                         files = SavedScanFiles.ImagesOnly(imageFiles = listOf(File("path")))
                     ),
                     SavedScan(
@@ -206,6 +246,17 @@ private fun PreviewLoaded() {
                         name = "Image & PDF Scan",
                         description = "Scan description for image & PDF scan",
                         createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                        lastAccessedAt = ZonedDateTime.of(
+                            2024,
+                            10,
+                            13,
+                            11,
+                            23,
+                            45,
+                            0,
+                            ZoneId.of("UTC")
+                        ),
                         files = SavedScanFiles.PdfAndImages(
                             pdfFile = File("path"),
                             imageFiles = listOf(File("path"), File("path"))
@@ -215,6 +266,7 @@ private fun PreviewLoaded() {
             ),
             onRestoreUnsavedScanClick = {},
             onDeleteUnsavedScanClick = {},
+            onSortingModeClick = {},
             onScanClick = {},
             onCreateScanClick = {}
         )
@@ -227,9 +279,11 @@ private fun PreviewEmpty() {
     ScandroidTheme {
         SavedScansScreen(
             unsavedScanState = UnsavedScanState.Present,
+            selectedSortingMode = SortingMode.Newest,
             scansState = SavedScansState.Empty,
             onRestoreUnsavedScanClick = {},
             onDeleteUnsavedScanClick = {},
+            onSortingModeClick = {},
             onScanClick = {},
             onCreateScanClick = {}
         )

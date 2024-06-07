@@ -9,5 +9,7 @@ internal fun ScanEntity.toSavedScan(files: SavedScanFiles) = SavedScan(
     name = name,
     description = if (description.isNullOrBlank()) null else description,
     createdAt = createdAt,
+    updatedAt = updatedAt,
+    lastAccessedAt = lastAccessedAt,
     files = files
 )

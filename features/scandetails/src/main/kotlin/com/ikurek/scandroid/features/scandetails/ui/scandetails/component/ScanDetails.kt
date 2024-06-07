@@ -209,6 +209,8 @@ private fun Preview() {
                 name = "Name",
                 description = "Scan description",
                 createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                lastAccessedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
                 files = SavedScanFiles.PdfAndImages(
                     pdfFile = File("path"),
                     imageFiles = listOf(File("path"))

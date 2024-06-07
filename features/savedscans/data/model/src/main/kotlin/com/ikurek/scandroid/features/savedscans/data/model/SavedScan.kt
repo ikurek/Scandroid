@@ -8,5 +8,7 @@ data class SavedScan(
     val name: String,
     val description: String?,
     val createdAt: ZonedDateTime,
+    val updatedAt: ZonedDateTime,
+    val lastAccessedAt: ZonedDateTime,
     val files: SavedScanFiles
 )

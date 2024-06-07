@@ -1,5 +1,7 @@
 package com.ikurek.scandroid.features.savedscans.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -37,6 +39,7 @@ import java.time.format.FormatStyle
 import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun SavedScanList(
     scans: List<SavedScan>,
@@ -45,7 +48,8 @@ internal fun SavedScanList(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(
             items = scans,
@@ -53,9 +57,9 @@ internal fun SavedScanList(
         ) { scan ->
             SavedScanCard(
                 scan = scan,
-                onClick = { onScanClick(scan.id) }
+                onClick = { onScanClick(scan.id) },
+                modifier = Modifier.animateItemPlacement()
             )
-            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
@@ -63,9 +67,15 @@ internal fun SavedScanList(
 @Composable
 private fun SavedScanCard(
     scan: SavedScan,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier)
+    ) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             ScanImage(scan.files)
             Spacer(modifier = Modifier.width(16.dp))
@@ -145,6 +155,17 @@ private fun Preview() {
                     name = "PDF Scan",
                     description = "Scan description for PDF scan",
                     createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                    updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                    lastAccessedAt = ZonedDateTime.of(
+                        2024,
+                        10,
+                        13,
+                        11,
+                        23,
+                        45,
+                        0,
+                        ZoneId.of("UTC")
+                    ),
                     files = SavedScanFiles.PdfOnly(pdfFile = File("path"))
                 ),
                 SavedScan(
@@ -152,6 +173,17 @@ private fun Preview() {
                     name = "Image Scan",
                     description = "Scan description for image scan",
                     createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                    updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                    lastAccessedAt = ZonedDateTime.of(
+                        2024,
+                        10,
+                        13,
+                        11,
+                        23,
+                        45,
+                        0,
+                        ZoneId.of("UTC")
+                    ),
                     files = SavedScanFiles.ImagesOnly(imageFiles = listOf(File("path")))
                 ),
                 SavedScan(
@@ -159,6 +191,17 @@ private fun Preview() {
                     name = "Image & PDF Scan",
                     description = "Scan description for image & PDF scan",
                     createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                    updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
+                    lastAccessedAt = ZonedDateTime.of(
+                        2024,
+                        10,
+                        13,
+                        11,
+                        23,
+                        45,
+                        0,
+                        ZoneId.of("UTC")
+                    ),
                     files = SavedScanFiles.PdfAndImages(
                         pdfFile = File("path"),
                         imageFiles = listOf(File("path"), File("path"))
