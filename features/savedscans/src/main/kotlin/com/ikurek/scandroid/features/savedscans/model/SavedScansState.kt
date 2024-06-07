@@ -1,6 +1,6 @@
 package com.ikurek.scandroid.features.savedscans.model
 
-import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
+import kotlinx.collections.immutable.ImmutableList
 
 internal sealed interface SavedScansState {
 
@@ -8,7 +8,7 @@ internal sealed interface SavedScansState {
 
     data object Empty : SavedScansState
 
-    data class Loaded(val scans: List<SavedScan>) : SavedScansState
+    data class Loaded(val listItems: ImmutableList<SavedScanListItem>) : SavedScansState
 
     data object Error : SavedScansState
 }

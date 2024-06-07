@@ -1,6 +1,5 @@
 package com.ikurek.scandroid.features.savedscans.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,20 +28,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
-import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
-import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
-import java.io.File
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem
+import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem.SavedScanListItemFiles
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun SavedScanList(
-    scans: List<SavedScan>,
+    items: ImmutableList<SavedScanListItem>,
     onScanClick: (UUID) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -52,13 +47,12 @@ internal fun SavedScanList(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(
-            items = scans,
+            items = items,
             key = { scan -> scan.id }
         ) { scan ->
             SavedScanCard(
                 scan = scan,
-                onClick = { onScanClick(scan.id) },
-                modifier = Modifier.animateItemPlacement()
+                onClick = { onScanClick(scan.id) }
             )
         }
     }
@@ -66,7 +60,7 @@ internal fun SavedScanList(
 
 @Composable
 private fun SavedScanCard(
-    scan: SavedScan,
+    scan: SavedScanListItem,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -77,7 +71,7 @@ private fun SavedScanCard(
             .then(modifier)
     ) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            ScanImage(scan.files)
+            ScanImage(files = scan.files)
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 ScanTitle(text = scan.name)
@@ -90,16 +84,13 @@ private fun SavedScanCard(
 }
 
 @Composable
-private fun ScanImage(
-    files: SavedScanFiles,
-    modifier: Modifier = Modifier
-) {
+private fun ScanImage(files: SavedScanListItemFiles) {
     Icon(
-        modifier = modifier.size(32.dp),
+        modifier = Modifier.size(32.dp),
         imageVector = when (files) {
-            is SavedScanFiles.ImagesOnly -> Icons.Default.Collections
-            is SavedScanFiles.PdfAndImages -> Icons.Default.PictureAsPdf
-            is SavedScanFiles.PdfOnly -> Icons.AutoMirrored.Default.InsertDriveFile
+            is SavedScanListItemFiles.ImagesOnly -> Icons.Default.Collections
+            is SavedScanListItemFiles.PdfAndImages -> Icons.Default.PictureAsPdf
+            is SavedScanListItemFiles.PdfOnly -> Icons.AutoMirrored.Default.InsertDriveFile
         },
         contentDescription = null
     )
@@ -111,29 +102,29 @@ private fun ScanTitle(text: String) {
 }
 
 @Composable
-private fun ScanDate(date: ZonedDateTime) {
+private fun ScanDate(date: String) {
     Text(
-        text = date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)),
+        text = date,
         style = MaterialTheme.typography.labelSmall
     )
 }
 
 @Composable
-private fun ScanFilesDescription(files: SavedScanFiles) {
+private fun ScanFilesDescription(files: SavedScanListItemFiles) {
     val text = when (files) {
-        is SavedScanFiles.ImagesOnly -> pluralStringResource(
+        is SavedScanListItemFiles.ImagesOnly -> pluralStringResource(
             id = TranslationsR.plurals.saved_scans_scan_files_only_images,
-            count = files.imageFiles.size,
-            files.imageFiles.size
+            count = files.imageCount,
+            files.imageCount
         )
 
-        is SavedScanFiles.PdfAndImages -> pluralStringResource(
+        is SavedScanListItemFiles.PdfAndImages -> pluralStringResource(
             id = TranslationsR.plurals.saved_scans_scan_files_pdf_and_images,
-            count = files.imageFiles.size,
-            files.imageFiles.size
+            count = files.imageCount,
+            files.imageCount
         )
 
-        is SavedScanFiles.PdfOnly -> stringResource(
+        is SavedScanListItemFiles.PdfOnly -> stringResource(
             id = TranslationsR.string.saved_scans_scan_files_only_pdf
         )
     }
@@ -149,63 +140,24 @@ private fun ScanFilesDescription(files: SavedScanFiles) {
 private fun Preview() {
     ScandroidTheme {
         SavedScanList(
-            scans = listOf(
-                SavedScan(
+            items = persistentListOf(
+                SavedScanListItem(
                     id = UUID.randomUUID(),
                     name = "PDF Scan",
-                    description = "Scan description for PDF scan",
-                    createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                    updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                    lastAccessedAt = ZonedDateTime.of(
-                        2024,
-                        10,
-                        13,
-                        11,
-                        23,
-                        45,
-                        0,
-                        ZoneId.of("UTC")
-                    ),
-                    files = SavedScanFiles.PdfOnly(pdfFile = File("path"))
+                    createdAt = "Jun 7, 2024, 2:04:07 AM",
+                    files = SavedScanListItemFiles.PdfOnly
                 ),
-                SavedScan(
+                SavedScanListItem(
                     id = UUID.randomUUID(),
                     name = "Image Scan",
-                    description = "Scan description for image scan",
-                    createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                    updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                    lastAccessedAt = ZonedDateTime.of(
-                        2024,
-                        10,
-                        13,
-                        11,
-                        23,
-                        45,
-                        0,
-                        ZoneId.of("UTC")
-                    ),
-                    files = SavedScanFiles.ImagesOnly(imageFiles = listOf(File("path")))
+                    createdAt = "Jun 7, 2024, 2:04:07 AM",
+                    files = SavedScanListItemFiles.ImagesOnly(1)
                 ),
-                SavedScan(
+                SavedScanListItem(
                     id = UUID.randomUUID(),
                     name = "Image & PDF Scan",
-                    description = "Scan description for image & PDF scan",
-                    createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                    updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                    lastAccessedAt = ZonedDateTime.of(
-                        2024,
-                        10,
-                        13,
-                        11,
-                        23,
-                        45,
-                        0,
-                        ZoneId.of("UTC")
-                    ),
-                    files = SavedScanFiles.PdfAndImages(
-                        pdfFile = File("path"),
-                        imageFiles = listOf(File("path"), File("path"))
-                    )
+                    createdAt = "Jun 7, 2024, 2:04:07 AM",
+                    files = SavedScanListItemFiles.PdfAndImages(3)
                 )
             ),
             onScanClick = { }

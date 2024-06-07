@@ -30,14 +30,13 @@ import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.component.SavedScanList
 import com.ikurek.scandroid.features.savedscans.component.ScanSortingSelector
 import com.ikurek.scandroid.features.savedscans.component.UnsavedScansCard
-import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
-import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
+import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem
+import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem.SavedScanListItemFiles
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
 import com.ikurek.scandroid.features.savedscans.model.SortingMode
 import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
-import java.io.File
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
@@ -86,7 +85,7 @@ internal fun SavedScansScreen(
                     is SavedScansState.Loaded -> SavedScansContent(
                         unsavedScanState = unsavedScanState,
                         selectedSortingMode = selectedSortingMode,
-                        scans = state.scans,
+                        listItems = state.listItems,
                         onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
                         onDeleteUnsavedScanClick = onDeleteUnsavedScanClick,
                         onSortingModeClick = onSortingModeClick,
@@ -140,7 +139,7 @@ private fun UnsavedScansPopup(
 private fun SavedScansContent(
     unsavedScanState: UnsavedScanState,
     selectedSortingMode: SortingMode,
-    scans: List<SavedScan>,
+    listItems: ImmutableList<SavedScanListItem>,
     onRestoreUnsavedScanClick: () -> Unit,
     onDeleteUnsavedScanClick: () -> Unit,
     onSortingModeClick: (sortingMode: SortingMode) -> Unit,
@@ -161,7 +160,7 @@ private fun SavedScansContent(
         )
 
         SavedScanList(
-            scans = scans,
+            items = listItems,
             onScanClick = onScanClick,
             modifier = Modifier.fillMaxSize()
         )
@@ -204,63 +203,24 @@ private fun PreviewLoaded() {
             unsavedScanState = UnsavedScanState.Present,
             selectedSortingMode = SortingMode.RecentlyViewed,
             scansState = SavedScansState.Loaded(
-                listOf(
-                    SavedScan(
+                listItems = persistentListOf(
+                    SavedScanListItem(
                         id = UUID.randomUUID(),
                         name = "PDF Scan",
-                        description = "Scan description for PDF scan",
-                        createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                        updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                        lastAccessedAt = ZonedDateTime.of(
-                            2024,
-                            10,
-                            13,
-                            11,
-                            23,
-                            45,
-                            0,
-                            ZoneId.of("UTC")
-                        ),
-                        files = SavedScanFiles.PdfOnly(pdfFile = File("path"))
+                        createdAt = "Jun 7, 2024, 2:04:07 AM",
+                        files = SavedScanListItemFiles.PdfOnly
                     ),
-                    SavedScan(
+                    SavedScanListItem(
                         id = UUID.randomUUID(),
                         name = "Image Scan",
-                        description = "Scan description for image scan",
-                        createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                        updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                        lastAccessedAt = ZonedDateTime.of(
-                            2024,
-                            10,
-                            13,
-                            11,
-                            23,
-                            45,
-                            0,
-                            ZoneId.of("UTC")
-                        ),
-                        files = SavedScanFiles.ImagesOnly(imageFiles = listOf(File("path")))
+                        createdAt = "Jun 7, 2024, 2:04:07 AM",
+                        files = SavedScanListItemFiles.ImagesOnly(1)
                     ),
-                    SavedScan(
+                    SavedScanListItem(
                         id = UUID.randomUUID(),
                         name = "Image & PDF Scan",
-                        description = "Scan description for image & PDF scan",
-                        createdAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                        updatedAt = ZonedDateTime.of(2024, 10, 13, 11, 23, 45, 0, ZoneId.of("UTC")),
-                        lastAccessedAt = ZonedDateTime.of(
-                            2024,
-                            10,
-                            13,
-                            11,
-                            23,
-                            45,
-                            0,
-                            ZoneId.of("UTC")
-                        ),
-                        files = SavedScanFiles.PdfAndImages(
-                            pdfFile = File("path"),
-                            imageFiles = listOf(File("path"), File("path"))
-                        )
+                        createdAt = "Jun 7, 2024, 2:04:07 AM",
+                        files = SavedScanListItemFiles.PdfAndImages(3)
                     )
                 )
             ),

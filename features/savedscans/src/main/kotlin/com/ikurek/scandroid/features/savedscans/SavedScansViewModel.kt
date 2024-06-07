@@ -8,11 +8,9 @@ import com.ikurek.scandroid.features.savedscans.model.SavedScansState
 import com.ikurek.scandroid.features.savedscans.model.SortingMode
 import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
 import com.ikurek.scandroid.features.savedscans.usecase.GetAllValidSavedScans
-import com.ikurek.scandroid.features.savedscans.util.sort
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +18,8 @@ import javax.inject.Inject
 internal class SavedScansViewModel @Inject constructor(
     private val getLatestUnsavedScan: GetLatestUnsavedScan,
     private val getAllValidSavedScans: GetAllValidSavedScans,
-    private val deleteLatestUnsavedScan: DeleteLatestUnsavedScan
+    private val deleteLatestUnsavedScan: DeleteLatestUnsavedScan,
+    private val savedScansListBuilder: SavedScansListBuilder
 ) : ViewModel() {
 
     private val _selectedSortingMode: MutableStateFlow<SortingMode> =
@@ -53,7 +52,9 @@ internal class SavedScansViewModel @Inject constructor(
             if (scans.isEmpty()) {
                 _scansState.value = SavedScansState.Empty
             } else {
-                _scansState.value = SavedScansState.Loaded(scans.sort(_selectedSortingMode.value))
+                _scansState.value = SavedScansState.Loaded(
+                    listItems = savedScansListBuilder.build(scans, selectedSortingMode.value)
+                )
             }
         }.onFailure {
             _scansState.value = SavedScansState.Error
@@ -67,11 +68,6 @@ internal class SavedScansViewModel @Inject constructor(
 
     fun onSortingModeClick(sortingMode: SortingMode) = viewModelScope.launch {
         _selectedSortingMode.value = sortingMode
-        _scansState.update { current ->
-            when (current) {
-                is SavedScansState.Loaded -> current.copy(scans = current.scans.sort(sortingMode))
-                else -> current
-            }
-        }
+        refreshSavedScans()
     }
 }
