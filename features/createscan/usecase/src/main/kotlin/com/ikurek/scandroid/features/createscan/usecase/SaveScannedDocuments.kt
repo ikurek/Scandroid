@@ -3,8 +3,8 @@ package com.ikurek.scandroid.features.createscan.usecase
 import android.util.Log
 import androidx.core.net.toFile
 import com.ikurek.scandroid.features.createscan.data.model.NewScan
+import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.data.repository.NewScanRepository
 import java.util.UUID
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class SaveScannedDocuments @Inject internal constructor(
         name: String,
         description: String,
         scannedDocuments: ScannedDocuments,
-        selectedFileFormats: Set<ScannerFileFormat>
+        selectedFileFormats: Set<ScanFileFormat>
     ): Result<UUID> {
         val scanId: UUID = UUID.randomUUID()
 
@@ -59,12 +59,12 @@ class SaveScannedDocuments @Inject internal constructor(
 
     private fun canSavePdfFile(
         scannedDocuments: ScannedDocuments,
-        selectedFileFormats: Set<ScannerFileFormat>
-    ) = selectedFileFormats.contains(ScannerFileFormat.PDF) && scannedDocuments.pdfUri != null
+        selectedFileFormats: Set<ScanFileFormat>
+    ) = selectedFileFormats.contains(ScanFileFormat.PDF) && scannedDocuments.pdfUri != null
 
     private fun canSaveJpegFiles(
         scannedDocuments: ScannedDocuments,
-        selectedFileFormats: Set<ScannerFileFormat>
+        selectedFileFormats: Set<ScanFileFormat>
     ) =
-        selectedFileFormats.contains(ScannerFileFormat.JPEG) && scannedDocuments.imageUris.isNotEmpty()
+        selectedFileFormats.contains(ScanFileFormat.JPEG) && scannedDocuments.imageUris.isNotEmpty()
 }

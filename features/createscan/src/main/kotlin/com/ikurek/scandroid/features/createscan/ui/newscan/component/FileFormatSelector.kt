@@ -10,13 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.ikurek.scandroid.core.design.ScandroidTheme
-import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
+import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
 internal fun FileFormatSelector(
-    fileFormats: Map<ScannerFileFormat, Boolean>,
-    onFileFormatSelectionChange: (format: ScannerFileFormat, isSelected: Boolean) -> Unit,
+    fileFormats: Map<ScanFileFormat, Boolean>,
+    onFileFormatSelectionChange: (format: ScanFileFormat, isSelected: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -32,7 +32,7 @@ internal fun FileFormatSelector(
 
 @Composable
 private fun FileFormatCheckbox(
-    fileFormat: ScannerFileFormat,
+    fileFormat: ScanFileFormat,
     isSelected: Boolean,
     onCheckedChange: (isChecked: Boolean) -> Unit
 ) {
@@ -43,8 +43,8 @@ private fun FileFormatCheckbox(
         Text(
             text = stringResource(
                 id = when (fileFormat) {
-                    ScannerFileFormat.JPEG -> TranslationsR.string.common_file_format_jpeg
-                    ScannerFileFormat.PDF -> TranslationsR.string.common_file_format_pdf
+                    ScanFileFormat.JPEG -> TranslationsR.string.common_file_format_jpeg
+                    ScanFileFormat.PDF -> TranslationsR.string.common_file_format_pdf
                 }
             )
         )
@@ -56,7 +56,7 @@ private fun FileFormatCheckbox(
 private fun Preview() {
     ScandroidTheme {
         FileFormatSelector(
-            fileFormats = mapOf(ScannerFileFormat.PDF to true, ScannerFileFormat.JPEG to false),
+            fileFormats = mapOf(ScanFileFormat.PDF to true, ScanFileFormat.JPEG to false),
             onFileFormatSelectionChange = { _, _ -> }
         )
     }

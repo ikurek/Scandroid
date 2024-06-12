@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.buttons.PrimaryButton
+import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.FileFormatSelector
@@ -39,8 +39,8 @@ internal fun NewScanScreen(
     description: DescriptionInput,
     onDescriptionChange: (String) -> Unit,
     onClearDescriptionClick: () -> Unit,
-    fileFormats: Map<ScannerFileFormat, Boolean>,
-    onFileFormatSelectionChange: (ScannerFileFormat, Boolean) -> Unit,
+    fileFormats: Map<ScanFileFormat, Boolean>,
+    onFileFormatSelectionChange: (ScanFileFormat, Boolean) -> Unit,
     isSaving: Boolean,
     isSaveButtonEnabled: Boolean,
     onSaveButtonClick: () -> Unit,
@@ -85,8 +85,8 @@ private fun Content(
     description: DescriptionInput,
     onDescriptionChange: (String) -> Unit,
     onClearDescriptionClick: () -> Unit,
-    fileFormats: Map<ScannerFileFormat, Boolean>,
-    onFileFormatSelectionChange: (ScannerFileFormat, Boolean) -> Unit,
+    fileFormats: Map<ScanFileFormat, Boolean>,
+    onFileFormatSelectionChange: (ScanFileFormat, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
@@ -168,7 +168,7 @@ private fun Preview() {
             description = DescriptionInput.Filled("Description"),
             onDescriptionChange = {},
             onClearDescriptionClick = {},
-            fileFormats = mapOf(ScannerFileFormat.PDF to true, ScannerFileFormat.JPEG to false),
+            fileFormats = mapOf(ScanFileFormat.PDF to true, ScanFileFormat.JPEG to false),
             onFileFormatSelectionChange = { _, _ -> },
             isSaving = true,
             isSaveButtonEnabled = true,
@@ -194,7 +194,7 @@ private fun PreviewEmptyDocumentName() {
             description = DescriptionInput.Empty,
             onDescriptionChange = {},
             onClearDescriptionClick = {},
-            fileFormats = mapOf(ScannerFileFormat.PDF to true, ScannerFileFormat.JPEG to false),
+            fileFormats = mapOf(ScanFileFormat.PDF to true, ScanFileFormat.JPEG to false),
             onFileFormatSelectionChange = { _, _ -> },
             isSaving = false,
             isSaveButtonEnabled = false,

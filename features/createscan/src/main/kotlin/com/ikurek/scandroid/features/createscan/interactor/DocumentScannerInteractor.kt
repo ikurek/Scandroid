@@ -9,13 +9,13 @@ import com.google.mlkit.common.MlKitException
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScannerInitializationException
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScanningCancelled
 import com.ikurek.scandroid.features.createscan.data.model.exception.SdkInitializationException
 import com.ikurek.scandroid.features.createscan.data.model.exception.UnexpectedScanningError
 import com.ikurek.scandroid.features.createscan.mapper.toGmsDocumentScannerOptions
 import com.ikurek.scandroid.features.createscan.mapper.toScannedDocuments
+import com.ikurek.scandroid.features.settings.usecase.GetScannerSettings
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.tasks.await
 import java.time.Clock
@@ -46,13 +46,12 @@ import javax.inject.Inject
 @ActivityScoped
 class DocumentScannerInteractor @Inject internal constructor(
     private val activity: Activity,
-    private val clock: Clock
+    private val clock: Clock,
+    private val getScannerSettings: GetScannerSettings
 ) {
 
-    suspend fun createRequest(
-        scannerSettings: ScannerSettings
-    ): Result<IntentSenderRequest> = runCatching {
-        val options = scannerSettings.toGmsDocumentScannerOptions()
+    suspend fun createRequest(): Result<IntentSenderRequest> = runCatching {
+        val options = getScannerSettings().toGmsDocumentScannerOptions()
         val scanner = GmsDocumentScanning.getClient(options)
         val intentSender = scanner.getStartScanIntent(activity).await()
         val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
@@ -66,7 +65,7 @@ class DocumentScannerInteractor @Inject internal constructor(
             )
 
             else -> ScannerInitializationException(
-                "Barcode scanner initialization failed",
+                "Scanner initialization failed",
                 error
             )
         }

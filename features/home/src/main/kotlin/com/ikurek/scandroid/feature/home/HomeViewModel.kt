@@ -3,7 +3,6 @@ package com.ikurek.scandroid.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScannerInitializationException
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScanningCancelled
 import com.ikurek.scandroid.features.createscan.data.model.exception.SdkInitializationException
@@ -33,7 +32,7 @@ internal class HomeViewModel @Inject constructor(
 
     fun onCreateScanClick() = viewModelScope.launch {
         deleteLatestUnsavedScan()
-        _sideEffects.send(HomeSideEffect.StartDocumentScanner(ScannerSettings.Default))
+        _sideEffects.send(HomeSideEffect.StartDocumentScanner)
     }
 
     fun onScannerFinished(result: Result<ScannedDocuments>) = result

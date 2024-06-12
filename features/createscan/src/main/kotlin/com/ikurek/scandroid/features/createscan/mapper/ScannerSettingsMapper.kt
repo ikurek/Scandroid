@@ -1,13 +1,13 @@
 package com.ikurek.scandroid.features.createscan.mapper
 
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
-import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
-import com.ikurek.scandroid.features.createscan.data.model.ScannerMode
-import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
+import com.ikurek.scandroid.features.settings.data.model.ScannerFormats
+import com.ikurek.scandroid.features.settings.data.model.ScannerMode
+import com.ikurek.scandroid.features.settings.data.model.ScannerSettings
 
 internal fun ScannerSettings.toGmsDocumentScannerOptions() = GmsDocumentScannerOptions.Builder()
     .withScannerMode(scannerMode)
-    .withFormats(supportedFormats)
+    .withFormats(scannerFormats)
     .build()
 
 private fun GmsDocumentScannerOptions.Builder.withScannerMode(
@@ -25,19 +25,19 @@ private fun GmsDocumentScannerOptions.Builder.withScannerMode(
 }
 
 private fun GmsDocumentScannerOptions.Builder.withFormats(
-    formats: List<ScannerFileFormat>
+    scannerFormats: ScannerFormats
 ): GmsDocumentScannerOptions.Builder {
-    when {
-        formats.contains(ScannerFileFormat.JPEG) && formats.contains(ScannerFileFormat.PDF) ->
+    when (scannerFormats) {
+        ScannerFormats.JpegAndPdf ->
             setResultFormats(
                 GmsDocumentScannerOptions.RESULT_FORMAT_JPEG,
                 GmsDocumentScannerOptions.RESULT_FORMAT_PDF
             )
 
-        formats.contains(ScannerFileFormat.PDF) ->
+        ScannerFormats.PdfOnly ->
             setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_PDF)
 
-        formats.contains(ScannerFileFormat.JPEG) ->
+        ScannerFormats.JpegOnly ->
             setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
     }
 

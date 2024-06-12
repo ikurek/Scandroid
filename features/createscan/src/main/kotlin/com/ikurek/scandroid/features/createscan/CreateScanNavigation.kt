@@ -10,8 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ikurek.scandroid.core.design.components.dialogs.ErrorDialog
+import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanDialog
 import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanScreen
 import com.ikurek.scandroid.features.createscan.ui.newscan.NewScanSideEffect
@@ -32,7 +32,7 @@ fun NavGraphBuilder.newScanScreen(
         val scannedDocuments: ScannedDocuments by viewModel.scannedDocuments.collectAsState()
         val documentName: DocumentNameInput by viewModel.documentName.collectAsState()
         val description: DescriptionInput by viewModel.description.collectAsState()
-        val fileFormats: Map<ScannerFileFormat, Boolean> by viewModel.fileFormats.collectAsState()
+        val fileFormats: Map<ScanFileFormat, Boolean> by viewModel.fileFormats.collectAsState()
         val isSaving: Boolean by viewModel.isSaving.collectAsState()
         val isSaveButtonEnabled: Boolean by viewModel.isSaveButtonEnabled.collectAsState()
 

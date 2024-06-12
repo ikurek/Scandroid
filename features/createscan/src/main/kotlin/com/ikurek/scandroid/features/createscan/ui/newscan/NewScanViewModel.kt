@@ -2,8 +2,8 @@ package com.ikurek.scandroid.features.createscan.ui.newscan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.data.model.ScannerFileFormat
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.usecase.CreateScanNameFromCurrentDate
@@ -50,15 +50,15 @@ internal class NewScanViewModel @Inject internal constructor(
         MutableStateFlow(DescriptionInput.Empty)
     val description: StateFlow<DescriptionInput> = _description
 
-    private val _fileFormats: MutableStateFlow<Map<ScannerFileFormat, Boolean>> = MutableStateFlow(
+    private val _fileFormats: MutableStateFlow<Map<ScanFileFormat, Boolean>> = MutableStateFlow(
         buildMap {
             _scannedDocuments.value.let { scannedDocuments ->
-                this[ScannerFileFormat.PDF] = scannedDocuments.pdfUri != null
-                this[ScannerFileFormat.JPEG] = scannedDocuments.imageUris.isNotEmpty()
+                this[ScanFileFormat.PDF] = scannedDocuments.pdfUri != null
+                this[ScanFileFormat.JPEG] = scannedDocuments.imageUris.isNotEmpty()
             }
         }
     )
-    val fileFormats: StateFlow<Map<ScannerFileFormat, Boolean>> = _fileFormats
+    val fileFormats: StateFlow<Map<ScanFileFormat, Boolean>> = _fileFormats
 
     val isSaveButtonEnabled: StateFlow<Boolean> =
         combine(_documentName, _fileFormats) { documentName, fileFormats ->
@@ -92,7 +92,7 @@ internal class NewScanViewModel @Inject internal constructor(
         _description.value = DescriptionInput.Empty
     }
 
-    fun onFileFormatSelectionChange(fileFormat: ScannerFileFormat, isSelected: Boolean) {
+    fun onFileFormatSelectionChange(fileFormat: ScanFileFormat, isSelected: Boolean) {
         _fileFormats.value = _fileFormats.value.toMutableMap().apply {
             this[fileFormat] = isSelected
         }
@@ -103,7 +103,7 @@ internal class NewScanViewModel @Inject internal constructor(
         val documentName: DocumentNameInput = _documentName.value
         val description: DescriptionInput = _description.value
         val scannedDocuments: ScannedDocuments = _scannedDocuments.value
-        val selectedFileFormats: Set<ScannerFileFormat> = _fileFormats.value.toSetOfSelected()
+        val selectedFileFormats: Set<ScanFileFormat> = _fileFormats.value.toSetOfSelected()
         saveScannedDocuments(
             name = documentName.value,
             description = description.value,
@@ -122,7 +122,7 @@ internal class NewScanViewModel @Inject internal constructor(
         _dialog.value = null
     }
 
-    private fun Map<ScannerFileFormat, Boolean>.toSetOfSelected(): Set<ScannerFileFormat> =
+    private fun Map<ScanFileFormat, Boolean>.toSetOfSelected(): Set<ScanFileFormat> =
         mapNotNull {
             if (it.value) {
                 it.key

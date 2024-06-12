@@ -21,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.ikurek.scandroid.core.design.components.dialogs.ErrorDialog
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
-import com.ikurek.scandroid.features.createscan.data.model.ScannerSettings
 import com.ikurek.scandroid.features.createscan.navigateToNewScan
 import com.ikurek.scandroid.features.createscan.newScanScreen
 import com.ikurek.scandroid.features.savedscans.SavedScansRoute
@@ -34,7 +33,7 @@ import com.ikurek.scandroid.features.scandetails.scanImageGalleryScreen
 @Suppress("LongMethod")
 @Composable
 fun HomeScreen(
-    createScanRequest: suspend (ScannerSettings) -> Result<IntentSenderRequest>,
+    createScanRequest: suspend () -> Result<IntentSenderRequest>,
     parseScanResult: (ActivityResult) -> Result<ScannedDocuments>
 ) {
     val homeNavController: NavHostController = rememberNavController()
@@ -52,7 +51,7 @@ fun HomeScreen(
             homeViewModel.sideEffects.collect { sideEffect ->
                 when (sideEffect) {
                     is HomeSideEffect.StartDocumentScanner -> {
-                        createScanRequest(sideEffect.settings).onSuccess {
+                        createScanRequest().onSuccess {
                             scannerLauncher.launch(it)
                         }.onFailure {
                             homeViewModel.onScannerInitializationFailed(it)
