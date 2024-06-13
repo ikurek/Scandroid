@@ -12,6 +12,7 @@
     <string name="saved_scans_sorting_mode_recently_viewed">Recently viewed</string>
     <string name="dialog_button_neutral">OK</string>
     <string name="dialog_button_show_details">Show details</string>
+    <string name="dialog_button_hide_details">Hide details</string>
     <string name="dialog_error_sdk_initialization_failed_title">Unable to initialize MlKit SDK</string>
     <string name="dialog_error_sdk_initialization_failed_content">MLKit Document Scanner SDK could not be initialized. This may be caused by a number of reasons, so please make sure that Your device:\n* has Google Play Services enabled and up-to-date\n* is running at least Android 5 (API 21)\n* has at least 2Gb of RAM</string>
     <string name="dialog_error_scanner_initialization_failed_title">Unable to initialize scanner</string>

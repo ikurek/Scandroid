@@ -6,15 +6,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.ikurek.scandroid.core.design.ScandroidTheme
+import com.ikurek.scandroid.core.design.components.dialogs.internal.ExpandableTextMaterialDialog
 
 @Composable
 fun ErrorDialog(
     onDismissRequest: () -> Unit,
-    title: String? = null,
-    content: String? = null,
+    title: String,
+    content: String,
     exception: Throwable? = null
 ) {
-    BasicDialog(
+    ExpandableTextMaterialDialog(
         title = title,
         content = content,
         onDismissRequest = onDismissRequest,
