@@ -18,12 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.buttons.PrimaryButton
+import com.ikurek.scandroid.core.design.components.divider.DividerWithIcon
 import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.FileFormatSelector
-import com.ikurek.scandroid.features.createscan.ui.newscan.component.SectionDivider
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.Section
@@ -90,10 +90,7 @@ private fun Content(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
-        SectionDivider(
-            section = Section.Info,
-            modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 16.dp)
-        )
+        SectionDivider(section = Section.Info)
         DocumentNameInput(
             documentName = documentName,
             onDocumentNameChange = onDocumentNameChange,
@@ -118,10 +115,7 @@ private fun Content(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )*/
         if (scannedDocuments.hasMultipleDocumentFormats) {
-            SectionDivider(
-                section = Section.Formats,
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
-            )
+            SectionDivider(section = Section.Formats)
             FileFormatSelector(
                 fileFormats = fileFormats,
                 onFileFormatSelectionChange = onFileFormatSelectionChange,
@@ -129,6 +123,15 @@ private fun Content(
             )
         }
     }
+}
+
+@Composable
+internal fun SectionDivider(section: Section) {
+    DividerWithIcon(
+        text = stringResource(section.sectionNameRes),
+        icon = section.sectionIcon,
+        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+    )
 }
 
 @Composable
