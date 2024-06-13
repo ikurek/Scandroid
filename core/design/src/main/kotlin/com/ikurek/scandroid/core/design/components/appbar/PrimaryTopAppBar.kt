@@ -1,5 +1,6 @@
 package com.ikurek.scandroid.core.design.components.appbar
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -18,11 +19,13 @@ import com.ikurek.scandroid.core.translations.R as TranslationsR
 fun PrimaryTopAppBar(
     title: String?,
     onNavigateUp: (() -> Unit)? = null,
-    navigationIcon: @Composable () -> Unit = { BackArrowNavigationIcon(onNavigateUp) }
+    navigationIcon: @Composable () -> Unit = { BackArrowNavigationIcon(onNavigateUp) },
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         title = { title?.let { Text(text = title) } },
-        navigationIcon = navigationIcon
+        navigationIcon = navigationIcon,
+        actions = actions
     )
 }
 
