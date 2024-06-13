@@ -13,9 +13,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Scanner
 import androidx.compose.material.icons.filled.SdCardAlert
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,6 +48,7 @@ internal fun SavedScansScreen(
     unsavedScanState: UnsavedScanState,
     selectedSortingMode: SortingMode,
     scansState: SavedScansState,
+    onSettingsClick: () -> Unit,
     onRestoreUnsavedScanClick: () -> Unit,
     onDeleteUnsavedScanClick: () -> Unit,
     onSortingModeClick: (sortingMode: SortingMode) -> Unit,
@@ -53,7 +56,7 @@ internal fun SavedScansScreen(
     onCreateScanClick: () -> Unit,
 ) {
     Scaffold(
-        topBar = { PrimaryTopAppBar(title = stringResource(TranslationsR.string.app_name)) },
+        topBar = { AppBarWithSettingsAction(onSettingsClick) },
         floatingActionButton = { CreateScanFloatingActionButton(onClick = onCreateScanClick) }
     ) { contentPadding ->
         Crossfade(
@@ -100,6 +103,23 @@ internal fun SavedScansScreen(
             }
         }
     }
+}
+
+@Composable
+private fun AppBarWithSettingsAction(onSettingsClick: () -> Unit) {
+    PrimaryTopAppBar(
+        title = stringResource(TranslationsR.string.app_name),
+        actions = {
+            IconButton(onSettingsClick) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = stringResource(
+                        id = TranslationsR.string.saved_scans_settings_icon_content_descriptions
+                    )
+                )
+            }
+        }
+    )
 }
 
 @Composable
@@ -224,6 +244,7 @@ private fun PreviewLoaded() {
                     )
                 )
             ),
+            onSettingsClick = {},
             onRestoreUnsavedScanClick = {},
             onDeleteUnsavedScanClick = {},
             onSortingModeClick = {},
@@ -241,6 +262,7 @@ private fun PreviewEmpty() {
             unsavedScanState = UnsavedScanState.Present,
             selectedSortingMode = SortingMode.Newest,
             scansState = SavedScansState.Empty,
+            onSettingsClick = {},
             onRestoreUnsavedScanClick = {},
             onDeleteUnsavedScanClick = {},
             onSortingModeClick = {},

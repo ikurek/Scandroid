@@ -13,6 +13,7 @@ import java.util.UUID
 const val SavedScansRoute = "saved-scans"
 
 fun NavGraphBuilder.savedScansScreen(
+    onSettingsClick: () -> Unit,
     onRestoreUnsavedScanClick: () -> Unit,
     onScanClick: (scanId: UUID) -> Unit,
     onCreateScanClick: () -> Unit
@@ -29,6 +30,7 @@ fun NavGraphBuilder.savedScansScreen(
             unsavedScanState = unsavedScanState,
             selectedSortingMode = selectedSortingMode,
             scansState = scansState,
+            onSettingsClick = onSettingsClick,
             onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
             onDeleteUnsavedScanClick = viewModel::deleteUnsavedScan,
             onSortingModeClick = viewModel::onSortingModeClick,

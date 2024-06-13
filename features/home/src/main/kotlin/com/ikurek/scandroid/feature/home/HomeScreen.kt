@@ -29,6 +29,8 @@ import com.ikurek.scandroid.features.scandetails.navigateToScanDetails
 import com.ikurek.scandroid.features.scandetails.navigateToScanImageGallery
 import com.ikurek.scandroid.features.scandetails.scanDetailsScreen
 import com.ikurek.scandroid.features.scandetails.scanImageGalleryScreen
+import com.ikurek.scandroid.features.settings.ui.navigateToSettings
+import com.ikurek.scandroid.features.settings.ui.settingsScreen
 
 @Suppress("LongMethod")
 @Composable
@@ -81,6 +83,7 @@ fun HomeScreen(
         popExitTransition = { slideOutOfContainer(towards = SlideDirection.End) }
     ) {
         savedScansScreen(
+            onSettingsClick = { homeNavController.navigateToSettings() },
             onRestoreUnsavedScanClick = { homeNavController.navigateToNewScan() },
             onScanClick = { scanId -> homeNavController.navigateToScanDetails(scanId) },
             onCreateScanClick = homeViewModel::onCreateScanClick
@@ -100,6 +103,9 @@ fun HomeScreen(
             onNavigateUp = homeNavController::navigateUp
         )
         scanImageGalleryScreen(
+            onNavigateUp = homeNavController::navigateUp
+        )
+        settingsScreen(
             onNavigateUp = homeNavController::navigateUp
         )
     }

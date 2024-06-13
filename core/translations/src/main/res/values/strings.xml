@@ -33,6 +33,24 @@
     <string name="scan_details_created_at_label">Created at:</string>
     <string name="scan_details_pdf_page_count">Page %d of %d</string>
     <string name="scan_image_gallery_title">Image %d of %d</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_scanner">Scanner settings</string>
+    <string name="settings_item_scanner_mode_title">Scanner mode</string>
+    <string name="settings_item_scanner_mode_description">Select one of predefined modes to configure behavior and features available in document scanner</string>
+    <string name="settings_item_scanner_formats_title">Scanner formats</string>
+    <string name="settings_item_scanner_formats_description">When only one format is selected, you will not be able to select other formats to save after the scan is created. When both formats are selected, you can change them for each scan individually in the new scan screen.</string>
+    <string name="settings_section_other">Other</string>
+    <string name="settings_item_rate_app_title">Rate the app</string>
+    <string name="settings_item_rate_app_description">Rate the app in Google Play. 5-star reviews give me motivation to make Scandroid even better!</string>
+    <string name="settings_item_about_title">About</string>
+    <string name="settings_item_about_description">View details about the application</string>
+    <string name="settings_section_analytics">Analytics</string>
+    <string name="settings_item_enable_analytics_title">Enable analytics</string>
+    <string name="settings_item_enable_analytics_description">All analytics collected by scandroid are anonymous and used to determine how you use the app, so I can improve it further. No scan data or any other kind of user information is ever sent!</string>
+    <string name="settings_item_enable_crashlytics_title">Enable error reporting</string>
+    <string name="settings_item_enable_crashlytics_description">Crash and error reporting helps me solve your issues and investigate errors in the application. Thanks to this, Scandroid can run smoothly and without problems.</string>
+    <string name="settings_item_enable_performance_monitoring_title">Enable performance monitoring</string>
+    <string name="settings_item_enable_performance_monitoring_description">App performance is crucial for a good user experience. Keeping this option on allows me to verify places where loading is too slow or performance drops and optimize them.</string>
     <string name="common_file_format_jpeg" translatable="false">JPEG</string>
     <string name="common_file_format_pdf" translatable="false">PDF</string>
 </resources>

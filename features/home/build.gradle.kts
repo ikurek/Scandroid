@@ -11,4 +11,5 @@ dependencies {
     implementation(projects.features.createscan)
     implementation(projects.features.savedscans)
     implementation(projects.features.scandetails)
+    implementation(projects.features.settings)
 }
