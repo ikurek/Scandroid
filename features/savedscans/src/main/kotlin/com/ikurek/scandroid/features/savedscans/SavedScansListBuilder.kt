@@ -5,7 +5,6 @@ import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem
 import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem.SavedScanListItemFiles
 import com.ikurek.scandroid.features.savedscans.model.SortingMode
-import kotlinx.collections.immutable.toImmutableList
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
@@ -15,7 +14,7 @@ internal class SavedScansListBuilder @Inject constructor() {
     fun build(
         scans: List<SavedScan>,
         sortingMode: SortingMode
-    ) = scans.sort(sortingMode).map(::toListItem).toImmutableList()
+    ) = scans.sort(sortingMode).map(::toListItem)
 
     private fun toListItem(savedScan: SavedScan) = SavedScanListItem(
         id = savedScan.id,
@@ -25,6 +24,7 @@ internal class SavedScansListBuilder @Inject constructor() {
             is SavedScanFiles.ImagesOnly -> SavedScanListItemFiles.ImagesOnly(
                 imageCount = savedScan.files.imageFiles!!.size
             )
+
             is SavedScanFiles.PdfOnly -> SavedScanListItemFiles.PdfOnly
             is SavedScanFiles.PdfAndImages -> SavedScanListItemFiles.PdfAndImages(
                 imageCount = savedScan.files.imageFiles!!.size

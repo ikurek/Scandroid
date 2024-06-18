@@ -7,9 +7,6 @@ import com.ikurek.scandroid.core.translations.Translations
 import com.ikurek.scandroid.features.settings.ui.settings.model.ClickableSetting
 import com.ikurek.scandroid.features.settings.ui.settings.model.SettingsListItem
 import com.ikurek.scandroid.features.settings.ui.settings.model.SwitchableSetting
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
@@ -17,17 +14,17 @@ internal class SettingsListBuilder @Inject constructor(
     private val translations: Translations
 ) {
 
-    fun build(): ImmutableList<SettingsListItem> = buildList<SettingsListItem> {
+    fun build(): List<SettingsListItem> = buildList {
         addScannerSection()
         addAnalyticsSection()
         addOtherSection()
-    }.toImmutableList()
+    }
 
     private fun MutableList<SettingsListItem>.addScannerSection() = add(
         SettingsListItem.Section(
             name = translations.getString(TranslationsR.string.settings_section_scanner),
             icon = Icons.Filled.Scanner,
-            items = persistentListOf(
+            items = listOf(
                 SettingsListItem.SettingsItem.Clickable(
                     name = translations.getString(TranslationsR.string.settings_item_scanner_mode_title),
                     description = translations.getString(TranslationsR.string.settings_item_scanner_mode_description),
@@ -40,7 +37,7 @@ internal class SettingsListBuilder @Inject constructor(
                     ),
                     type = ClickableSetting.ScannerFileFormats
                 )
-            ).toImmutableList()
+            )
         )
     )
 
@@ -48,7 +45,7 @@ internal class SettingsListBuilder @Inject constructor(
         SettingsListItem.Section(
             name = translations.getString(TranslationsR.string.settings_section_analytics),
             icon = Icons.Filled.Scanner,
-            items = persistentListOf(
+            items = listOf(
                 SettingsListItem.SettingsItem.Switchable(
                     name = translations.getString(TranslationsR.string.settings_item_enable_analytics_title),
                     description = translations.getString(
@@ -75,7 +72,7 @@ internal class SettingsListBuilder @Inject constructor(
                     type = SwitchableSetting.PerformanceMonitoringEnabled,
                     isEnabled = false
                 )
-            ).toImmutableList()
+            )
         )
     )
 
@@ -83,7 +80,7 @@ internal class SettingsListBuilder @Inject constructor(
         SettingsListItem.Section(
             name = translations.getString(TranslationsR.string.settings_section_other),
             icon = Icons.Default.Info,
-            items = persistentListOf(
+            items = listOf(
                 SettingsListItem.SettingsItem.Clickable(
                     name = translations.getString(TranslationsR.string.settings_item_rate_app_title),
                     description = translations.getString(TranslationsR.string.settings_item_rate_app_description),
@@ -94,7 +91,7 @@ internal class SettingsListBuilder @Inject constructor(
                     description = translations.getString(TranslationsR.string.settings_item_about_description),
                     type = ClickableSetting.About
                 )
-            ).toImmutableList()
+            )
         )
     )
 }

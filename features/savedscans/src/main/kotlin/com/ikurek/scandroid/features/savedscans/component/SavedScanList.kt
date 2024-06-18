@@ -30,14 +30,12 @@ import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem
 import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem.SavedScanListItemFiles
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
 internal fun SavedScanList(
-    items: ImmutableList<SavedScanListItem>,
+    items: List<SavedScanListItem>,
     onScanClick: (UUID) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -140,7 +138,7 @@ private fun ScanFilesDescription(files: SavedScanListItemFiles) {
 private fun Preview() {
     ScandroidTheme {
         SavedScanList(
-            items = persistentListOf(
+            items = listOf(
                 SavedScanListItem(
                     id = UUID.randomUUID(),
                     name = "PDF Scan",

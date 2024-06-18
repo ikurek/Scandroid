@@ -37,8 +37,6 @@ import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem.SavedSca
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
 import com.ikurek.scandroid.features.savedscans.model.SortingMode
 import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
@@ -159,7 +157,7 @@ private fun UnsavedScansPopup(
 private fun SavedScansContent(
     unsavedScanState: UnsavedScanState,
     selectedSortingMode: SortingMode,
-    listItems: ImmutableList<SavedScanListItem>,
+    listItems: List<SavedScanListItem>,
     onRestoreUnsavedScanClick: () -> Unit,
     onDeleteUnsavedScanClick: () -> Unit,
     onSortingModeClick: (sortingMode: SortingMode) -> Unit,
@@ -223,7 +221,7 @@ private fun PreviewLoaded() {
             unsavedScanState = UnsavedScanState.Present,
             selectedSortingMode = SortingMode.RecentlyViewed,
             scansState = SavedScansState.Loaded(
-                listItems = persistentListOf(
+                listItems = listOf(
                     SavedScanListItem(
                         id = UUID.randomUUID(),
                         name = "PDF Scan",

@@ -5,15 +5,13 @@ import androidx.compose.material.icons.filled.Scanner
 import com.ikurek.scandroid.features.settings.ui.settings.model.ClickableSetting
 import com.ikurek.scandroid.features.settings.ui.settings.model.SettingsListItem
 import com.ikurek.scandroid.features.settings.ui.settings.model.SwitchableSetting
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 
 @Suppress("MaxLineLength")
-internal fun settingsListItems() = persistentListOf(
+internal fun settingsListItems() = listOf(
     SettingsListItem.Section(
         name = "Scanner settings",
         icon = Icons.Filled.Scanner,
-        items = persistentListOf(
+        items = listOf(
             SettingsListItem.SettingsItem.Clickable(
                 name = "Scanner mode",
                 description = "Setting description for changing the scanner mode available in app",
@@ -24,7 +22,7 @@ internal fun settingsListItems() = persistentListOf(
                 description = "Setting description for changing the formats scanner should use when saving new scans",
                 type = ClickableSetting.ScannerFileFormats
             )
-        ).toImmutableList()
+        )
     ),
     SettingsListItem.SettingsItem.Clickable(
         name = "About",
@@ -37,4 +35,4 @@ internal fun settingsListItems() = persistentListOf(
         type = SwitchableSetting.AnalyticsEnabled,
         isEnabled = true
     )
-).toImmutableList()
+)
