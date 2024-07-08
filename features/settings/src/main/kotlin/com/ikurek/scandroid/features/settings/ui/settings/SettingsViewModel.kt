@@ -9,6 +9,7 @@ import com.ikurek.scandroid.features.settings.ui.settings.builder.SettingsListBu
 import com.ikurek.scandroid.features.settings.ui.settings.model.ClickableSetting
 import com.ikurek.scandroid.features.settings.ui.settings.model.SettingsState
 import com.ikurek.scandroid.features.settings.ui.settings.model.SwitchableSetting
+import com.ikurek.scandroid.features.settings.usecase.OpenAppInPlayStore
 import com.ikurek.scandroid.features.settings.usecase.SetAnalyticsEnabled
 import com.ikurek.scandroid.features.settings.usecase.SetCrashlyticsEnabled
 import com.ikurek.scandroid.features.settings.usecase.SetPerformanceMonitoringEnabled
@@ -29,6 +30,7 @@ internal class SettingsViewModel @Inject constructor(
     private val setAnalyticsEnabled: SetAnalyticsEnabled,
     private val setCrashlyticsEnabled: SetCrashlyticsEnabled,
     private val setPerformanceMonitoringEnabled: SetPerformanceMonitoringEnabled,
+    private val openAppInPlayStore: OpenAppInPlayStore,
     private val setScannerMode: SetScannerMode,
     private val setScannerFormats: SetScannerFormats
 ) : ViewModel() {
@@ -48,7 +50,7 @@ internal class SettingsViewModel @Inject constructor(
             ClickableSetting.ScannerFileFormats ->
                 _dialog.value = settingsDialogBuilder.buildScannerFormatsSelectionDialog()
 
-            ClickableSetting.RateApp -> TODO()
+            ClickableSetting.RateApp -> openAppInPlayStore()
             ClickableSetting.About -> TODO()
         }
     }

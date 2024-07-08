@@ -55,4 +55,15 @@ internal class AndroidPlatform @Inject constructor(
             Intent.createChooser(intent, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }.let { chooserIntent -> context.startActivity(chooserIntent) }
     }
+
+    override fun openAppInAppStore(): Result<Unit> = runCatching {
+        openUrl("market://details?id=${context.packageName}")
+    }.recoverCatching {
+        openUrl("https://play.google.com/store/apps/details?id=${context.packageName}")
+    }
+
+    private fun openUrl(url: String) = Intent(Intent.ACTION_VIEW).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        setData(Uri.parse(url))
+    }.let { intent -> context.startActivity(intent) }
 }

@@ -9,5 +9,6 @@ android {
 
 dependencies {
     api(projects.features.settings.data.model)
+    implementation(projects.core.platform)
     implementation(projects.features.settings.data.repository)
 }

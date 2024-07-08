@@ -9,4 +9,6 @@ interface Platform {
     fun sharePdfFile(file: File): Result<Unit>
 
     fun shareImageFiles(files: List<File>): Result<Unit>
+
+    fun openAppInAppStore(): Result<Unit>
 }
