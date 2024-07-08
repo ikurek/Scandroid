@@ -1,4 +1,4 @@
-package com.ikurek.scandroid.features.settings.ui.settings
+package com.ikurek.scandroid.features.settings.ui.settings.builder
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info

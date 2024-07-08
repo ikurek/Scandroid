@@ -19,7 +19,10 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
+import com.ikurek.scandroid.core.design.components.dialogs.SingleSelectionDialog
 import com.ikurek.scandroid.core.design.components.divider.DividerWithIcon
+import com.ikurek.scandroid.features.settings.data.model.ScannerFormats
+import com.ikurek.scandroid.features.settings.data.model.ScannerMode
 import com.ikurek.scandroid.features.settings.ui.settings.model.ClickableSetting
 import com.ikurek.scandroid.features.settings.ui.settings.model.SettingsListItem
 import com.ikurek.scandroid.features.settings.ui.settings.model.SettingsState
@@ -30,10 +33,23 @@ import com.ikurek.scandroid.core.translations.R as TranslationsR
 @Composable
 internal fun SettingsScreen(
     settingsState: SettingsState,
+    dialog: SettingsDialog?,
     onSettingClick: (setting: ClickableSetting) -> Unit,
     onSettingSwitch: (setting: SwitchableSetting, isEnabled: Boolean) -> Unit,
+    onSaveScannerMode: (ScannerMode) -> Unit,
+    onSaveScannerFormats: (ScannerFormats) -> Unit,
+    onDialogDismiss: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
+    dialog?.let {
+        SettingsDialog(
+            dialog = dialog,
+            onSaveScannerMode = onSaveScannerMode,
+            onSaveScannerFormats = onSaveScannerFormats,
+            onDialogDismiss = onDialogDismiss
+        )
+    }
+
     Scaffold(
         topBar = {
             PrimaryTopAppBar(
@@ -162,6 +178,33 @@ private fun SwitchableSettingItem(
     }
 }
 
+@Composable
+private fun SettingsDialog(
+    dialog: SettingsDialog,
+    onSaveScannerMode: (ScannerMode) -> Unit,
+    onSaveScannerFormats: (ScannerFormats) -> Unit,
+    onDialogDismiss: () -> Unit
+) {
+    when (dialog) {
+        is SettingsDialog.ScannerFormatsSelection -> SingleSelectionDialog(
+            title = dialog.title,
+            initialValue = dialog.selectedValue,
+            availableOptions = dialog.availableOptions,
+            onConfirmRequest = onSaveScannerFormats,
+            onDismissRequest = onDialogDismiss
+
+        )
+
+        is SettingsDialog.ScannerModeSelection -> SingleSelectionDialog(
+            title = dialog.title,
+            initialValue = dialog.selectedValue,
+            availableOptions = dialog.availableOptions,
+            onConfirmRequest = onSaveScannerMode,
+            onDismissRequest = onDialogDismiss
+        )
+    }
+}
+
 @Suppress("MaxLineLength")
 @PreviewLightDark
 @Composable
@@ -171,8 +214,12 @@ private fun SettingsScreenPreview() {
             settingsState = SettingsState(
                 items = settingsListItems(),
             ),
+            dialog = null,
             onSettingClick = {},
             onSettingSwitch = { _, _ -> },
+            onSaveScannerMode = {},
+            onSaveScannerFormats = {},
+            onDialogDismiss = {},
             onNavigateUp = {}
         )
     }
