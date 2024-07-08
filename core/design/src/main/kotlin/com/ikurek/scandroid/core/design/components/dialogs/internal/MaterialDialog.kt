@@ -105,9 +105,17 @@ internal fun MaterialDialog(
 
 @Composable
 private fun DefaultButtonAction(onClick: () -> Unit) {
+    ButtonAction(
+        text = stringResource(id = R.string.dialog_button_neutral),
+        onClick = onClick
+    )
+}
+
+@Composable
+internal fun ButtonAction(text: String, onClick: () -> Unit) {
     TextButton(onClick = onClick) {
         Text(
-            text = stringResource(id = R.string.dialog_button_neutral),
+            text = text,
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary
         )

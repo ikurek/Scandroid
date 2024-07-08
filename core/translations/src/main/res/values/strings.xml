@@ -10,7 +10,9 @@
     <string name="saved_scans_sorting_mode_newest">Newest</string>
     <string name="saved_scans_sorting_mode_oldest">Oldest</string>
     <string name="saved_scans_sorting_mode_recently_viewed">Recently viewed</string>
+    <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_neutral">OK</string>
+    <string name="dialog_button_save">Save</string>
     <string name="dialog_button_show_details">Show details</string>
     <string name="dialog_button_hide_details">Hide details</string>
     <string name="dialog_error_sdk_initialization_failed_title">Unable to initialize MlKit SDK</string>
@@ -34,6 +36,15 @@
     <string name="scan_details_created_at_label">Created at:</string>
     <string name="scan_details_pdf_page_count">Page %d of %d</string>
     <string name="scan_image_gallery_title">Image %d of %d</string>
+    <string name="setting_scanner_mode_base_text">Base</string>
+    <string name="setting_scanner_mode_base_description">Only basic editing capabilities like crop, rotate, reorder pages</string>
+    <string name="setting_scanner_mode_base_with_filters_text">Base with filters</string>
+    <string name="setting_scanner_mode_base_with_filters_description">The same as base mode, but extended with image filters (f.e. grayscale) and auto image enhancement</string>
+    <string name="setting_scanner_mode_full_text">Full</string>
+    <string name="setting_scanner_mode_full_description">The same as base mode with filters, but extended with additional ML features like stain removal, document cleanup and more</string>
+    <string name="setting_scanner_formats_jpeg_and_pdf_text">Both JPEG and PDF</string>
+    <string name="setting_scanner_formats_jpeg_only_text">JPEG only</string>
+    <string name="setting_scanner_formats_pdf_only_text">PDF only</string>
     <string name="settings_title">Settings</string>
     <string name="settings_section_scanner">Scanner settings</string>
     <string name="settings_item_scanner_mode_title">Scanner mode</string>
