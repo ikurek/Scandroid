@@ -29,6 +29,8 @@ import com.ikurek.scandroid.features.scandetails.navigateToScanDetails
 import com.ikurek.scandroid.features.scandetails.navigateToScanImageGallery
 import com.ikurek.scandroid.features.scandetails.scanDetailsScreen
 import com.ikurek.scandroid.features.scandetails.scanImageGalleryScreen
+import com.ikurek.scandroid.features.settings.ui.aboutScreen
+import com.ikurek.scandroid.features.settings.ui.navigateToAbout
 import com.ikurek.scandroid.features.settings.ui.navigateToSettings
 import com.ikurek.scandroid.features.settings.ui.settingsScreen
 
@@ -106,6 +108,10 @@ fun HomeScreen(
             onNavigateUp = homeNavController::navigateUp
         )
         settingsScreen(
+            onAboutClick = { homeNavController.navigateToAbout() },
+            onNavigateUp = homeNavController::navigateUp
+        )
+        aboutScreen(
             onNavigateUp = homeNavController::navigateUp
         )
     }

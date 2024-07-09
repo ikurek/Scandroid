@@ -1,4 +1,8 @@
 <resources>
+    <string name="about_title">About</string>
+    <string name="about_item_version_label">Version</string>
+    <string name="about_item_package_label">Package</string>
+    <string name="about_item_open_source_licenses_label">Open Source licenses</string>
     <string name="app_name">Scandroid</string>
     <string name="saved_scans_empty_placeholder_label">Nothing saved yet! Use the button in bottom-right corner to scan a new document.</string>
     <string name="saved_scans_general_error_placeholder_label">Unable to read scans from database! Database may have been damaged or an internal, unhandled problem has occurred.</string>

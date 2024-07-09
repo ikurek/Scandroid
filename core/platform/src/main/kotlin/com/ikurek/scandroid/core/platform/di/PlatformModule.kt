@@ -1,6 +1,8 @@
 package com.ikurek.scandroid.core.platform.di
 
+import com.ikurek.scandroid.core.platform.AndroidAppData
 import com.ikurek.scandroid.core.platform.AndroidPlatform
+import com.ikurek.scandroid.core.platform.AppData
 import com.ikurek.scandroid.core.platform.Platform
 import dagger.Binds
 import dagger.Module
@@ -12,7 +14,8 @@ import dagger.hilt.components.SingletonComponent
 internal interface PlatformModule {
 
     @Binds
-    fun bindPlatform(
-        androidPlatform: AndroidPlatform
-    ): Platform
+    fun bindPlatform(androidPlatform: AndroidPlatform): Platform
+
+    @Binds
+    fun appData(androidAppData: AndroidAppData): AppData
 }

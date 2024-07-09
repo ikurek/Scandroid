@@ -16,8 +16,11 @@ import com.ikurek.scandroid.features.settings.usecase.SetPerformanceMonitoringEn
 import com.ikurek.scandroid.features.settings.usecase.SetScannerFormats
 import com.ikurek.scandroid.features.settings.usecase.SetScannerMode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,6 +41,9 @@ internal class SettingsViewModel @Inject constructor(
     private val _dialog: MutableStateFlow<SettingsDialog?> = MutableStateFlow(null)
     val dialog: StateFlow<SettingsDialog?> = _dialog
 
+    private val _sideEffects: Channel<SettingsSideEffect> = Channel()
+    val sideEffects: Flow<SettingsSideEffect> = _sideEffects.receiveAsFlow()
+
     private val _settingsState: MutableStateFlow<SettingsState> =
         MutableStateFlow(SettingsState(items = settingsListBuilder.build()))
     val settingsState: StateFlow<SettingsState> = _settingsState
@@ -50,8 +56,10 @@ internal class SettingsViewModel @Inject constructor(
             ClickableSetting.ScannerFileFormats ->
                 _dialog.value = settingsDialogBuilder.buildScannerFormatsSelectionDialog()
 
+            ClickableSetting.About ->
+                _sideEffects.send(SettingsSideEffect.AboutClicked)
+
             ClickableSetting.RateApp -> openAppInPlayStore()
-            ClickableSetting.About -> TODO()
         }
     }
 
