@@ -3,6 +3,7 @@ package com.ikurek.scandroid.features.settings.ui.about
 import androidx.lifecycle.ViewModel
 import com.ikurek.scandroid.features.settings.usecase.GetAppPackageIdentifier
 import com.ikurek.scandroid.features.settings.usecase.GetAppVersion
+import com.ikurek.scandroid.features.settings.usecase.OpenOssLicenses
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +12,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class AboutViewModel @Inject constructor(
     private val getAppVersion: GetAppVersion,
-    private val getAppPackageIdentifier: GetAppPackageIdentifier
+    private val getAppPackageIdentifier: GetAppPackageIdentifier,
+    private val openOssLicenses: OpenOssLicenses
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<AboutState> = MutableStateFlow(
@@ -21,4 +23,6 @@ internal class AboutViewModel @Inject constructor(
         )
     )
     val state: StateFlow<AboutState> = _state
+
+    fun onOpenOssLicensesClick() = openOssLicenses()
 }

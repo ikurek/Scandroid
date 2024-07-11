@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.FileProvider.getUriForFile
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
@@ -66,4 +67,10 @@ internal class AndroidPlatform @Inject constructor(
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         setData(Uri.parse(url))
     }.let { intent -> context.startActivity(intent) }
+
+    override fun openOssLicenses(): Result<Unit> = runCatching {
+        Intent(context, OssLicensesMenuActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }.let { intent -> context.startActivity(intent) }
+    }
 }

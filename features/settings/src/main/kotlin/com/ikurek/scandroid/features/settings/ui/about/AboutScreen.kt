@@ -39,6 +39,7 @@ private val InfoRowMinHeight = 40.dp
 @Composable
 internal fun AboutScreen(
     state: AboutState,
+    onOpenOssLicensesClick: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
     Scaffold(
@@ -50,13 +51,16 @@ internal fun AboutScreen(
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
-            Content(state = state)
+            Content(state = state, onOpenOssLicensesClick = onOpenOssLicensesClick)
         }
     }
 }
 
 @Composable
-private fun Content(state: AboutState) {
+private fun Content(
+    state: AboutState,
+    onOpenOssLicensesClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -103,9 +107,7 @@ private fun Content(state: AboutState) {
 
         AboutClickableRow(
             text = stringResource(TranslationsR.string.about_item_open_source_licenses_label),
-            onClick = {
-                // TODO: Implement
-            }
+            onClick = onOpenOssLicensesClick
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -165,6 +167,7 @@ private fun AboutScreenPreview() {
                 version = "1.0.0",
                 packageIdentifier = "com.ikurek.scandroid"
             ),
+            onOpenOssLicensesClick = {},
             onNavigateUp = {}
         )
     }

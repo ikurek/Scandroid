@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.ikurek.scandroid.core.platform"
 }
+
+dependencies {
+    implementation(libs.gms.ossLicenses)
+}

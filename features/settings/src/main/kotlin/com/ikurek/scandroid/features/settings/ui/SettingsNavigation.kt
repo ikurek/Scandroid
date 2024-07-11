@@ -56,6 +56,7 @@ fun NavGraphBuilder.aboutScreen(onNavigateUp: () -> Unit) {
 
         AboutScreen(
             state = aboutState,
+            onOpenOssLicensesClick = viewModel::onOpenOssLicensesClick,
             onNavigateUp = onNavigateUp
         )
     }

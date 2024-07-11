@@ -11,4 +11,6 @@ interface Platform {
     fun shareImageFiles(files: List<File>): Result<Unit>
 
     fun openAppInAppStore(): Result<Unit>
+
+    fun openOssLicenses(): Result<Unit>
 }
