@@ -15,6 +15,8 @@ datastore = "1.1.1"
 detekt = "1.23.6"
 detektRulesCompose = "1.3.0"
 firebaseBom = "33.1.2"
+firebaseCrashlyticsGradlePlugin = "3.0.2"
+firebasePerformancegradlePlugin = "1.4.2"
 googleServicesGradlePlugin = "4.4.2"
 hilt = "2.51.1"
 kotlin = "2.0.0"
@@ -49,7 +51,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-firebase-perf = { group = "com.google.firebase", name = "firebase-perf-ktx" }
+firebase-performance = { group = "com.google.firebase", name = "firebase-perf-ktx" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -67,6 +69,8 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsGradlePlugin" }
+firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerformancegradlePlugin" }
 gms-googleServices = { id = "com.google.gms.google-services", version.ref = "googleServicesGradlePlugin" }
 gms-ossLicenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "ossLicensesGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
