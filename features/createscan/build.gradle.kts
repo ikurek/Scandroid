@@ -10,5 +10,6 @@ dependencies {
     api(projects.features.createscan.usecase)
     implementation(libs.gms.playServices.mlkit.documentScanner)
     implementation(libs.kotlinx.coroutines.playServices)
+    implementation(projects.analytics)
     implementation(projects.features.settings.usecase)
 }

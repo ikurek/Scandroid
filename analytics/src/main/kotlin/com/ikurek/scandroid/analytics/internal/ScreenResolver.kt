@@ -1,4 +1,4 @@
-package com.ikurek.scandroid.analytics
+package com.ikurek.scandroid.analytics.internal
 
 import com.ikurek.scandroid.analytics.data.model.AnalyticsException
 import com.ikurek.scandroid.analytics.data.model.Screen

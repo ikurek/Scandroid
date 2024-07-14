@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.analytics)
     implementation(projects.core.platform)
     implementation(projects.features.savedscans.data.model)
 }

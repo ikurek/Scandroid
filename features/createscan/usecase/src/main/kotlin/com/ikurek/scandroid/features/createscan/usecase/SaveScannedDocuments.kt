@@ -2,6 +2,7 @@ package com.ikurek.scandroid.features.createscan.usecase
 
 import android.util.Log
 import androidx.core.net.toFile
+import com.ikurek.scandroid.analytics.ErrorTracker
 import com.ikurek.scandroid.features.createscan.data.model.NewScan
 import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
@@ -10,7 +11,8 @@ import java.util.UUID
 import javax.inject.Inject
 
 class SaveScannedDocuments @Inject internal constructor(
-    private val newScanRepository: NewScanRepository
+    private val newScanRepository: NewScanRepository,
+    private val errorTracker: ErrorTracker
 ) {
 
     @Suppress("MagicNumber")
@@ -52,6 +54,7 @@ class SaveScannedDocuments @Inject internal constructor(
             return Result.success(scanId)
         }.onFailure {
             Log.e(this::class.simpleName, "Failed to save scan $scanId files", it)
+            errorTracker.trackNonFatal(it, "Failed to save scan files")
             newScanRepository.deleteScanFiles(scanId)
             Log.d(this::class.simpleName, "Scan $scanId deleted from storage")
         }

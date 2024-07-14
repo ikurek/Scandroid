@@ -8,6 +8,7 @@ import androidx.activity.result.IntentSenderRequest
 import com.google.mlkit.common.MlKitException
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
+import com.ikurek.scandroid.analytics.ErrorTracker
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScannerInitializationException
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScanningCancelled
@@ -47,7 +48,8 @@ import javax.inject.Inject
 class DocumentScannerInteractor @Inject internal constructor(
     private val activity: Activity,
     private val clock: Clock,
-    private val getScannerSettings: GetScannerSettings
+    private val getScannerSettings: GetScannerSettings,
+    private val errorTracker: ErrorTracker
 ) {
 
     suspend fun createRequest(): Result<IntentSenderRequest> = runCatching {
@@ -58,6 +60,7 @@ class DocumentScannerInteractor @Inject internal constructor(
         return@runCatching intentSenderRequest
     }.recoverCatching { error ->
         Log.e(this::class.simpleName, "Failed to initialize scanner", error)
+        errorTracker.trackNonFatal(error, "Failed to initialize scanner")
         throw when (error) {
             is MlKitException -> SdkInitializationException(
                 "MlKit error ${error.errorCode}",
@@ -79,6 +82,7 @@ class DocumentScannerInteractor @Inject internal constructor(
         else -> Result.failure(UnexpectedScanningError(message = "Invalid activity result code"))
     }.onFailure { error ->
         Log.e(this::class.simpleName, "Failed to read scanner result", error)
+        errorTracker.trackNonFatal(error, "Failed to read scanner result")
     }
 
     private fun handleResultOk(intent: Intent?): Result<ScannedDocuments> = runCatching {

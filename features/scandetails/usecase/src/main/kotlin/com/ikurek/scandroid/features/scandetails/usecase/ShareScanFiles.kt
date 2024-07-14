@@ -1,6 +1,7 @@
 package com.ikurek.scandroid.features.scandetails.usecase
 
 import android.util.Log
+import com.ikurek.scandroid.analytics.ErrorTracker
 import com.ikurek.scandroid.core.platform.Platform
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import javax.inject.Inject
@@ -10,7 +11,8 @@ enum class SelectedFileType {
 }
 
 class ShareScanFiles @Inject internal constructor(
-    private val platform: Platform
+    private val platform: Platform,
+    private val errorTracker: ErrorTracker
 ) {
     suspend operator fun invoke(
         savedScanFiles: SavedScanFiles,
@@ -22,8 +24,9 @@ class ShareScanFiles @Inject internal constructor(
             SelectedFileType.Images -> platform.shareImageFiles(savedScanFiles.imageFiles)
             SelectedFileType.PDF -> platform.sharePdfFile(savedScanFiles.pdfFile)
             null -> error("Unable to determine which scan file should be shared")
-        }.onFailure {
-            Log.d(this::class.simpleName, "Failed to share scan file: $it")
+        }.onFailure { exception ->
+            Log.d(this::class.simpleName, "Failed to share scan file: $exception")
+            errorTracker.trackNonFatal(exception, "Failed to share scan file")
         }
     }
 }
