@@ -5,6 +5,8 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.FirebasePerformance
+import com.google.firebase.perf.ktx.performance
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +24,8 @@ internal object FirebaseModule {
     @Provides
     @Singleton
     fun providesFirebaseCrashlytics(): FirebaseCrashlytics = Firebase.crashlytics
+
+    @Provides
+    @Singleton
+    fun providesFirebasePerformance(): FirebasePerformance = Firebase.performance
 }
