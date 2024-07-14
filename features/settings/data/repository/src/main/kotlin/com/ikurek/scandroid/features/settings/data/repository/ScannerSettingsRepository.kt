@@ -7,8 +7,8 @@ import com.ikurek.scandroid.features.settings.data.model.ScannerMode
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val ScannerModeKey = "scanner_mode"
-const val ScannerFormatsKey = "scanner_formats"
+private const val ScannerModeKey = "scanner_mode"
+private const val ScannerFormatsKey = "scanner_formats"
 
 @Singleton
 class ScannerSettingsRepository @Inject internal constructor(

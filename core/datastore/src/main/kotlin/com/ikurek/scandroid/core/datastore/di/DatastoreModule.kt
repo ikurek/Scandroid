@@ -17,6 +17,10 @@ import javax.inject.Singleton
 @Retention(AnnotationRetention.BINARY)
 annotation class SettingsStorage
 
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AnalyticsStorage
+
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DatastoreModule {
@@ -29,6 +33,17 @@ internal object DatastoreModule {
     ): Storage = PreferencesStorage(
         dataStore = PreferenceDataStoreFactory.create {
             context.preferencesDataStoreFile("${context.packageName}_settings")
+        }
+    )
+
+    @AnalyticsStorage
+    @Provides
+    @Singleton
+    fun providesAnalyticsStorage(
+        @ApplicationContext context: Context
+    ): Storage = PreferencesStorage(
+        dataStore = PreferenceDataStoreFactory.create {
+            context.preferencesDataStoreFile("${context.packageName}_analytics")
         }
     )
 }

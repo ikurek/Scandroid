@@ -45,8 +45,14 @@ internal class SettingsViewModel @Inject constructor(
     val sideEffects: Flow<SettingsSideEffect> = _sideEffects.receiveAsFlow()
 
     private val _settingsState: MutableStateFlow<SettingsState> =
-        MutableStateFlow(SettingsState(items = settingsListBuilder.build()))
+        MutableStateFlow(SettingsState(items = emptyList()))
     val settingsState: StateFlow<SettingsState> = _settingsState
+
+    init {
+        viewModelScope.launch {
+            _settingsState.update { it.copy(items = settingsListBuilder.build()) }
+        }
+    }
 
     fun onSettingClick(type: ClickableSetting) = viewModelScope.launch {
         when (type) {

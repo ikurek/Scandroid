@@ -7,14 +7,16 @@ import com.ikurek.scandroid.core.translations.Translations
 import com.ikurek.scandroid.features.settings.ui.settings.model.ClickableSetting
 import com.ikurek.scandroid.features.settings.ui.settings.model.SettingsListItem
 import com.ikurek.scandroid.features.settings.ui.settings.model.SwitchableSetting
+import com.ikurek.scandroid.features.settings.usecase.GetAnalyticsStatus
 import javax.inject.Inject
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 internal class SettingsListBuilder @Inject constructor(
-    private val translations: Translations
+    private val translations: Translations,
+    private val getAnalyticsStatus: GetAnalyticsStatus
 ) {
 
-    fun build(): List<SettingsListItem> = buildList {
+    suspend fun build(): List<SettingsListItem> = buildList {
         addScannerSection()
         addAnalyticsSection()
         addOtherSection()
@@ -41,40 +43,44 @@ internal class SettingsListBuilder @Inject constructor(
         )
     )
 
-    private fun MutableList<SettingsListItem>.addAnalyticsSection() = add(
-        SettingsListItem.Section(
-            name = translations.getString(TranslationsR.string.settings_section_analytics),
-            icon = Icons.Filled.Scanner,
-            items = listOf(
-                SettingsListItem.SettingsItem.Switchable(
-                    name = translations.getString(TranslationsR.string.settings_item_enable_analytics_title),
-                    description = translations.getString(
-                        TranslationsR.string.settings_item_enable_analytics_description
+    private suspend fun MutableList<SettingsListItem>.addAnalyticsSection() {
+        val analyticsStatus = getAnalyticsStatus()
+
+        add(
+            SettingsListItem.Section(
+                name = translations.getString(TranslationsR.string.settings_section_analytics),
+                icon = Icons.Filled.Scanner,
+                items = listOf(
+                    SettingsListItem.SettingsItem.Switchable(
+                        name = translations.getString(TranslationsR.string.settings_item_enable_analytics_title),
+                        description = translations.getString(
+                            TranslationsR.string.settings_item_enable_analytics_description
+                        ),
+                        type = SwitchableSetting.AnalyticsEnabled,
+                        isEnabled = analyticsStatus.areAnalyticsEnabled
                     ),
-                    type = SwitchableSetting.AnalyticsEnabled,
-                    isEnabled = false
-                ),
-                SettingsListItem.SettingsItem.Switchable(
-                    name = translations.getString(TranslationsR.string.settings_item_enable_crashlytics_title),
-                    description = translations.getString(
-                        TranslationsR.string.settings_item_enable_crashlytics_description
+                    SettingsListItem.SettingsItem.Switchable(
+                        name = translations.getString(TranslationsR.string.settings_item_enable_crashlytics_title),
+                        description = translations.getString(
+                            TranslationsR.string.settings_item_enable_crashlytics_description
+                        ),
+                        type = SwitchableSetting.CrashlyticsEnabled,
+                        isEnabled = analyticsStatus.areCrashlyticsEnabled
                     ),
-                    type = SwitchableSetting.CrashlyticsEnabled,
-                    isEnabled = false
-                ),
-                SettingsListItem.SettingsItem.Switchable(
-                    name = translations.getString(
-                        TranslationsR.string.settings_item_enable_performance_monitoring_title
-                    ),
-                    description = translations.getString(
-                        TranslationsR.string.settings_item_enable_performance_monitoring_description
-                    ),
-                    type = SwitchableSetting.PerformanceMonitoringEnabled,
-                    isEnabled = false
+                    SettingsListItem.SettingsItem.Switchable(
+                        name = translations.getString(
+                            TranslationsR.string.settings_item_enable_performance_monitoring_title
+                        ),
+                        description = translations.getString(
+                            TranslationsR.string.settings_item_enable_performance_monitoring_description
+                        ),
+                        type = SwitchableSetting.PerformanceMonitoringEnabled,
+                        isEnabled = analyticsStatus.isPerformanceMonitoringEnabled
+                    )
                 )
             )
         )
-    )
+    }
 
     private fun MutableList<SettingsListItem>.addOtherSection() = add(
         SettingsListItem.Section(

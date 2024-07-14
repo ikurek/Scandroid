@@ -7,5 +7,6 @@ android {
 }
 
 dependencies {
+    implementation(projects.analytics.usecase)
     implementation(projects.features.settings.usecase)
 }
