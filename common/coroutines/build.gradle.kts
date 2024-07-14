@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.ikurek.scandroid.common.coroutines"
 }
+
+dependencies {
+    api(libs.kotlinx.coroutines.android)
+}
