@@ -8,5 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
     implementation(projects.analytics.data.model)
+    implementation(libs.firebase.analytics)
 }

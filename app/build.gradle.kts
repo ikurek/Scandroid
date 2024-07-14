@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.scandroid.application)
     alias(libs.plugins.scandroid.application.compose)
+    alias(libs.plugins.gms.googleServices)
     alias(libs.plugins.gms.ossLicenses)
 }
 
