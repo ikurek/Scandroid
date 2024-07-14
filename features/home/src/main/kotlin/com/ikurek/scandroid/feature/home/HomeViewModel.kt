@@ -2,6 +2,7 @@ package com.ikurek.scandroid.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ikurek.scandroid.analytics.ScreenTracker
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScannerInitializationException
 import com.ikurek.scandroid.features.createscan.data.model.exception.ScanningCancelled
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val deleteLatestUnsavedScan: DeleteLatestUnsavedScan,
-    private val storeLatestUnsavedScan: StoreLatestUnsavedScan
+    private val storeLatestUnsavedScan: StoreLatestUnsavedScan,
+    private val screenTracker: ScreenTracker
 ) : ViewModel() {
 
     private val _dialog: MutableStateFlow<HomeDialog?> = MutableStateFlow(null)
@@ -64,5 +66,9 @@ internal class HomeViewModel @Inject constructor(
 
     fun onDialogDismissed() {
         _dialog.value = null
+    }
+
+    fun onDestinationChanged(route: String) {
+        screenTracker.trackScreenView(route)
     }
 }

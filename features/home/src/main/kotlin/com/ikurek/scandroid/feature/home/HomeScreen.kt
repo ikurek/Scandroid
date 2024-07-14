@@ -48,6 +48,12 @@ fun HomeScreen(
     }
     val dialog: HomeDialog? by homeViewModel.dialog.collectAsState()
 
+    LaunchedEffect(homeNavController) {
+        homeNavController.addOnDestinationChangedListener { _, destination, _ ->
+            homeViewModel.onDestinationChanged(destination.route!!)
+        }
+    }
+
     // It's hacky but I had to navigate from both scanner callback and viewmodel and it was
     // the fastest solution that could get me both
     LaunchedEffect(homeViewModel.sideEffects) {
