@@ -27,6 +27,8 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "Scandroid"
+include(":analytics")
+include(":analytics:data:model")
 include(":app")
 include(":common:coroutines")
 include(":common:ui:pdfview")
