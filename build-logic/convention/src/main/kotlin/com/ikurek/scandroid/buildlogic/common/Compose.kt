@@ -26,7 +26,8 @@ internal fun Project.configureCompose(
     }
 
     extensions.configure<ComposeCompilerGradlePluginExtension> {
-        val composeCompilerConfig = rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
+        val composeCompilerConfig =
+            rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
         stabilityConfigurationFile.set(composeCompilerConfig)
         enableStrongSkippingMode.set(true)
     }

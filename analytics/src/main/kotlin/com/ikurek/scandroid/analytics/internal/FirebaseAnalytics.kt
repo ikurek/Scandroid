@@ -32,6 +32,7 @@ internal class FirebaseAnalytics @Inject constructor(
         Log.d(this::class.simpleName, "Updated analytics status: $analyticsStatus")
         firebaseAnalytics.setAnalyticsCollectionEnabled(analyticsStatus.areAnalyticsEnabled)
         firebaseCrashlytics.setCrashlyticsCollectionEnabled(analyticsStatus.areCrashlyticsEnabled)
-        firebasePerformance.setPerformanceCollectionEnabled(analyticsStatus.isPerformanceMonitoringEnabled)
+        firebasePerformance.isPerformanceCollectionEnabled =
+            analyticsStatus.isPerformanceMonitoringEnabled
     }
 }

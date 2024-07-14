@@ -10,7 +10,7 @@ internal class FirebaseErrorTracker @Inject constructor(
     private val firebaseCrashlytics: FirebaseCrashlytics
 ) : ErrorTracker {
 
-    override fun trackNonFatal(exception: Throwable, message: String?,) {
+    override fun trackNonFatal(exception: Throwable, message: String?) {
         message?.let { firebaseCrashlytics.log(message) }
         firebaseCrashlytics.recordException(exception)
     }

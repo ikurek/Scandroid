@@ -17,5 +17,6 @@ internal val SavedScanState.availableScanActions: List<ScanAction>
             is SavedScanFiles.PdfOnly -> listOf(ScanAction.Share, ScanAction.OpenPdfOutside)
             else -> listOf(ScanAction.Share)
         }
+
         else -> emptyList()
     }

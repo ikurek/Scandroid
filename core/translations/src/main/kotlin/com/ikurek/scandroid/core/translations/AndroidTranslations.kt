@@ -10,13 +10,16 @@ internal class AndroidTranslations @Inject constructor(
 
     override fun getString(resId: Int) = context.resources.getString(resId)
 
-    override fun getString(resId: Int, vararg formatArgs: Any) = context.resources.getString(resId, formatArgs)
+    override fun getString(resId: Int, vararg formatArgs: Any) =
+        context.resources.getString(resId, formatArgs)
 
-    override fun getPlural(resId: Int, quantity: Int) = context.resources.getQuantityString(resId, quantity)
+    override fun getPlural(resId: Int, quantity: Int) =
+        context.resources.getQuantityString(resId, quantity)
 
-    override fun getPlural(resId: Int, quantity: Int, vararg formatArgs: Any) = context.resources.getQuantityString(
-        resId,
-        quantity,
-        formatArgs
-    )
+    override fun getPlural(resId: Int, quantity: Int, vararg formatArgs: Any) =
+        context.resources.getQuantityString(
+            resId,
+            quantity,
+            formatArgs
+        )
 }
