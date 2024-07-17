@@ -12,8 +12,8 @@ android {
 
     defaultConfig {
         applicationId = "com.ikurek.scandroid"
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1.0"
     }
 
     buildTypes {

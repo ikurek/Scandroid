@@ -23,5 +23,9 @@ captures/
 # MacOS folder properties
 *.DS_STORE
 
+# Signing
+keystore/*
+*.jks
+
 # Firebase
 google-services.json
