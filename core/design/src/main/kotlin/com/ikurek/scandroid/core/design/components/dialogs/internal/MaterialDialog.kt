@@ -88,7 +88,7 @@ internal fun MaterialDialog(
                 }
                 Box(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
+                        .padding(horizontal = 12.dp)
                         .align(Alignment.End)
                 ) {
                     FlowRow(
