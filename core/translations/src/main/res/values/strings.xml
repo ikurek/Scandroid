@@ -15,10 +15,13 @@
     <string name="saved_scans_sorting_mode_oldest">Oldest</string>
     <string name="saved_scans_sorting_mode_recently_viewed">Recently viewed</string>
     <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_button_confirm">Confirm</string>
     <string name="dialog_button_neutral">OK</string>
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_show_details">Show details</string>
     <string name="dialog_button_hide_details">Hide details</string>
+    <string name="dialog_delete_scan_title">Delete scan</string>
+    <string name="dialog_delete_scan_content">Are you sure you want to delete this scan? This action cannot be undone.</string>
     <string name="dialog_select_file_type_title">Select file type</string>
     <string name="dialog_select_file_type_images_label">Images</string>
     <string name="dialog_select_file_type_document_label">PDF</string>
