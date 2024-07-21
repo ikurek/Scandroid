@@ -11,6 +11,7 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsDialog
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsScreen
+import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsSideEffect
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsViewModel
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
 import com.ikurek.scandroid.features.scandetails.ui.scanimagegallery.ScanImageGalleryScreen
@@ -31,12 +32,21 @@ internal data class ScanDetailsScreenArgs(val scanId: UUID) {
 
 fun NavGraphBuilder.scanDetailsScreen(
     onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
+    onScanDeleted: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
     composable(route = ScanDetailsRoute) {
         val viewModel: ScanDetailsViewModel = hiltViewModel()
         val dialog: ScanDetailsDialog? by viewModel.dialog.collectAsState()
         val scanState: SavedScanState by viewModel.scanState.collectAsState()
+
+        LaunchedEffect(viewModel.sideEffects) {
+            viewModel.sideEffects.collect { sideEffect ->
+                when (sideEffect) {
+                    is ScanDetailsSideEffect.ScanDeleted -> onScanDeleted()
+                }
+            }
+        }
 
         LaunchedEffect(Unit) { viewModel.onScreenEnter() }
 
@@ -45,6 +55,7 @@ fun NavGraphBuilder.scanDetailsScreen(
             scanState = scanState,
             onOpenFileTypeSelect = viewModel::onOpenFileTypeSelect,
             onShareFileTypeSelect = viewModel::onShareFileTypeSelect,
+            onConfirmDeleteScanClick = viewModel::onConfirmDeleteScanClick,
             onDeleteScanClick = viewModel::onDeleteScanClick,
             onScanInfoClick = viewModel::onScanInfoClick,
             onOpenOutsideClick = viewModel::onOpenOutsideClick,

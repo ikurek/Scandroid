@@ -49,4 +49,9 @@ class SavedScansRepository @Inject internal constructor(
 
     suspend fun updateSavedScanAccessDateTime(id: UUID, accessDateTime: ZonedDateTime) =
         scansDatabase.updateLastAccessedAt(id, accessDateTime)
+
+    suspend fun deleteScan(id: UUID) = withContext(ioDispatcher) {
+        scansDatabase.delete(id)
+        directoryProvider.getScanDirectory(id).deleteRecursively()
+    }
 }

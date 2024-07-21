@@ -9,5 +9,6 @@ android {
 
 dependencies {
     api(projects.features.savedscans.data.model)
+    implementation(projects.analytics)
     implementation(projects.features.savedscans.data.repository)
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ikurek.scandroid.core.design.patterns.filetypeselection.SelectableFileType
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
+import com.ikurek.scandroid.features.savedscans.usecase.DeleteSavedScan
 import com.ikurek.scandroid.features.savedscans.usecase.GetSavedScan
 import com.ikurek.scandroid.features.savedscans.usecase.MarkScanAsViewed
 import com.ikurek.scandroid.features.scandetails.ScanDetailsScreenArgs
@@ -14,8 +15,11 @@ import com.ikurek.scandroid.features.scandetails.usecase.OpenScanFilesOutside
 import com.ikurek.scandroid.features.scandetails.usecase.SelectedFileType
 import com.ikurek.scandroid.features.scandetails.usecase.ShareScanFiles
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,13 +29,17 @@ internal class ScanDetailsViewModel @Inject constructor(
     private val getSavedScan: GetSavedScan,
     private val markScanAsViewed: MarkScanAsViewed,
     private val openScanFilesOutside: OpenScanFilesOutside,
-    private val shareScanFiles: ShareScanFiles
+    private val shareScanFiles: ShareScanFiles,
+    private val deleteSavedScan: DeleteSavedScan
 ) : ViewModel() {
 
     private val args: ScanDetailsScreenArgs = ScanDetailsScreenArgs(savedStateHandle)
 
     private val _dialog: MutableStateFlow<ScanDetailsDialog?> = MutableStateFlow(null)
     val dialog: StateFlow<ScanDetailsDialog?> = _dialog
+
+    private val _sideEffects: Channel<ScanDetailsSideEffect> = Channel()
+    val sideEffects: Flow<ScanDetailsSideEffect> = _sideEffects.receiveAsFlow()
 
     private val _scanState: MutableStateFlow<SavedScanState> =
         MutableStateFlow(SavedScanState.Loading)
@@ -49,7 +57,13 @@ internal class ScanDetailsViewModel @Inject constructor(
     }
 
     fun onDeleteScanClick() {
-        // TODO: Implement
+        _dialog.value = ScanDetailsDialog.DeleteScanConfirmation
+    }
+
+    fun onConfirmDeleteScanClick() = viewModelScope.launch {
+        _dialog.value = null
+        deleteSavedScan(args.scanId)
+        _sideEffects.send(ScanDetailsSideEffect.ScanDeleted)
     }
 
     fun onScanInfoClick() {

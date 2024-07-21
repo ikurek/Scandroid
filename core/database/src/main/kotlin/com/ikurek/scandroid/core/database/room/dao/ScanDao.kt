@@ -20,4 +20,7 @@ internal interface ScanDao {
 
     @Query("UPDATE scans SET last_accessed_at=:lastAccessedAt WHERE id = :id")
     suspend fun updateLastAccessedAt(id: UUID, lastAccessedAt: ZonedDateTime)
+
+    @Query("DELETE FROM scans WHERE id = :id")
+    suspend fun deleteById(id: UUID)
 }

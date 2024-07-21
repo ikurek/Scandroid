@@ -21,4 +21,6 @@ internal class ScansRoomDatabase @Inject constructor(
         id: UUID,
         lastAccessedAt: ZonedDateTime
     ) = scanDao.updateLastAccessedAt(id, lastAccessedAt)
+
+    override suspend fun delete(id: UUID) = scanDao.deleteById(id)
 }

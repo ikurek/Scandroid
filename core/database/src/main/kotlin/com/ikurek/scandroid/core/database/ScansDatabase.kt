@@ -13,4 +13,6 @@ interface ScansDatabase {
     suspend fun save(scanEntity: ScanEntity)
 
     suspend fun updateLastAccessedAt(id: UUID, lastAccessedAt: ZonedDateTime)
+
+    suspend fun delete(id: UUID)
 }

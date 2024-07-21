@@ -108,6 +108,7 @@ fun HomeScreen(
             onImageClick = { scanId, imageIndex ->
                 homeNavController.navigateToScanImageGallery(scanId, imageIndex)
             },
+            onScanDeleted = homeNavController::navigateUp,
             onNavigateUp = homeNavController::navigateUp
         )
         scanImageGalleryScreen(

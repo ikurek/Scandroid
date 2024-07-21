@@ -26,6 +26,7 @@ import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.appbar.BottomAppBarAction
 import com.ikurek.scandroid.core.design.components.appbar.PrimaryBottomAppBar
 import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
+import com.ikurek.scandroid.core.design.components.dialogs.ConfirmationDialog
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
 import com.ikurek.scandroid.core.design.patterns.filetypeselection.FileTypeSelectionDialog
 import com.ikurek.scandroid.core.design.patterns.filetypeselection.SelectableFileType
@@ -51,6 +52,7 @@ internal fun ScanDetailsScreen(
     onScanInfoClick: () -> Unit,
     onOpenOutsideClick: () -> Unit,
     onShareFilesClick: () -> Unit,
+    onConfirmDeleteScanClick: () -> Unit,
     onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
     onFileTypePageChange: (currentTab: PdfAndImagesTabs) -> Unit,
     onDismissDialog: () -> Unit,
@@ -61,6 +63,7 @@ internal fun ScanDetailsScreen(
             dialog = dialog,
             onOpenFileTypeSelect = onOpenFileTypeSelect,
             onShareFileTypeSelect = onShareFileTypeSelect,
+            onConfirmDeleteScanClick = onConfirmDeleteScanClick,
             onDismiss = onDismissDialog
         )
     }
@@ -112,6 +115,7 @@ private fun ScanDetailsDialog(
     dialog: ScanDetailsDialog,
     onOpenFileTypeSelect: (SelectableFileType) -> Unit,
     onShareFileTypeSelect: (SelectableFileType) -> Unit,
+    onConfirmDeleteScanClick: () -> Unit,
     onDismiss: () -> Unit
 ) {
     when (dialog) {
@@ -123,6 +127,14 @@ private fun ScanDetailsDialog(
         ScanDetailsDialog.ShareFileTypeSelection -> FileTypeSelectionDialog(
             onFileTypeSelect = onShareFileTypeSelect,
             onDismiss = onDismiss
+        )
+
+        ScanDetailsDialog.DeleteScanConfirmation -> ConfirmationDialog(
+            title = stringResource(TranslationsR.string.dialog_delete_scan_title),
+            content = stringResource(TranslationsR.string.dialog_delete_scan_content),
+            icon = Icons.Default.Delete,
+            onConfirmRequest = onConfirmDeleteScanClick,
+            onDismissRequest = onDismiss
         )
     }
 }
@@ -211,6 +223,7 @@ private fun PreviewLoading() {
             scanState = SavedScanState.Loading,
             onOpenFileTypeSelect = { },
             onShareFileTypeSelect = { },
+            onConfirmDeleteScanClick = { },
             onDeleteScanClick = { },
             onScanInfoClick = { },
             onOpenOutsideClick = { },
@@ -254,6 +267,7 @@ private fun PreviewLoaded() {
             ),
             onOpenFileTypeSelect = { },
             onShareFileTypeSelect = { },
+            onConfirmDeleteScanClick = { },
             onDeleteScanClick = { },
             onScanInfoClick = { },
             onOpenOutsideClick = { },
