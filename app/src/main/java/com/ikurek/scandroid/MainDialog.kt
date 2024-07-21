@@ -1,16 +1,16 @@
-package com.ikurek.scandroid.feature.home
+package com.ikurek.scandroid
 
 import androidx.annotation.StringRes
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
-internal sealed interface HomeDialog {
+internal sealed interface MainDialog {
     @get:StringRes
     val titleRes: Int
 
     @get:StringRes
     val contentRes: Int
 
-    sealed interface Error : HomeDialog {
+    sealed interface Error : MainDialog {
 
         val exception: Throwable
 

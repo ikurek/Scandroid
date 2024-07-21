@@ -8,9 +8,5 @@ android {
 
 dependencies {
     implementation(projects.analytics)
-    implementation(projects.core.translations)
-    implementation(projects.features.createscan)
     implementation(projects.features.savedscans)
-    implementation(projects.features.scandetails)
-    implementation(projects.features.settings)
 }

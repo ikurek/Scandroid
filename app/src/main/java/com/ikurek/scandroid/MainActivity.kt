@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ikurek.scandroid.core.design.ScandroidTheme
-import com.ikurek.scandroid.feature.home.HomeScreen
 import com.ikurek.scandroid.features.createscan.interactor.DocumentScannerInteractor
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ScandroidTheme {
-                HomeScreen(
+                MainScreen(
                     createScanRequest = documentScannerInteractor::createRequest,
                     parseScanResult = documentScannerInteractor::parseResult
                 )

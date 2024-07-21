@@ -32,10 +32,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.activity.compose)
     implementation(projects.analytics)
-    implementation(projects.core.design)
-    implementation(projects.core.translations)
-    implementation(projects.features.home)
     implementation(projects.features.createscan)
+    implementation(projects.features.createscan.usecase)
+    implementation(projects.features.home)
+    implementation(projects.features.savedscans)
+    implementation(projects.features.scandetails)
+    implementation(projects.features.settings)
 }
