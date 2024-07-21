@@ -4,7 +4,7 @@
     <application>
         <provider
             android:name="com.ikurek.scandroid.core.filestore.contentprovider.ScanFileContentProvider"
-            android:authorities="com.ikurek.scandroid.debug.scanfilecontentprovider"
+            android:authorities="${applicationId}.scanfilecontentprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

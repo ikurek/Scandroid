@@ -11,14 +11,13 @@ import javax.inject.Inject
 
 private const val MimeTypePdf = "application/pdf"
 private const val MimeTypeJpeg = "image/jpg"
-private const val FileProviderAuthority = "com.ikurek.scandroid.scanfilecontentprovider"
 
 internal class AndroidPlatform @Inject constructor(
     @ApplicationContext private val context: Context
 ) : Platform {
 
     override fun openPdfFileOutside(file: File): Result<Unit> = runCatching {
-        val pdfFileUri: Uri = getUriForFile(context, FileProviderAuthority, file)
+        val pdfFileUri: Uri = getUriForFile(context, context.scanFileProviderAuthority, file)
 
         Intent(Intent.ACTION_VIEW).apply {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -28,7 +27,7 @@ internal class AndroidPlatform @Inject constructor(
     }
 
     override fun sharePdfFile(file: File): Result<Unit> = runCatching {
-        val pdfFileUri: Uri = getUriForFile(context, FileProviderAuthority, file)
+        val pdfFileUri: Uri = getUriForFile(context, context.scanFileProviderAuthority, file)
 
         Intent(Intent.ACTION_SEND).apply {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -41,7 +40,7 @@ internal class AndroidPlatform @Inject constructor(
 
     override fun shareImageFiles(files: List<File>): Result<Unit> = runCatching {
         val imageUris: ArrayList<Uri> = ArrayList(
-            files.map { file -> getUriForFile(context, FileProviderAuthority, file) }
+            files.map { file -> getUriForFile(context, context.scanFileProviderAuthority, file) }
         )
 
         Intent(Intent.ACTION_SEND_MULTIPLE).apply {
@@ -73,4 +72,7 @@ internal class AndroidPlatform @Inject constructor(
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }.let { intent -> context.startActivity(intent) }
     }
+
+    private val Context.scanFileProviderAuthority
+        get() = this.packageName + ".scanfilecontentprovider"
 }
