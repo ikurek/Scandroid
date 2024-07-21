@@ -50,9 +50,8 @@ internal fun ScanDetails(
     scan: SavedScan,
     onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
     onFileTypePageChange: (currentTab: PdfAndImagesTabs) -> Unit,
-    modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = Modifier.fillMaxSize()) {
         Text(
             text = stringResource(id = TranslationsR.string.scan_details_created_at_label),
             modifier = Modifier.padding(horizontal = 24.dp),

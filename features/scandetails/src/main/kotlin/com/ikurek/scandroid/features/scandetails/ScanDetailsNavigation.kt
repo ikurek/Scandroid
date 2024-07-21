@@ -9,10 +9,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
+import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsDialog
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsScreen
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.ScanDetailsViewModel
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
-import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.ScanAction
 import com.ikurek.scandroid.features.scandetails.ui.scanimagegallery.ScanImageGalleryScreen
 import com.ikurek.scandroid.features.scandetails.ui.scanimagegallery.ScanImageGalleryViewModel
 import java.util.UUID
@@ -35,18 +35,23 @@ fun NavGraphBuilder.scanDetailsScreen(
 ) {
     composable(route = ScanDetailsRoute) {
         val viewModel: ScanDetailsViewModel = hiltViewModel()
+        val dialog: ScanDetailsDialog? by viewModel.dialog.collectAsState()
         val scanState: SavedScanState by viewModel.scanState.collectAsState()
-        val availableScanActions: List<ScanAction> by viewModel.availableScanActions.collectAsState()
 
         LaunchedEffect(Unit) { viewModel.onScreenEnter() }
 
         ScanDetailsScreen(
+            dialog = dialog,
             scanState = scanState,
-            availableScanActions = availableScanActions,
-            onOpenPdfOutsideClick = viewModel::onOpenPdfOutsideClick,
+            onOpenFileTypeSelect = viewModel::onOpenFileTypeSelect,
+            onShareFileTypeSelect = viewModel::onShareFileTypeSelect,
+            onDeleteScanClick = viewModel::onDeleteScanClick,
+            onScanInfoClick = viewModel::onScanInfoClick,
+            onOpenOutsideClick = viewModel::onOpenOutsideClick,
             onShareFilesClick = viewModel::onShareFilesClick,
             onImageClick = onImageClick,
             onFileTypePageChange = viewModel::onFileTypePageChange,
+            onDismissDialog = viewModel::onDialogDismiss,
             onNavigateUp = onNavigateUp
         )
     }

@@ -38,6 +38,24 @@ internal class AndroidPlatform @Inject constructor(
         }.let { chooserIntent -> context.startActivity(chooserIntent) }
     }
 
+    override fun openImageFilesOutside(files: List<File>): Result<Unit> = runCatching {
+        val imageUris: ArrayList<Uri> = ArrayList(
+            files.map { file -> getUriForFile(context, context.scanFileProviderAuthority, file) }
+        )
+
+        Intent(Intent.ACTION_VIEW).apply {
+            type = MimeTypeJpeg
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris)
+
+            if (imageUris.size == 1) {
+                data = imageUris.first()
+            }
+        }.let { intent ->
+            Intent.createChooser(intent, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }.let { chooserIntent -> context.startActivity(chooserIntent) }
+    }
+
     override fun shareImageFiles(files: List<File>): Result<Unit> = runCatching {
         val imageUris: ArrayList<Uri> = ArrayList(
             files.map { file -> getUriForFile(context, context.scanFileProviderAuthority, file) }

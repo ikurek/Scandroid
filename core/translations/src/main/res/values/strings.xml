@@ -42,6 +42,9 @@
     <string name="scan_details_description_label">Description:</string>
     <string name="scan_details_created_at_label">Created at:</string>
     <string name="scan_details_pdf_page_count">Page %d of %d</string>
+    <string name="scan_details_action_delete_label">Delete</string>
+    <string name="scan_details_action_info_label">Details</string>
+    <string name="scan_details_action_open_outside_label">Open</string>
     <string name="scan_image_gallery_title">Image %d of %d</string>
     <string name="setting_scanner_mode_base_text">Base</string>
     <string name="setting_scanner_mode_base_description">Only basic editing capabilities like crop, rotate, reorder pages</string>

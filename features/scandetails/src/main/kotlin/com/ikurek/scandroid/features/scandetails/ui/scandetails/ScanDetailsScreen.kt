@@ -1,22 +1,21 @@
 package com.ikurek.scandroid.features.scandetails.ui.scandetails
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FileOpen
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.SdCardAlert
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,15 +23,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
+import com.ikurek.scandroid.core.design.components.appbar.BottomAppBarAction
+import com.ikurek.scandroid.core.design.components.appbar.PrimaryBottomAppBar
 import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
+import com.ikurek.scandroid.core.design.patterns.filetypeselection.FileTypeSelectionDialog
+import com.ikurek.scandroid.core.design.patterns.filetypeselection.SelectableFileType
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.component.ScanDetails
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.PdfAndImagesTabs
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
-import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.ScanAction
 import java.io.File
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -42,13 +44,26 @@ import com.ikurek.scandroid.core.translations.R as TranslationsR
 @Composable
 internal fun ScanDetailsScreen(
     scanState: SavedScanState,
-    availableScanActions: List<ScanAction>,
-    onOpenPdfOutsideClick: (files: SavedScanFiles) -> Unit,
-    onShareFilesClick: (files: SavedScanFiles) -> Unit,
+    dialog: ScanDetailsDialog?,
+    onOpenFileTypeSelect: (SelectableFileType) -> Unit,
+    onShareFileTypeSelect: (SelectableFileType) -> Unit,
+    onDeleteScanClick: () -> Unit,
+    onScanInfoClick: () -> Unit,
+    onOpenOutsideClick: () -> Unit,
+    onShareFilesClick: () -> Unit,
     onImageClick: (scanId: UUID, imageIndex: Int) -> Unit,
     onFileTypePageChange: (currentTab: PdfAndImagesTabs) -> Unit,
+    onDismissDialog: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
+    dialog?.let {
+        ScanDetailsDialog(
+            dialog = dialog,
+            onOpenFileTypeSelect = onOpenFileTypeSelect,
+            onShareFileTypeSelect = onShareFileTypeSelect,
+            onDismiss = onDismissDialog
+        )
+    }
     Scaffold(
         topBar = {
             ScanNameTopAppBar(
@@ -56,14 +71,15 @@ internal fun ScanDetailsScreen(
                 onNavigateUp = onNavigateUp
             )
         },
-        floatingActionButton = {
-            ScanActionsFloatingActionButton(
-                savedScanState = scanState,
-                availableScanActions = availableScanActions,
-                onOpenPdfOutsideClick = onOpenPdfOutsideClick,
+        bottomBar = {
+            ScanDetailsBottomBar(
+                scanState = scanState,
+                onDeleteScanClick = onDeleteScanClick,
+                onScanInfoClick = onScanInfoClick,
+                onOpenOutsideClick = onOpenOutsideClick,
                 onShareFilesClick = onShareFilesClick
             )
-        }
+        },
     ) { contentPadding ->
         Crossfade(
             targetState = scanState,
@@ -78,9 +94,8 @@ internal fun ScanDetailsScreen(
 
                     is SavedScanState.Loaded -> ScanDetails(
                         scan = state.scan,
-                        modifier = Modifier.fillMaxSize(),
                         onImageClick = onImageClick,
-                        onFileTypePageChange = onFileTypePageChange
+                        onFileTypePageChange = onFileTypePageChange,
                     )
 
                     is SavedScanState.Loading -> CircularProgressIndicator(
@@ -93,51 +108,70 @@ internal fun ScanDetailsScreen(
 }
 
 @Composable
+private fun ScanDetailsDialog(
+    dialog: ScanDetailsDialog,
+    onOpenFileTypeSelect: (SelectableFileType) -> Unit,
+    onShareFileTypeSelect: (SelectableFileType) -> Unit,
+    onDismiss: () -> Unit
+) {
+    when (dialog) {
+        ScanDetailsDialog.OpenFileTypeSelection -> FileTypeSelectionDialog(
+            onFileTypeSelect = onOpenFileTypeSelect,
+            onDismiss = onDismiss
+        )
+
+        ScanDetailsDialog.ShareFileTypeSelection -> FileTypeSelectionDialog(
+            onFileTypeSelect = onShareFileTypeSelect,
+            onDismiss = onDismiss
+        )
+    }
+}
+
+@Composable
 private fun ScanNameTopAppBar(scanState: SavedScanState, onNavigateUp: () -> Unit) {
     val title = (scanState as? SavedScanState.Loaded)?.scan?.name
     PrimaryTopAppBar(title = title, onNavigateUp = onNavigateUp)
 }
 
 @Composable
-private fun ScanActionsFloatingActionButton(
-    savedScanState: SavedScanState,
-    availableScanActions: List<ScanAction>,
-    onOpenPdfOutsideClick: (files: SavedScanFiles) -> Unit,
-    onShareFilesClick: (files: SavedScanFiles) -> Unit,
+private fun ScanDetailsBottomBar(
+    scanState: SavedScanState,
+    onDeleteScanClick: () -> Unit,
+    onScanInfoClick: () -> Unit,
+    onOpenOutsideClick: () -> Unit,
+    onShareFilesClick: () -> Unit,
 ) {
-    if (savedScanState is SavedScanState.Loaded) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            AnimatedVisibility(
-                visible = availableScanActions.contains(ScanAction.OpenPdfOutside),
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                OpenPdfOutsideFab(
-                    onClick = { onOpenPdfOutsideClick(savedScanState.scan.files) }
+    if (scanState is SavedScanState.Loaded) {
+        PrimaryBottomAppBar(
+            actions = {
+                BottomAppBarAction(
+                    icon = Icons.Default.Delete,
+                    text = stringResource(TranslationsR.string.scan_details_action_delete_label),
+                    contentDescriptionRes = TranslationsR.string.scan_details_action_delete_content_descriptions,
+                    onClick = onDeleteScanClick
                 )
-            }
 
-            AnimatedVisibility(
-                visible = availableScanActions.contains(ScanAction.Share),
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                ShareFab(
-                    onClick = { onShareFilesClick(savedScanState.scan.files) }
+                Spacer(modifier = Modifier.width(16.dp))
+
+                BottomAppBarAction(
+                    icon = Icons.Default.Info,
+                    text = stringResource(TranslationsR.string.scan_details_action_info_label),
+                    contentDescriptionRes = TranslationsR.string.scan_details_action_info_content_descriptions,
+                    onClick = onScanInfoClick
                 )
-            }
-        }
-    }
-}
 
-@Composable
-private fun OpenPdfOutsideFab(onClick: () -> Unit) {
-    SmallFloatingActionButton(onClick = onClick, modifier = Modifier.padding(bottom = 24.dp)) {
-        Icon(
-            imageVector = Icons.Default.FileOpen,
-            contentDescription = stringResource(
-                id = TranslationsR.string.scan_details_fab_open_outside_content_descriptions
-            )
+                Spacer(modifier = Modifier.width(16.dp))
+
+                BottomAppBarAction(
+                    icon = Icons.Default.FileOpen,
+                    text = stringResource(TranslationsR.string.scan_details_action_open_outside_label),
+                    contentDescriptionRes = TranslationsR.string.scan_details_action_open_outside_content_descriptions,
+                    onClick = onOpenOutsideClick
+                )
+            },
+            floatingActionButton = {
+                ShareFab(onClick = onShareFilesClick)
+            }
         )
     }
 }
@@ -173,12 +207,17 @@ private fun ErrorPlaceholder(modifier: Modifier = Modifier) {
 private fun PreviewLoading() {
     ScandroidTheme {
         ScanDetailsScreen(
+            dialog = null,
             scanState = SavedScanState.Loading,
-            availableScanActions = emptyList(),
-            onOpenPdfOutsideClick = { },
+            onOpenFileTypeSelect = { },
+            onShareFileTypeSelect = { },
+            onDeleteScanClick = { },
+            onScanInfoClick = { },
+            onOpenOutsideClick = { },
             onShareFilesClick = { },
             onImageClick = { _, _ -> },
             onFileTypePageChange = { },
+            onDismissDialog = { },
             onNavigateUp = { }
         )
     }
@@ -189,6 +228,7 @@ private fun PreviewLoading() {
 private fun PreviewLoaded() {
     ScandroidTheme {
         ScanDetailsScreen(
+            dialog = null,
             scanState = SavedScanState.Loaded(
                 scan = SavedScan(
                     id = UUID.randomUUID(),
@@ -212,11 +252,15 @@ private fun PreviewLoaded() {
                     )
                 )
             ),
-            availableScanActions = listOf(ScanAction.Share, ScanAction.OpenPdfOutside),
-            onOpenPdfOutsideClick = { },
+            onOpenFileTypeSelect = { },
+            onShareFileTypeSelect = { },
+            onDeleteScanClick = { },
+            onScanInfoClick = { },
+            onOpenOutsideClick = { },
             onShareFilesClick = { },
             onImageClick = { _, _ -> },
             onFileTypePageChange = { },
+            onDismissDialog = { },
             onNavigateUp = { }
         )
     }

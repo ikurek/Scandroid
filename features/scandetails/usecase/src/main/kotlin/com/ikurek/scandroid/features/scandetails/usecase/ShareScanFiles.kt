@@ -6,17 +6,13 @@ import com.ikurek.scandroid.core.platform.Platform
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import javax.inject.Inject
 
-enum class SelectedFileType {
-    PDF, Images
-}
-
 class ShareScanFiles @Inject internal constructor(
     private val platform: Platform,
     private val errorTracker: ErrorTracker
 ) {
     suspend operator fun invoke(
         savedScanFiles: SavedScanFiles,
-        selectedFileType: SelectedFileType?
+        selectedFileType: SelectedFileType
     ): Result<Unit> = when (savedScanFiles) {
         is SavedScanFiles.ImagesOnly -> platform.shareImageFiles(savedScanFiles.imageFiles)
         is SavedScanFiles.PdfOnly -> platform.sharePdfFile(savedScanFiles.pdfFile)
