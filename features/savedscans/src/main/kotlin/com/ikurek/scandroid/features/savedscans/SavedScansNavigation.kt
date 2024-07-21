@@ -4,6 +4,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
@@ -13,7 +15,6 @@ import java.util.UUID
 const val SavedScansRoute = "saved-scans"
 
 fun NavGraphBuilder.savedScansScreen(
-    onSettingsClick: () -> Unit,
     onRestoreUnsavedScanClick: () -> Unit,
     onScanClick: (scanId: UUID) -> Unit,
     onCreateScanClick: () -> Unit
@@ -30,12 +31,21 @@ fun NavGraphBuilder.savedScansScreen(
             unsavedScanState = unsavedScanState,
             selectedSortingMode = selectedSortingMode,
             scansState = scansState,
-            onSettingsClick = onSettingsClick,
             onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
             onDeleteUnsavedScanClick = viewModel::deleteUnsavedScan,
             onSortingModeClick = viewModel::onSortingModeClick,
             onScanClick = onScanClick,
             onCreateScanClick = onCreateScanClick
         )
+    }
+}
+
+fun NavController.navigateToSavedScans() {
+    navigate(SavedScansRoute) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
     }
 }

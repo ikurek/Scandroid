@@ -5,6 +5,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,12 +14,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Scanner
 import androidx.compose.material.icons.filled.SdCardAlert
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
-import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.component.SavedScanList
@@ -40,89 +37,72 @@ import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState
 import java.util.UUID
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
-// FIXME: Recomposes every time?
 @Composable
 internal fun SavedScansScreen(
     unsavedScanState: UnsavedScanState,
     selectedSortingMode: SortingMode,
     scansState: SavedScansState,
-    onSettingsClick: () -> Unit,
     onRestoreUnsavedScanClick: () -> Unit,
     onDeleteUnsavedScanClick: () -> Unit,
     onSortingModeClick: (sortingMode: SortingMode) -> Unit,
     onScanClick: (UUID) -> Unit,
     onCreateScanClick: () -> Unit,
 ) {
-    Scaffold(
-        topBar = { AppBarWithSettingsAction(onSettingsClick) },
-        floatingActionButton = { CreateScanFloatingActionButton(onClick = onCreateScanClick) }
-    ) { contentPadding ->
-        Crossfade(
-            modifier = Modifier
-                .padding(contentPadding)
-                .fillMaxSize(),
-            targetState = scansState,
-            label = "SavedScansScreen_Crossfade"
-        ) { state ->
-            Box(modifier = Modifier.fillMaxSize()) {
-                when (state) {
-                    is SavedScansState.Loading -> CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+    Crossfade(
+        modifier = Modifier.fillMaxSize(),
+        targetState = scansState,
+        label = "SavedScansScreen_Crossfade"
+    ) { state ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            when (state) {
+                is SavedScansState.Loading -> CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
 
-                    is SavedScansState.Empty -> {
-                        UnsavedScansPopup(
-                            modifier = Modifier.align(Alignment.TopCenter),
-                            unsavedScanState = unsavedScanState,
-                            onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
-                            onDeleteUnsavedScanClick = onDeleteUnsavedScanClick
-                        )
-
-                        EmptyScreenPlaceholder(
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                    }
-
-                    is SavedScansState.Loaded -> SavedScansContent(
+                is SavedScansState.Empty -> {
+                    UnsavedScansPopup(
+                        modifier = Modifier.align(Alignment.TopCenter),
                         unsavedScanState = unsavedScanState,
-                        selectedSortingMode = selectedSortingMode,
-                        listItems = state.listItems,
                         onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
-                        onDeleteUnsavedScanClick = onDeleteUnsavedScanClick,
-                        onSortingModeClick = onSortingModeClick,
-                        onScanClick = onScanClick,
-                        modifier = Modifier.fillMaxSize()
+                        onDeleteUnsavedScanClick = onDeleteUnsavedScanClick
                     )
 
-                    is SavedScansState.Error -> ErrorScreenPlaceholder(
+                    EmptyScreenPlaceholder(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+
+                is SavedScansState.Loaded -> SavedScansContent(
+                    unsavedScanState = unsavedScanState,
+                    selectedSortingMode = selectedSortingMode,
+                    listItems = state.listItems,
+                    onRestoreUnsavedScanClick = onRestoreUnsavedScanClick,
+                    onDeleteUnsavedScanClick = onDeleteUnsavedScanClick,
+                    onSortingModeClick = onSortingModeClick,
+                    onScanClick = onScanClick,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                is SavedScansState.Error -> ErrorScreenPlaceholder(
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
+
+            CreateScanFloatingActionButton(
+                onClick = onCreateScanClick
+            )
         }
     }
 }
 
 @Composable
-private fun AppBarWithSettingsAction(onSettingsClick: () -> Unit) {
-    PrimaryTopAppBar(
-        title = stringResource(TranslationsR.string.app_name),
-        actions = {
-            IconButton(onSettingsClick) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = stringResource(
-                        id = TranslationsR.string.saved_scans_settings_icon_content_descriptions
-                    )
-                )
-            }
-        }
-    )
-}
-
-@Composable
-private fun CreateScanFloatingActionButton(onClick: () -> Unit) {
-    FloatingActionButton(onClick = onClick) {
+private fun BoxScope.CreateScanFloatingActionButton(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = onClick,
+        modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .padding(16.dp)
+    ) {
         Icon(
             imageVector = Icons.Default.DocumentScanner,
             contentDescription = stringResource(
@@ -242,7 +222,6 @@ private fun PreviewLoaded() {
                     )
                 )
             ),
-            onSettingsClick = {},
             onRestoreUnsavedScanClick = {},
             onDeleteUnsavedScanClick = {},
             onSortingModeClick = {},
@@ -260,7 +239,6 @@ private fun PreviewEmpty() {
             unsavedScanState = UnsavedScanState.Present,
             selectedSortingMode = SortingMode.Newest,
             scansState = SavedScansState.Empty,
-            onSettingsClick = {},
             onRestoreUnsavedScanClick = {},
             onDeleteUnsavedScanClick = {},
             onSortingModeClick = {},
