@@ -36,6 +36,6 @@ internal class SavedScansListBuilder @Inject constructor() {
         SortingMode.Alphabetical -> sortedBy { it.name }
         SortingMode.Newest -> sortedByDescending { it.createdAt }
         SortingMode.Oldest -> sortedBy { it.createdAt }
-        SortingMode.RecentlyViewed -> sortedBy { it.lastAccessedAt }
+        SortingMode.RecentlyViewed -> sortedByDescending { it.lastAccessedAt }
     }
 }
