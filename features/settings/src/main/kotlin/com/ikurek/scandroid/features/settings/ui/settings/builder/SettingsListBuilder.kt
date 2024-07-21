@@ -1,7 +1,8 @@
 package com.ikurek.scandroid.features.settings.ui.settings.builder
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.MiscellaneousServices
 import androidx.compose.material.icons.filled.Scanner
 import com.ikurek.scandroid.core.translations.Translations
 import com.ikurek.scandroid.features.settings.ui.settings.model.ClickableSetting
@@ -49,7 +50,7 @@ internal class SettingsListBuilder @Inject constructor(
         add(
             SettingsListItem.Section(
                 name = translations.getString(TranslationsR.string.settings_section_analytics),
-                icon = Icons.Filled.Scanner,
+                icon = Icons.Filled.Analytics,
                 items = listOf(
                     SettingsListItem.SettingsItem.Switchable(
                         name = translations.getString(TranslationsR.string.settings_item_enable_analytics_title),
@@ -85,7 +86,7 @@ internal class SettingsListBuilder @Inject constructor(
     private fun MutableList<SettingsListItem>.addOtherSection() = add(
         SettingsListItem.Section(
             name = translations.getString(TranslationsR.string.settings_section_other),
-            icon = Icons.Default.Info,
+            icon = Icons.Default.MiscellaneousServices,
             items = listOf(
                 SettingsListItem.SettingsItem.Clickable(
                     name = translations.getString(TranslationsR.string.settings_item_rate_app_title),
