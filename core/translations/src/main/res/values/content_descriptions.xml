@@ -17,4 +17,7 @@
     <string name="scan_details_action_open_outside_content_descriptions">Open document in external application</string>
     <string name="scan_details_fab_share_content_descriptions">Share document outside of application</string>
     <string name="scan_image_gallery_image_content_descriptions">Zoomable preview of image %d</string>
+    <string name="search_input_clear_button_content_descriptions">Clear search phrase</string>
+    <string name="search_empty_placeholder_content_description">Use input to search image</string>
+    <string name="search_nothing_found_placeholder_content_description">No scans found image</string>
 </resources>

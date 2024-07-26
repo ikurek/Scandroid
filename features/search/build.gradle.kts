@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.ikurek.scandroid.features.search"
 }
+
+dependencies {
+    implementation(projects.features.search.usecase)
+}

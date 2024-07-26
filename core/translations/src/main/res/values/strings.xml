@@ -51,6 +51,7 @@
     <string name="scan_details_action_info_label">Details</string>
     <string name="scan_details_action_open_outside_label">Open</string>
     <string name="scan_image_gallery_title">Image %d of %d</string>
+    <string name="search_scans_query_input_label">Search</string>
     <string name="setting_scanner_mode_base_text">Base</string>
     <string name="setting_scanner_mode_base_description">Only basic editing capabilities like crop, rotate, reorder pages</string>
     <string name="setting_scanner_mode_base_with_filters_text">Base with filters</string>
@@ -80,4 +81,7 @@
     <string name="settings_item_enable_performance_monitoring_description">App performance is crucial for a good user experience. Keeping this option on allows me to verify places where loading is too slow or performance drops and optimize them.</string>
     <string name="common_file_format_jpeg" translatable="false">JPEG</string>
     <string name="common_file_format_pdf" translatable="false">PDF</string>
+    <string name="search_input_placeholder">Type to search</string>
+    <string name="search_empty_placeholder_label">Use the input box above to provide search phrase. Search works for scan names and descriptions!</string>
+    <string name="search_nothing_found_placeholder_label">No scans found that contain \'%s\'. Maybe try a different search phrase?</string>
 </resources>

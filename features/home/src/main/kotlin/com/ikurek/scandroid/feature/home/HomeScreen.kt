@@ -76,7 +76,9 @@ internal fun HomeScreen(
                 onScanClick = onScanClick,
                 onCreateScanClick = onCreateScanClick
             )
-            searchScreen()
+            searchScreen(
+                onScanClick = onScanClick
+            )
         }
     }
 }

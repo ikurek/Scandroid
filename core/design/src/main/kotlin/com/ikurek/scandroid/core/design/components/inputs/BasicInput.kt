@@ -3,6 +3,9 @@ package com.ikurek.scandroid.core.design.components.inputs
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material3.Icon
@@ -21,10 +24,14 @@ fun BasicInput(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String? = null,
+    placeholder: String? = null,
     error: String? = null,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    trailingIcon: @Composable () -> Unit = {}
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
         value = value,
@@ -35,6 +42,12 @@ fun BasicInput(
                 Text(text = label!!)
             }
         },
+        placeholder = {
+            if (placeholder.isNullOrBlank().not()) {
+                Text(text = placeholder!!)
+            }
+        },
+        leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         isError = error.isNullOrBlank().not(),
         supportingText = {
@@ -42,9 +55,12 @@ fun BasicInput(
                 Text(text = error!!)
             }
         },
+        shape = RoundedCornerShape(8.dp),
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
         singleLine = maxLines == 1,
         maxLines = maxLines,
-        minLines = minLines
+        minLines = minLines,
     )
 }
 
