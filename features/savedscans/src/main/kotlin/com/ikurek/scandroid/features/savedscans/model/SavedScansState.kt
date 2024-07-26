@@ -1,5 +1,7 @@
 package com.ikurek.scandroid.features.savedscans.model
 
+import com.ikurek.scandroid.core.design.patterns.savedscans.SavedScanListItem
+
 internal sealed interface SavedScansState {
 
     data object Loading : SavedScansState

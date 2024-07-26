@@ -1,4 +1,4 @@
-package com.ikurek.scandroid.features.savedscans.model
+package com.ikurek.scandroid.core.design.patterns.savedscans
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable

@@ -25,12 +25,12 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.placeholders.ScreenPlaceholder
+import com.ikurek.scandroid.core.design.patterns.savedscans.SavedScanListItem
+import com.ikurek.scandroid.core.design.patterns.savedscans.SavedScanListItem.SavedScanListItemFiles
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.component.SavedScanList
 import com.ikurek.scandroid.features.savedscans.component.ScanSortingSelector
 import com.ikurek.scandroid.features.savedscans.component.UnsavedScansCard
-import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem
-import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem.SavedScanListItemFiles
 import com.ikurek.scandroid.features.savedscans.model.SavedScansState
 import com.ikurek.scandroid.features.savedscans.model.SortingMode
 import com.ikurek.scandroid.features.savedscans.model.UnsavedScanState

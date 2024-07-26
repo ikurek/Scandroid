@@ -1,9 +1,9 @@
 package com.ikurek.scandroid.features.savedscans
 
+import com.ikurek.scandroid.core.design.patterns.savedscans.SavedScanListItem
+import com.ikurek.scandroid.core.design.patterns.savedscans.SavedScanListItem.SavedScanListItemFiles
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
-import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem
-import com.ikurek.scandroid.features.savedscans.model.SavedScanListItem.SavedScanListItemFiles
 import com.ikurek.scandroid.features.savedscans.model.SortingMode
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
