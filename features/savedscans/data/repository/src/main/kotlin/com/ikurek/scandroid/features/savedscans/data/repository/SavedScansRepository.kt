@@ -1,5 +1,6 @@
 package com.ikurek.scandroid.features.savedscans.data.repository
 
+import com.ikurek.scandroid.analytics.ErrorTracker
 import com.ikurek.scandroid.common.coroutines.IoDispatcher
 import com.ikurek.scandroid.core.database.ScansDatabase
 import com.ikurek.scandroid.core.filestore.FileFormat
@@ -18,12 +19,15 @@ import javax.inject.Singleton
 class SavedScansRepository @Inject internal constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val directoryProvider: DirectoryProvider,
-    private val scansDatabase: ScansDatabase
+    private val scansDatabase: ScansDatabase,
+    private val errorTracker: ErrorTracker
 ) {
 
     suspend fun getAllValidSavedScans(): List<SavedScan> = withContext(ioDispatcher) {
         scansDatabase.findAll().mapNotNull { entity ->
-            readScanFiles(entity.id).getOrNull()?.let { scanFiles ->
+            readScanFiles(entity.id).onFailure {
+                errorTracker.trackNonFatal(it, "Could not read all scan files")
+            }.getOrNull()?.let { scanFiles ->
                 entity.toSavedScan(scanFiles)
             }
         }
@@ -35,6 +39,16 @@ class SavedScansRepository @Inject internal constructor(
         val files = readScanFiles(id).getOrNull()
         requireNotNull(files) { "Could not find valid files for scan with ID $id" }
         entity.toSavedScan(files)
+    }
+
+    suspend fun searchSavedScans(query: String): List<SavedScan> = withContext(ioDispatcher) {
+        scansDatabase.findAllByQuery(query).mapNotNull { entity ->
+            readScanFiles(entity.id).onFailure {
+                errorTracker.trackNonFatal(it, "Could not read scan files for search")
+            }.getOrNull()?.let { scanFiles ->
+                entity.toSavedScan(scanFiles)
+            }
+        }
     }
 
     private fun readScanFiles(id: UUID): Result<SavedScanFiles> {

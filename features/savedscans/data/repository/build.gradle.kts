@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.analytics)
     implementation(projects.common.coroutines)
     implementation(projects.core.database)
     implementation(projects.core.filestore)

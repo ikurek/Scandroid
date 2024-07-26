@@ -15,6 +15,9 @@ internal class ScansRoomDatabase @Inject constructor(
 
     override suspend fun findById(id: UUID): ScanEntity? = scanDao.findById(id)
 
+    override suspend fun findAllByQuery(query: String): List<ScanEntity> =
+        scanDao.findAllWhereNameContainsOrDescriptionContains(query)
+
     override suspend fun save(scanEntity: ScanEntity) = scanDao.save(scanEntity)
 
     override suspend fun updateLastAccessedAt(

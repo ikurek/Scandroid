@@ -10,6 +10,8 @@ interface ScansDatabase {
 
     suspend fun findById(id: UUID): ScanEntity?
 
+    suspend fun findAllByQuery(query: String): List<ScanEntity>
+
     suspend fun save(scanEntity: ScanEntity)
 
     suspend fun updateLastAccessedAt(id: UUID, lastAccessedAt: ZonedDateTime)

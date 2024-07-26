@@ -15,6 +15,9 @@ internal interface ScanDao {
     @Query("SELECT * FROM scans WHERE id = :id")
     suspend fun findById(id: UUID): ScanEntity?
 
+    @Query("SELECT * FROM scans WHERE name LIKE '%' || :query  || '%' OR description LIKE '%' || :query  || '%'")
+    suspend fun findAllWhereNameContainsOrDescriptionContains(query: String): List<ScanEntity>
+
     @Insert
     suspend fun save(scanEntity: ScanEntity)
 
