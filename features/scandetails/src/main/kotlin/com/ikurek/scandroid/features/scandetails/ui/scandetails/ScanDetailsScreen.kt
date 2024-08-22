@@ -33,6 +33,7 @@ import com.ikurek.scandroid.core.design.patterns.filetypeselection.SelectableFil
 import com.ikurek.scandroid.core.translations.R
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScan
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
+import com.ikurek.scandroid.features.scandetails.ui.scandetails.component.ExtendedScanInfoDialog
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.component.ScanDetails
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.PdfAndImagesTabs
 import com.ikurek.scandroid.features.scandetails.ui.scandetails.model.SavedScanState
@@ -136,6 +137,11 @@ private fun ScanDetailsDialog(
             onConfirmRequest = onConfirmDeleteScanClick,
             onDismissRequest = onDismiss
         )
+
+        is ScanDetailsDialog.ExtendedScanInformation -> ExtendedScanInfoDialog(
+            extendedScanInfo = dialog.extendedScanInfo,
+            onDismiss = onDismiss
+        )
     }
 }
 
@@ -167,7 +173,7 @@ private fun ScanDetailsBottomBar(
 
                 BottomAppBarAction(
                     icon = Icons.Default.Info,
-                    text = stringResource(TranslationsR.string.scan_details_action_info_label),
+                    text = stringResource(TranslationsR.string.scan_details_action_extended_info_label),
                     contentDescriptionRes = TranslationsR.string.scan_details_action_info_content_descriptions,
                     onClick = onScanInfoClick
                 )

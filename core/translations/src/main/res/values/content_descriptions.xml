@@ -2,6 +2,7 @@
 <resources>
     <string name="app_icon_content_description">Scandroid icon</string>
     <string name="common_back_button_icon">Back button icon</string>
+    <string name="common_copy_button_icon">Copy icon</string>
     <string name="home_bottom_nav_saved_scans_icon_content_description">View all saved scans icon</string>
     <string name="home_bottom_nav_search_scans_icon_content_description">Search scans icon</string>
     <string name="saved_scans_empty_placeholder_content_descriptions">No scans saved image</string>

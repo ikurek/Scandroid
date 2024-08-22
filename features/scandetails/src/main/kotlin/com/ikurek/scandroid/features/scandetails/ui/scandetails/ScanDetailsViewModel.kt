@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ikurek.scandroid.core.design.patterns.filetypeselection.SelectableFileType
 import com.ikurek.scandroid.features.savedscans.data.model.SavedScanFiles
 import com.ikurek.scandroid.features.savedscans.usecase.DeleteSavedScan
+import com.ikurek.scandroid.features.savedscans.usecase.GetExtendedInfoFromSavedScan
 import com.ikurek.scandroid.features.savedscans.usecase.GetSavedScan
 import com.ikurek.scandroid.features.savedscans.usecase.MarkScanAsViewed
 import com.ikurek.scandroid.features.scandetails.ScanDetailsScreenArgs
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("LongParameterList")
 @HiltViewModel
 internal class ScanDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -30,7 +32,8 @@ internal class ScanDetailsViewModel @Inject constructor(
     private val markScanAsViewed: MarkScanAsViewed,
     private val openScanFilesOutside: OpenScanFilesOutside,
     private val shareScanFiles: ShareScanFiles,
-    private val deleteSavedScan: DeleteSavedScan
+    private val deleteSavedScan: DeleteSavedScan,
+    private val getExtendedInfoFromSavedScan: GetExtendedInfoFromSavedScan
 ) : ViewModel() {
 
     private val args: ScanDetailsScreenArgs = ScanDetailsScreenArgs(savedStateHandle)
@@ -67,7 +70,10 @@ internal class ScanDetailsViewModel @Inject constructor(
     }
 
     fun onScanInfoClick() {
-        // TODO: Implement
+        val scan = (_scanState.value as SavedScanState.Loaded).scan
+        _dialog.value = ScanDetailsDialog.ExtendedScanInformation(
+            extendedScanInfo = getExtendedInfoFromSavedScan(scan)
+        )
     }
 
     fun onOpenOutsideClick() = viewModelScope.launch {

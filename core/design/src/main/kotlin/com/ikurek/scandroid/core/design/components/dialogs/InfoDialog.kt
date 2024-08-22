@@ -1,5 +1,6 @@
 package com.ikurek.scandroid.core.design.components.dialogs
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialogDefaults
@@ -15,7 +16,7 @@ import com.ikurek.scandroid.core.design.components.dialogs.internal.MaterialDial
 fun InfoDialog(
     onDismissRequest: () -> Unit,
     title: String,
-    content: String
+    content: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
     MaterialDialog(
         title = {
@@ -25,17 +26,30 @@ fun InfoDialog(
                 color = AlertDialogDefaults.textContentColor
             )
         },
+        content = content,
+        icon = {
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = null
+            )
+        },
+        onDismissRequest = onDismissRequest,
+    )
+}
+
+@Composable
+fun InfoDialog(
+    onDismissRequest: () -> Unit,
+    title: String,
+    content: String
+) {
+    InfoDialog(
+        title = title,
         content = {
             Text(
                 text = content,
                 style = MaterialTheme.typography.bodyMedium,
                 color = AlertDialogDefaults.textContentColor
-            )
-        },
-        icon = {
-            Icon(
-                imageVector = Icons.Default.Info,
-                contentDescription = null
             )
         },
         onDismissRequest = onDismissRequest,
