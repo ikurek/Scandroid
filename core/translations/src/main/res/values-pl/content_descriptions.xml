@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_icon_content_description">Ikona Scandroid</string>
+    <string name="common_back_button_icon">Ikona guzika wstecz</string>
+    <string name="common_copy_button_icon">Ikona kopiowania</string>
+    <string name="common_general_error_placeholder_content_descriptions">Obraz reprezentujący ogólny błąd aplikacji</string>
+    <string name="home_bottom_nav_saved_scans_icon_content_description">Ikona wyświetlenia wszystkich zapisanych skanów</string>
+    <string name="home_bottom_nav_search_scans_icon_content_description">Ikona wyszukiwania skanów</string>
+    <string name="new_scan_document_description_clear_button_content_descriptions">Ikona usunięcia opisu dokumentu z pola tekstowego</string>
+    <string name="new_scan_document_name_clear_button_content_descriptions">Ikona usunięcia nazwy dokumentu z pola tekstowego</string>
+    <string name="saved_scans_create_scan_fab_content_descriptions">Ikona utworzenia skanu</string>
+    <string name="saved_scans_empty_placeholder_content_descriptions">Obraz reprezentujący brak zapisanych skanów</string>
+    <string name="saved_scans_settings_icon_content_descriptions">Ikona wyświetlenia ustawień</string>
+    <string name="scan_details_action_delete_content_descriptions">Usuń skan</string>
+    <string name="scan_details_action_info_content_descriptions">Pokaż dodatkowe informacje</string>
+    <string name="scan_details_action_open_outside_content_descriptions">Otwórz dokument w zewnętrznej aplikacji</string>
+    <string name="scan_details_fab_share_content_descriptions">Udostępni dokument do innej aplikacji</string>
+    <string name="scan_details_scanned_image_content_descriptions">Zeskanowany obraz numer %d</string>
+    <string name="scan_image_gallery_image_content_descriptions">Zeskanowany obraz numer %d</string>
+    <string name="search_empty_placeholder_content_description">Obraz z instrukcją użycia pola tsktowego do wyszukiwania</string>
+    <string name="search_input_clear_button_content_descriptions">Wyczyść frazę wyszukiwania</string>
+    <string name="search_nothing_found_placeholder_content_description">Obraz z informacją o braku wyników</string>
+</resources>

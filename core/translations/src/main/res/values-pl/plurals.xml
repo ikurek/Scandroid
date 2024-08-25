@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="common_file">
+        <item quantity="one">%1$d plik</item>
+        <item quantity="few">%1$d pliki</item>
+        <item quantity="many">%1$d plików</item>
+    </plurals>
+    <plurals name="common_unit_bytes">
+        <item quantity="one">%1$d bajt</item>
+        <item quantity="few">%1$d bajty</item>
+        <item quantity="many">%1$d bajtów</item>
+    </plurals>
+    <plurals name="saved_scans_scan_files_only_images">
+        <item quantity="one">%1$d obraz</item>
+        <item quantity="few">%1$d obrazy</item>
+        <item quantity="many">%1$d obrazów</item>
+    </plurals>
+    <plurals name="saved_scans_scan_files_pdf_and_images">
+        <item quantity="one">Plik PDF i %1$d obraz</item>
+        <item quantity="few">Plik PDF i %1$d obrazy</item>
+        <item quantity="many">Plik PDF i %1$d obrazów</item>
+    </plurals>
+</resources>
