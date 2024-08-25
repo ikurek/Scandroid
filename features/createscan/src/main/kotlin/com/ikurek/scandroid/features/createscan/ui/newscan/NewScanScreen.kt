@@ -1,6 +1,5 @@
 package com.ikurek.scandroid.features.createscan.ui.newscan
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,28 +18,26 @@ import com.ikurek.scandroid.core.design.ScandroidTheme
 import com.ikurek.scandroid.core.design.components.appbar.PrimaryTopAppBar
 import com.ikurek.scandroid.core.design.components.buttons.PrimaryButton
 import com.ikurek.scandroid.core.design.components.divider.DividerWithIcon
-import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
-import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.DocumentNameInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.component.FileFormatSelector
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
+import com.ikurek.scandroid.features.createscan.ui.newscan.model.FormatSelectorState
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.Section
-import java.time.ZonedDateTime
+import com.ikurek.scandroid.features.settings.data.model.ScannerFormats
 import com.ikurek.scandroid.core.translations.R as TranslationsR
 
 @Composable
 internal fun NewScanScreen(
-    scannedDocuments: ScannedDocuments,
     documentName: DocumentNameInput,
     onDocumentNameChange: (String) -> Unit,
     onClearDocumentNameClick: () -> Unit,
     description: DescriptionInput,
     onDescriptionChange: (String) -> Unit,
     onClearDescriptionClick: () -> Unit,
-    fileFormats: Map<ScanFileFormat, Boolean>,
-    onFileFormatSelectionChange: (ScanFileFormat, Boolean) -> Unit,
+    formatsSelectorState: FormatSelectorState,
+    onFileFormatSelectionChange: (ScannerFormats) -> Unit,
     isSaving: Boolean,
     isSaveButtonEnabled: Boolean,
     onSaveButtonClick: () -> Unit,
@@ -62,14 +59,13 @@ internal fun NewScanScreen(
         }
     ) { contentPadding ->
         Content(
-            scannedDocuments = scannedDocuments,
             documentName = documentName,
             onDocumentNameChange = onDocumentNameChange,
             onClearDocumentNameClick = onClearDocumentNameClick,
             description = description,
             onDescriptionChange = onDescriptionChange,
             onClearDescriptionClick = onClearDescriptionClick,
-            fileFormats = fileFormats,
+            formatsSelectorState = formatsSelectorState,
             onFileFormatSelectionChange = onFileFormatSelectionChange,
             modifier = Modifier.padding(contentPadding)
         )
@@ -78,15 +74,14 @@ internal fun NewScanScreen(
 
 @Composable
 private fun Content(
-    scannedDocuments: ScannedDocuments,
     documentName: DocumentNameInput,
     onDocumentNameChange: (String) -> Unit,
     onClearDocumentNameClick: () -> Unit,
     description: DescriptionInput,
     onDescriptionChange: (String) -> Unit,
     onClearDescriptionClick: () -> Unit,
-    fileFormats: Map<ScanFileFormat, Boolean>,
-    onFileFormatSelectionChange: (ScanFileFormat, Boolean) -> Unit,
+    formatsSelectorState: FormatSelectorState,
+    onFileFormatSelectionChange: (ScannerFormats) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
@@ -114,12 +109,13 @@ private fun Content(
                     section = Section.Tags,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )*/
-        if (scannedDocuments.hasMultipleDocumentFormats) {
+
+        if (formatsSelectorState is FormatSelectorState.Visible) {
             SectionDivider(section = Section.Formats)
             FileFormatSelector(
-                fileFormats = fileFormats,
+                selectedScannerFormats = formatsSelectorState.selectedScannerFormats,
                 onFileFormatSelectionChange = onFileFormatSelectionChange,
-                modifier = Modifier.padding(start = 10.dp)
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
             )
         }
     }
@@ -143,7 +139,7 @@ private fun BottomBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 24.dp, end = 24.dp, bottom = 16.dp, top = 16.dp)
+            .padding(start = 24.dp, end = 24.dp, bottom = 24.dp, top = 16.dp)
     ) {
         PrimaryButton(
             value = stringResource(id = TranslationsR.string.new_scan_title),
@@ -160,19 +156,14 @@ private fun BottomBar(
 private fun Preview() {
     ScandroidTheme {
         NewScanScreen(
-            scannedDocuments = ScannedDocuments(
-                createdAt = ZonedDateTime.now(),
-                pdfUri = Uri.EMPTY,
-                imageUris = listOf(Uri.EMPTY, Uri.EMPTY)
-            ),
             documentName = DocumentNameInput.Filled("Name"),
             onDocumentNameChange = {},
             onClearDocumentNameClick = {},
             description = DescriptionInput.Filled("Description"),
             onDescriptionChange = {},
             onClearDescriptionClick = {},
-            fileFormats = mapOf(ScanFileFormat.PDF to true, ScanFileFormat.JPEG to false),
-            onFileFormatSelectionChange = { _, _ -> },
+            formatsSelectorState = FormatSelectorState.Visible(ScannerFormats.Default),
+            onFileFormatSelectionChange = { _ -> },
             isSaving = true,
             isSaveButtonEnabled = true,
             onSaveButtonClick = {},
@@ -186,19 +177,14 @@ private fun Preview() {
 private fun PreviewEmptyDocumentName() {
     ScandroidTheme {
         NewScanScreen(
-            scannedDocuments = ScannedDocuments(
-                createdAt = ZonedDateTime.now(),
-                pdfUri = Uri.EMPTY,
-                imageUris = listOf(Uri.EMPTY, Uri.EMPTY)
-            ),
             documentName = DocumentNameInput.Empty,
             onDocumentNameChange = {},
             onClearDocumentNameClick = {},
             description = DescriptionInput.Empty,
             onDescriptionChange = {},
             onClearDescriptionClick = {},
-            fileFormats = mapOf(ScanFileFormat.PDF to true, ScanFileFormat.JPEG to false),
-            onFileFormatSelectionChange = { _, _ -> },
+            formatsSelectorState = FormatSelectorState.Hidden,
+            onFileFormatSelectionChange = { _ -> },
             isSaving = false,
             isSaveButtonEnabled = false,
             onSaveButtonClick = {},

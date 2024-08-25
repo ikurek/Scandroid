@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.core.net.toFile
 import com.ikurek.scandroid.analytics.ErrorTracker
 import com.ikurek.scandroid.features.createscan.data.model.NewScan
-import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
 import com.ikurek.scandroid.features.createscan.data.repository.NewScanRepository
+import com.ikurek.scandroid.features.settings.data.model.ScannerFormats
 import java.util.UUID
 import javax.inject.Inject
 
@@ -20,22 +20,21 @@ class SaveScannedDocuments @Inject internal constructor(
         name: String,
         description: String,
         scannedDocuments: ScannedDocuments,
-        selectedFileFormats: Set<ScanFileFormat>
+        selectedFileFormats: ScannerFormats?
     ): Result<UUID> {
         val scanId: UUID = UUID.randomUUID()
 
         return runCatching {
             assert(scannedDocuments.isEmpty.not()) { "Either PDF or JPEG file URIs are required" }
-            assert(selectedFileFormats.isNotEmpty()) { "At least one file format has to be selected" }
 
-            if (canSavePdfFile(scannedDocuments, selectedFileFormats)) {
+            if (shouldSavePdf(scannedDocuments, selectedFileFormats)) {
                 newScanRepository.saveScanPdfFileToStorage(
                     scanId = scanId,
                     inputFile = scannedDocuments.pdfUri!!.toFile()
                 )
             }
 
-            if (canSaveJpegFiles(scannedDocuments, selectedFileFormats)) {
+            if (shouldSaveJpegFiles(scannedDocuments, selectedFileFormats)) {
                 newScanRepository.saveScanJpegFilesToStorage(
                     scanId = scanId,
                     inputFiles = scannedDocuments.imageUris.map { it.toFile() }
@@ -60,14 +59,21 @@ class SaveScannedDocuments @Inject internal constructor(
         }
     }
 
-    private fun canSavePdfFile(
+    private fun shouldSavePdf(
         scannedDocuments: ScannedDocuments,
-        selectedFileFormats: Set<ScanFileFormat>
-    ) = selectedFileFormats.contains(ScanFileFormat.PDF) && scannedDocuments.pdfUri != null
+        selectedScannerFormats: ScannerFormats?
+    ): Boolean = when {
+        scannedDocuments.pdfUri == null -> false
+        selectedScannerFormats == ScannerFormats.JpegOnly -> false
+        else -> true
+    }
 
-    private fun canSaveJpegFiles(
+    private fun shouldSaveJpegFiles(
         scannedDocuments: ScannedDocuments,
-        selectedFileFormats: Set<ScanFileFormat>
-    ) =
-        selectedFileFormats.contains(ScanFileFormat.JPEG) && scannedDocuments.imageUris.isNotEmpty()
+        selectedScannerFormats: ScannerFormats?
+    ): Boolean = when {
+        scannedDocuments.imageUris.isEmpty() -> false
+        selectedScannerFormats == ScannerFormats.PdfOnly -> false
+        else -> true
+    }
 }

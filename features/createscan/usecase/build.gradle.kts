@@ -11,4 +11,5 @@ dependencies {
     api(projects.features.createscan.data.model)
     implementation(projects.analytics)
     implementation(projects.features.createscan.data.repository)
+    implementation(projects.features.settings.data.model)
 }

@@ -39,6 +39,9 @@
     <string name="new_scan_document_name_empty_error">Document name can\'t be empty</string>
     <string name="new_scan_document_description_label">Document description</string>
     <string name="new_scan_document_formats_section">Formats</string>
+    <string name="new_scan_document_formats_jpeg_and_pdf_label">Both JPEG and PDF</string>
+    <string name="new_scan_document_formats_jpeg_only_label">JPEG only</string>
+    <string name="new_scan_document_formats_pdf_only_label">PDF only</string>
     <string name="new_scan_document_tags_section">Tags</string>
     <string name="new_scan_save_button">Save</string>
     <string name="scan_details_general_error_placeholder_label">Unable to read scan! Database may have been damaged or an internal, unhandled problem has occurred.</string>

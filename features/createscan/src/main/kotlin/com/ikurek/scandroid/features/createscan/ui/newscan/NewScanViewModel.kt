@@ -2,21 +2,23 @@ package com.ikurek.scandroid.features.createscan.ui.newscan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ikurek.scandroid.features.createscan.data.model.ScanFileFormat
 import com.ikurek.scandroid.features.createscan.data.model.ScannedDocuments
+import com.ikurek.scandroid.features.createscan.ui.newscan.mapper.FormatSelectorStateMapper
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DescriptionInput
 import com.ikurek.scandroid.features.createscan.ui.newscan.model.DocumentNameInput
+import com.ikurek.scandroid.features.createscan.ui.newscan.model.FormatSelectorState
 import com.ikurek.scandroid.features.createscan.usecase.CreateScanNameFromCurrentDate
 import com.ikurek.scandroid.features.createscan.usecase.DeleteLatestUnsavedScan
 import com.ikurek.scandroid.features.createscan.usecase.GetLatestUnsavedScan
 import com.ikurek.scandroid.features.createscan.usecase.SaveScannedDocuments
+import com.ikurek.scandroid.features.settings.data.model.ScannerFormats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -27,7 +29,8 @@ internal class NewScanViewModel @Inject internal constructor(
     getLatestUnsavedScan: GetLatestUnsavedScan,
     createScanNameFromCurrentDate: CreateScanNameFromCurrentDate,
     private val saveScannedDocuments: SaveScannedDocuments,
-    private val deleteLastUnsavedScan: DeleteLatestUnsavedScan
+    private val deleteLastUnsavedScan: DeleteLatestUnsavedScan,
+    private val formatSelectorStateMapper: FormatSelectorStateMapper
 ) : ViewModel() {
 
     private val _dialog: MutableStateFlow<NewScanDialog?> = MutableStateFlow(null)
@@ -39,7 +42,6 @@ internal class NewScanViewModel @Inject internal constructor(
     private val _scannedDocuments: MutableStateFlow<ScannedDocuments> = MutableStateFlow(
         getLatestUnsavedScan() ?: error("No unsaved scans found")
     )
-    val scannedDocuments: StateFlow<ScannedDocuments> = _scannedDocuments
 
     private val _documentName: MutableStateFlow<DocumentNameInput> = MutableStateFlow(
         DocumentNameInput.Filled(createScanNameFromCurrentDate(_scannedDocuments.value.createdAt))
@@ -50,20 +52,14 @@ internal class NewScanViewModel @Inject internal constructor(
         MutableStateFlow(DescriptionInput.Empty)
     val description: StateFlow<DescriptionInput> = _description
 
-    private val _fileFormats: MutableStateFlow<Map<ScanFileFormat, Boolean>> = MutableStateFlow(
-        buildMap {
-            _scannedDocuments.value.let { scannedDocuments ->
-                this[ScanFileFormat.PDF] = scannedDocuments.pdfUri != null
-                this[ScanFileFormat.JPEG] = scannedDocuments.imageUris.isNotEmpty()
-            }
-        }
+    private val _formatsSelectorState: MutableStateFlow<FormatSelectorState> = MutableStateFlow(
+        formatSelectorStateMapper.map(_scannedDocuments.value)
     )
-    val fileFormats: StateFlow<Map<ScanFileFormat, Boolean>> = _fileFormats
+    val formatsSelectorState: StateFlow<FormatSelectorState> = _formatsSelectorState
 
-    val isSaveButtonEnabled: StateFlow<Boolean> =
-        combine(_documentName, _fileFormats) { documentName, fileFormats ->
-            documentName is DocumentNameInput.Filled && fileFormats.any { it.value }
-        }.stateIn(viewModelScope, started = SharingStarted.Eagerly, initialValue = false)
+    val isSaveButtonEnabled: StateFlow<Boolean> = _documentName.map { documentName ->
+        documentName is DocumentNameInput.Filled
+    }.stateIn(viewModelScope, started = SharingStarted.Eagerly, initialValue = false)
 
     private val _isSaving: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isSaving: StateFlow<Boolean> = _isSaving
@@ -92,10 +88,8 @@ internal class NewScanViewModel @Inject internal constructor(
         _description.value = DescriptionInput.Empty
     }
 
-    fun onFileFormatSelectionChange(fileFormat: ScanFileFormat, isSelected: Boolean) {
-        _fileFormats.value = _fileFormats.value.toMutableMap().apply {
-            this[fileFormat] = isSelected
-        }
+    fun onFileFormatSelectionChange(selectedFileFormats: ScannerFormats) {
+        _formatsSelectorState.value = FormatSelectorState.Visible(selectedFileFormats)
     }
 
     fun onSaveButtonClick() = viewModelScope.launch {
@@ -103,7 +97,8 @@ internal class NewScanViewModel @Inject internal constructor(
         val documentName: DocumentNameInput = _documentName.value
         val description: DescriptionInput = _description.value
         val scannedDocuments: ScannedDocuments = _scannedDocuments.value
-        val selectedFileFormats: Set<ScanFileFormat> = _fileFormats.value.toSetOfSelected()
+        val selectedFileFormats: ScannerFormats? =
+            (_formatsSelectorState.value as? FormatSelectorState.Visible)?.selectedScannerFormats
         saveScannedDocuments(
             name = documentName.value,
             description = description.value,
@@ -121,13 +116,4 @@ internal class NewScanViewModel @Inject internal constructor(
     fun onDialogDismissed() {
         _dialog.value = null
     }
-
-    private fun Map<ScanFileFormat, Boolean>.toSetOfSelected(): Set<ScanFileFormat> =
-        mapNotNull {
-            if (it.value) {
-                it.key
-            } else {
-                null
-            }
-        }.toSet()
 }
