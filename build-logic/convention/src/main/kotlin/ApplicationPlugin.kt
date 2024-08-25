@@ -17,6 +17,7 @@ class ApplicationPlugin : Plugin<Project> {
                 configureKotlin(this)
                 defaultConfig.minSdk = SdkVersions.MIN
                 defaultConfig.targetSdk = SdkVersions.TARGET
+                androidResources.generateLocaleConfig = true
             }
         }
     }
