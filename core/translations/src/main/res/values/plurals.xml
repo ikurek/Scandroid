@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Used for file sizes like "1 byte" or "20 bytes" -->
-    <plurals name="common_unit_bytes">
-        <item quantity="one">%1$d byte</item>
-        <item quantity="other">%1$d bytes</item>
-    </plurals>
     <!-- Used for file counts like "1 file" or "20 files" -->
     <plurals name="common_file">
         <item quantity="one">%1$d file</item>
         <item quantity="other">%1$d files</item>
     </plurals>
-    <!-- Used to create description like "4 image files" -->
-    <plurals name="saved_scans_scan_files_only_images">
-        <item quantity="one">%1$d image file</item>
-        <item quantity="other">%1$d image files</item>
+    <!-- Used for file sizes like "1 byte" or "20 bytes" -->
+    <plurals name="common_unit_bytes">
+        <item quantity="one">%1$d byte</item>
+        <item quantity="other">%1$d bytes</item>
     </plurals>
-    <!-- Used to create description like "PDF file & 4 image files" -->
+    <!-- Used to create description like "4 images" -->
+    <plurals name="saved_scans_scan_files_only_images">
+        <item quantity="one">%1$d image</item>
+        <item quantity="other">%1$d images</item>
+    </plurals>
+    <!-- Used to create description like "PDF file & 4 images" -->
     <plurals name="saved_scans_scan_files_pdf_and_images">
-        <item quantity="one">PDF file &amp; %1$d image file</item>
-        <item quantity="other">PDF file &amp; %1$d image files</item>
+        <item quantity="one">PDF file &amp; %1$d image</item>
+        <item quantity="other">PDF file &amp; %1$d images</item>
     </plurals>
 </resources>

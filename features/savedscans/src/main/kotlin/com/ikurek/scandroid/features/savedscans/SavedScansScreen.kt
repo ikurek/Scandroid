@@ -185,7 +185,7 @@ private fun ErrorScreenPlaceholder(modifier: Modifier = Modifier) {
         modifier = modifier,
         imageVector = Icons.Default.SdCardAlert,
         imageContentDescription = stringResource(
-            id = R.string.saved_scans_general_error_placeholder_content_descriptions
+            id = R.string.common_general_error_placeholder_content_descriptions
         ),
         label = stringResource(
             id = R.string.saved_scans_general_error_placeholder_label
