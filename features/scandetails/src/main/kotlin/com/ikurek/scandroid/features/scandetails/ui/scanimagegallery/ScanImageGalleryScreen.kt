@@ -127,7 +127,7 @@ private fun ScanImageGallery(
             modifier = Modifier
                 .fillMaxSize()
                 .zoomable(rememberZoomState()),
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.Fit
         )
     }
 }
