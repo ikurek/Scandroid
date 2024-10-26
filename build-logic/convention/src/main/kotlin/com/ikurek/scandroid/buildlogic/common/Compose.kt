@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 
 internal fun Project.configureCompose(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
@@ -29,6 +30,6 @@ internal fun Project.configureCompose(
         val composeCompilerConfig =
             rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
         stabilityConfigurationFile.set(composeCompilerConfig)
-        enableStrongSkippingMode.set(true)
+        featureFlags.add(ComposeFeatureFlag.StrongSkipping)
     }
 }
